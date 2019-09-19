@@ -5,6 +5,7 @@
 
 #include "Objects/MovingPlatform.h"
 #include "Objects/Character.h"
+#include "Utils/GameTime.h"
 
 using namespace std;
 using namespace sf;
@@ -28,6 +29,8 @@ Vector2u lastWindowSize(800, 600);// default window size
 
 int main()
 {
+	GameTime time(1);
+	cout << time.getTime() << endl;
 	// declare and init window
 	RenderWindow window;
 	initWindow(window);
@@ -60,6 +63,7 @@ int main()
 	// run the program as long as the window is open
 	while (window.isOpen())
 	{
+		cout << time.getTime() << endl;
 		// deal with events
 		handleWindowEvent(window);
 

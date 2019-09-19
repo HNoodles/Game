@@ -134,20 +134,26 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Utils\GameTime.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Objects\MovingPlatform.cpp" />
-    <ClCompile Include="Objects\Platform.cpp" />
     <ClCompile Include="Objects\Character.cpp" />
+    <ClCompile Include="Utils\Timeline.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Utils\GameTime.h" />
     <ClInclude Include="Objects\MovingPlatform.h" />
     <ClInclude Include="Objects\Character.h" />
-    <ClInclude Include="Objects\Platform.h" />
     <ClInclude Include="Objects\Movable.h" />
+    <ClInclude Include="Utils\Timeline.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Images\hero.png" />
     <Image Include="Images\space.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="PropertySheetDebug.props" />
+    <None Include="PropertySheetRelease.props" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

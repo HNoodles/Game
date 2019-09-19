@@ -1,8 +1,7 @@
 #pragma once
-#include "Platform.h"
 #include "Movable.h"
 
-class MovingPlatform : public Platform, public Movable
+class MovingPlatform : public RectangleShape, public Movable
 {
 private:
 	//Transform& transform;

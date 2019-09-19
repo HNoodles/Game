@@ -1,7 +1,7 @@
 #include "MovingPlatform.h"
 
 MovingPlatform::MovingPlatform(Vector2f size, Vector2f v, float lb, float range)
-	: Platform(size), headingPositive(true), leftBound(lb), rightBound(lb + size.x + range)
+	: RectangleShape(size), headingPositive(true), leftBound(lb), rightBound(lb + size.x + range)
 {
 	velocity = v;
 }
