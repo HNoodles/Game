@@ -8,9 +8,9 @@ private:
 	bool headingPositive;
 	float leftBound, rightBound;
 public:
-	MovingPlatform(Vector2f size, Vector2f v, float lb, float range);
+	MovingPlatform(Vector2f size, Vector2f v, float lb, float range, Timeline& timeline);
 
-	void around(RenderTarget& target) override;
+	void update(RenderTarget& target, double thisTime) override;
 
 	bool getHeadingPositive() const 
 	{

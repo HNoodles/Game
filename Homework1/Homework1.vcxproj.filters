@@ -24,10 +24,16 @@
     <ClCompile Include="Objects\MovingPlatform.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Utils\GameTime.cpp">
+    <ClCompile Include="Times\GameTime.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Utils\Timeline.cpp">
+    <ClCompile Include="Times\Timeline.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Times\LocalTime.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Movable.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -41,10 +47,13 @@
     <ClInclude Include="Objects\Movable.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Utils\Timeline.h">
+    <ClInclude Include="Times\GameTime.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Utils\GameTime.h">
+    <ClInclude Include="Times\Timeline.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Times\LocalTime.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

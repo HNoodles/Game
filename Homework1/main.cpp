@@ -5,7 +5,7 @@
 
 #include "Objects/MovingPlatform.h"
 #include "Objects/Character.h"
-#include "Utils/GameTime.h"
+#include "Times/GameTime.h"
 
 using namespace std;
 using namespace sf;
@@ -30,7 +30,7 @@ Vector2u lastWindowSize(800, 600);// default window size
 int main()
 {
 	GameTime time(1);
-	cout << time.getTime() << endl;
+	cout << time.getTime() / 1e9 << endl;
 	// declare and init window
 	RenderWindow window;
 	initWindow(window);
@@ -39,14 +39,14 @@ int main()
 	loadTextures();
 
 	// init platforms
-	MovingPlatform platform(Vector2f(200.f, 50.f), Vector2f(0.f, 0.f), 100.f, 100.f);
+	MovingPlatform platform(Vector2f(200.f, 50.f), Vector2f(0.f, 0.f), 100.f, 100.f, time);
 	platform.setTexture(&textures["grass"], true);
 	platform.setPosition(Vector2f(100.f, 400.f));
 	objects.emplace_back(&platform);
 	movingObjects.emplace_back(&platform);
 	platforms.emplace_back(&platform);
 
-	MovingPlatform movingPlatform(Vector2f(200.f, 50.f), Vector2f(1.f, 0.f), 300.f, 200.f);
+	MovingPlatform movingPlatform(Vector2f(200.f, 50.f), Vector2f(100.f, 0.f), 300.f, 200.f, time);
 	movingPlatform.setTexture(&textures["grass"], true);
 	movingPlatform.setPosition(Vector2f(550.f, 300.f));
 	objects.emplace_back(&movingPlatform);
@@ -54,7 +54,7 @@ int main()
 	platforms.emplace_back(&movingPlatform);
 
 	// init character
-	Character character;
+	Character character(Vector2f(200.0f, 0.0f), time);
 	character.setTexture(&textures["hero"], true);
 	character.setPosition(Vector2f(550.f, 100.f));
 	objects.emplace_back(&character);
@@ -63,7 +63,9 @@ int main()
 	// run the program as long as the window is open
 	while (window.isOpen())
 	{
-		cout << time.getTime() << endl;
+		// get time for this iteration
+		double thisTime = time.getTime() / 1e9;
+		cout << thisTime << endl;
 		// deal with events
 		handleWindowEvent(window);
 
@@ -74,12 +76,12 @@ int main()
 		window.clear(Color::White);
 
 		// detect character collision
-		character.detectCollision(platforms);
+		character.detectCollision(platforms, thisTime);
 
 		// move all moving objects
 		for (Movable* moving : movingObjects)
 		{
-			moving->around(window);
+			moving->update(window, thisTime);
 		}
 
 		// draw the objects needed

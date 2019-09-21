@@ -1,0 +1,5 @@
+#include "Movable.h"
+
+Movable::Movable(Vector2f velocity, Timeline& timeline) : velocity(velocity), timeline(timeline), lastTime(timeline.getTime() / 1e9)
+{
+}

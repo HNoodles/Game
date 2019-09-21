@@ -1,6 +1,8 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include "../Times/Timeline.h"
+#include "../Times/GameTime.h"
 
 using namespace sf;
 
@@ -8,7 +10,11 @@ class Movable
 {
 protected:
 	Vector2f velocity;
+	Timeline& timeline;
+	double lastTime;
 public:
+	Movable(Vector2f velocity, Timeline& timeline);
+
 	Vector2f getVelocity() const
 	{
 		return velocity;
@@ -19,5 +25,5 @@ public:
 		velocity = v;
 	}
 
-	virtual void around(RenderTarget& target) = 0;
+	virtual void update(RenderTarget& target, double thisTime) = 0;
 };

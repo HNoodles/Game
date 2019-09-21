@@ -1,21 +1,24 @@
 #include "Character.h"
 
-Vector2f gravity(0.f, 0.5f);
+Vector2f gravity(0.f, 500.f);
 
-Character::Character() :
-	ConvexShape(4), left(nullptr), right(nullptr), up(nullptr), bottom(nullptr)
+Character::Character(Vector2f velocity, Timeline& timeline) :
+	ConvexShape(4), Movable(velocity, timeline), left(nullptr), right(nullptr), up(nullptr), bottom(nullptr)
 {
 	setPoint(0, Vector2f(30.f, 0.f));
 	setPoint(1, Vector2f(60.f, 60.f));
 	setPoint(2, Vector2f(30.f, 120.f));
 	setPoint(3, Vector2f(0.f, 60.f));
 
-	velocity = Vector2f(5.f, 0.f);
 	outVelocity = Vector2f(0.f, 0.f);
 }
 
-void Character::around(RenderTarget& target)
+void Character::update(RenderTarget& target, double thisTime)
 {
+	// calculate time elapsed
+	double elapsed = thisTime - lastTime;
+
+	// calculate total velocity
 	if (Keyboard::isKeyPressed(Keyboard::Left) || Keyboard::isKeyPressed(Keyboard::A))
 	{// left
 		outVelocity -= velocity;
@@ -27,12 +30,19 @@ void Character::around(RenderTarget& target)
 	if ((Keyboard::isKeyPressed(Keyboard::Up) || Keyboard::isKeyPressed(Keyboard::W)) 
 		&& bottom != nullptr) // character should be on a platform to jump
 	{// jump
-		outVelocity.y = -10.f;
+		outVelocity.y = -300.f;
 	}
-	move(outVelocity);
+
+	// calculate total displacement
+	Vector2f s = Vector2f(outVelocity.x * elapsed, outVelocity.y * elapsed);
+
+	move(s);
+
+	// refresh time
+	lastTime = thisTime;
 }
 
-void Character::detectCollision(list<MovingPlatform*> platforms)
+void Character::detectCollision(list<MovingPlatform*> platforms, double thisTime)
 {
 	// calculate four bounding points
 	FloatRect box = getGlobalBounds();
@@ -74,10 +84,10 @@ void Character::detectCollision(list<MovingPlatform*> platforms)
 	}
 
 	// set out velocity
-	setOutVelocity();
+	setOutVelocity(thisTime);
 }
 
-void Character::setOutVelocity()
+void Character::setOutVelocity(double thisTime)
 {
 	// clear out velocity to normal
 	outVelocity.x = 0;
@@ -109,6 +119,6 @@ void Character::setOutVelocity()
 	}
 	else // drop 
 	{
-		outVelocity += gravity;
+		outVelocity.y += gravity.y * (thisTime - lastTime);
 	}
 }
