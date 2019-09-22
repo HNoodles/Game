@@ -9,6 +9,10 @@ private:
 public:
 	LocalTime(double step_size, Timeline& anchor);
 
+	void setPaused(bool p) override;
+
+	void setStepSize(double step_size) override;
+
 	double getTime() override;
 };
 

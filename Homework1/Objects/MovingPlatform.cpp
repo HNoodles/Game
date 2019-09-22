@@ -12,7 +12,7 @@ void MovingPlatform::update(RenderTarget& target, double thisTime)
 	Vector2f size = this->getSize();
 
 	// calculate displacement
-	//double thisTime = timeline.getTime() / 1e9; // get seconds
+	//double thisTime = timeline.getTime(); // get seconds
 	double elapsed = thisTime - lastTime;
 	Vector2f s = Vector2f(velocity.x * elapsed, velocity.y * elapsed);
 

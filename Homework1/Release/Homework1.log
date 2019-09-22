@@ -1,25 +1,61 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(452,5): warning MSB8028: The intermediate directory (Release\) contains files shared from another project (Homework1.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  Character.cpp
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\Objects\Character.cpp(37,63): warning C4244:  “参数”: 从“double”转换到“T”，可能丢失数据
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\Objects\Character.cpp(37,63): warning C4244:         with
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\Objects\Character.cpp(37,63): warning C4244:         [
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\Objects\Character.cpp(37,63): warning C4244:             T=float
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\Objects\Character.cpp(37,63): warning C4244:         ]
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\Objects\Character.cpp(37,38): warning C4244:  “参数”: 从“double”转换到“T”，可能丢失数据
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\Objects\Character.cpp(37,38): warning C4244:         with
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\Objects\Character.cpp(37,38): warning C4244:         [
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\Objects\Character.cpp(37,38): warning C4244:             T=float
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\Objects\Character.cpp(37,38): warning C4244:         ]
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\Objects\Character.cpp(50,31): warning C4244:  “参数”: 从“double”转换到“T”，可能丢失数据
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\Objects\Character.cpp(50,31): warning C4244:         with
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\Objects\Character.cpp(50,31): warning C4244:         [
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\Objects\Character.cpp(50,31): warning C4244:             T=float
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\Objects\Character.cpp(50,31): warning C4244:         ]
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\Objects\Character.cpp(51,44): warning C4244:  “参数”: 从“double”转换到“T”，可能丢失数据
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\Objects\Character.cpp(51,44): warning C4244:         with
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\Objects\Character.cpp(51,44): warning C4244:         [
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\Objects\Character.cpp(51,44): warning C4244:             T=float
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\Objects\Character.cpp(51,44): warning C4244:         ]
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\Objects\Character.cpp(52,20): warning C4244:  “参数”: 从“double”转换到“T”，可能丢失数据
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\Objects\Character.cpp(52,20): warning C4244:         with
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\Objects\Character.cpp(52,20): warning C4244:         [
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\Objects\Character.cpp(52,20): warning C4244:             T=float
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\Objects\Character.cpp(52,20): warning C4244:         ]
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\Objects\Character.cpp(53,24): warning C4244:  “参数”: 从“double”转换到“T”，可能丢失数据
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\Objects\Character.cpp(53,24): warning C4244:         with
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\Objects\Character.cpp(53,24): warning C4244:         [
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\Objects\Character.cpp(53,24): warning C4244:             T=float
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\Objects\Character.cpp(53,24): warning C4244:         ]
   main.cpp
-D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\main.cpp(138,65): warning C4244:  “参数”: 从“T”转换到“T”，可能丢失数据
-D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\main.cpp(138,65): warning C4244:         with
-D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\main.cpp(138,65): warning C4244:         [
-D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\main.cpp(138,65): warning C4244:             T=unsigned int
-D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\main.cpp(138,65): warning C4244:         ]
-D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\main.cpp(138,65): warning C4244:         and
-D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\main.cpp(138,65): warning C4244:         [
-D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\main.cpp(138,65): warning C4244:             T=float
-D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\main.cpp(138,65): warning C4244:         ]
-D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\main.cpp(138,50): warning C4244:  “参数”: 从“T”转换到“T”，可能丢失数据
-D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\main.cpp(138,50): warning C4244:         with
-D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\main.cpp(138,50): warning C4244:         [
-D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\main.cpp(138,50): warning C4244:             T=unsigned int
-D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\main.cpp(138,50): warning C4244:         ]
-D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\main.cpp(138,50): warning C4244:         and
-D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\main.cpp(138,50): warning C4244:         [
-D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\main.cpp(138,50): warning C4244:             T=float
-D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\main.cpp(138,50): warning C4244:         ]
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\Objects\Character.cpp(122,53): warning C4244:  “+=”: 从“double”转换到“T”，可能丢失数据
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\Objects\Character.cpp(122,53): warning C4244:         with
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\Objects\Character.cpp(122,53): warning C4244:         [
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\Objects\Character.cpp(122,53): warning C4244:             T=float
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\Objects\Character.cpp(122,53): warning C4244:         ]
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\main.cpp(144,65): warning C4244:  “参数”: 从“T”转换到“T”，可能丢失数据
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\main.cpp(144,65): warning C4244:         with
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\main.cpp(144,65): warning C4244:         [
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\main.cpp(144,65): warning C4244:             T=unsigned int
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\main.cpp(144,65): warning C4244:         ]
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\main.cpp(144,65): warning C4244:         and
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\main.cpp(144,65): warning C4244:         [
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\main.cpp(144,65): warning C4244:             T=float
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\main.cpp(144,65): warning C4244:         ]
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\main.cpp(144,50): warning C4244:  “参数”: 从“T”转换到“T”，可能丢失数据
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\main.cpp(144,50): warning C4244:         with
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\main.cpp(144,50): warning C4244:         [
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\main.cpp(144,50): warning C4244:             T=unsigned int
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\main.cpp(144,50): warning C4244:         ]
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\main.cpp(144,50): warning C4244:         and
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\main.cpp(144,50): warning C4244:         [
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\main.cpp(144,50): warning C4244:             T=float
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework2\Homework1\main.cpp(144,50): warning C4244:         ]
   正在生成代码
-  1 of 478 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
+  2 of 478 functions ( 0.4%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
     0 functions had inline decision re-evaluated but remain unchanged
   已完成代码的生成

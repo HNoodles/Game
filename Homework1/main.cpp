@@ -2,6 +2,7 @@
 #include <list>
 #include <map>
 #include <iostream>
+#include <windows.h>
 
 #include "Objects/MovingPlatform.h"
 #include "Objects/Character.h"
@@ -12,6 +13,7 @@ using namespace sf;
 
 void initWindow(Window& window);
 void handleScalingOption(RenderWindow& window);
+void handleGameInstruction(RenderWindow& window);
 void loadTextureFromFile(Texture& texture, string file_name);
 //void initPlatforms();
 void loadTextures();
@@ -23,14 +25,15 @@ list<Drawable*> objects;
 list<Movable*> movingObjects;
 list<MovingPlatform*> platforms;
 
+GameTime gameTime(0.5);
+
 // scaling switch
 bool isConstantScaling = false;
 Vector2u lastWindowSize(800, 600);// default window size
 
 int main()
 {
-	GameTime time(1);
-	cout << time.getTime() / 1e9 << endl;
+	cout << gameTime.getTime() << endl;
 	// declare and init window
 	RenderWindow window;
 	initWindow(window);
@@ -39,14 +42,14 @@ int main()
 	loadTextures();
 
 	// init platforms
-	MovingPlatform platform(Vector2f(200.f, 50.f), Vector2f(0.f, 0.f), 100.f, 100.f, time);
+	MovingPlatform platform(Vector2f(200.f, 50.f), Vector2f(0.f, 0.f), 100.f, 100.f, gameTime);
 	platform.setTexture(&textures["grass"], true);
 	platform.setPosition(Vector2f(100.f, 400.f));
 	objects.emplace_back(&platform);
 	movingObjects.emplace_back(&platform);
 	platforms.emplace_back(&platform);
 
-	MovingPlatform movingPlatform(Vector2f(200.f, 50.f), Vector2f(100.f, 0.f), 300.f, 200.f, time);
+	MovingPlatform movingPlatform(Vector2f(200.f, 50.f), Vector2f(100.f, 0.f), 300.f, 200.f, gameTime);
 	movingPlatform.setTexture(&textures["grass"], true);
 	movingPlatform.setPosition(Vector2f(550.f, 300.f));
 	objects.emplace_back(&movingPlatform);
@@ -54,7 +57,7 @@ int main()
 	platforms.emplace_back(&movingPlatform);
 
 	// init character
-	Character character(Vector2f(200.0f, 0.0f), time);
+	Character character(Vector2f(250.0f, 0.0f), gameTime);
 	character.setTexture(&textures["hero"], true);
 	character.setPosition(Vector2f(550.f, 100.f));
 	objects.emplace_back(&character);
@@ -64,13 +67,16 @@ int main()
 	while (window.isOpen())
 	{
 		// get time for this iteration
-		double thisTime = time.getTime() / 1e9;
-		cout << thisTime << endl;
+		double thisTime = gameTime.getTime();
+		//cout << thisTime << endl;
 		// deal with events
 		handleWindowEvent(window);
 
 		// handle scaling option
 		handleScalingOption(window);
+
+		// handle game instruction
+		handleGameInstruction(window);
 
 		// clear the window with the chosen color
 		window.clear(Color::White);
@@ -136,6 +142,31 @@ void handleScalingOption(RenderWindow& window)
 		Vector2u defaultSize(800, 600);
 		window.setSize(defaultSize);
 		window.setView(View(FloatRect(0, 0, defaultSize.x, defaultSize.y)));
+	}
+}
+
+void handleGameInstruction(RenderWindow& window)
+{
+	if (Keyboard::isKeyPressed(Keyboard::P))
+	{// switch paused status
+		gameTime.setPaused(!gameTime.getPaused());
+		Sleep(200);// sleep to avoid multi key events triggerd at a time
+	}
+
+	if ((Keyboard::isKeyPressed(Keyboard::LControl) || Keyboard::isKeyPressed(Keyboard::RControl))
+		&& Keyboard::isKeyPressed(Keyboard::N))
+	{// set to normal time speed
+		gameTime.setStepSize(1);
+	}
+	if ((Keyboard::isKeyPressed(Keyboard::LControl) || Keyboard::isKeyPressed(Keyboard::RControl))
+		&& Keyboard::isKeyPressed(Keyboard::S))
+	{// set to slow time speed
+		gameTime.setStepSize(2);
+	}
+	if ((Keyboard::isKeyPressed(Keyboard::LControl) || Keyboard::isKeyPressed(Keyboard::RControl))
+		&& Keyboard::isKeyPressed(Keyboard::F))
+	{// set to fast time speed
+		gameTime.setStepSize(0.5);
 	}
 }
 

@@ -11,6 +11,10 @@ private:
 public:
 	GameTime(double step_size);
 
+	void setPaused(bool p) override;
+
+	void setStepSize(double step_size) override;
+
 	double getTime() override;
 };
 
