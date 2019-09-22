@@ -13,7 +13,7 @@ using namespace sf;
 
 void initWindow(Window& window);
 void handleScalingOption(RenderWindow& window);
-void handleGameInstruction(RenderWindow& window);
+void handleGameInstruction(double & thisTime);
 void loadTextureFromFile(Texture& texture, string file_name);
 //void initPlatforms();
 void loadTextures();
@@ -25,7 +25,7 @@ list<Drawable*> objects;
 list<Movable*> movingObjects;
 list<MovingPlatform*> platforms;
 
-GameTime gameTime(0.5);
+GameTime gameTime(1);
 
 // scaling switch
 bool isConstantScaling = false;
@@ -62,13 +62,17 @@ int main()
 	character.setPosition(Vector2f(550.f, 100.f));
 	objects.emplace_back(&character);
 	movingObjects.emplace_back(&character);
+
+	// timer
+	double elapsed, thisTime, lastTime = gameTime.getTime();
 	
 	// run the program as long as the window is open
 	while (window.isOpen())
 	{
-		// get time for this iteration
-		double thisTime = gameTime.getTime();
-		//cout << thisTime << endl;
+		// get time tic elapsed for this iteration
+		thisTime = gameTime.getTime();
+		elapsed = thisTime - lastTime;
+		
 		// deal with events
 		handleWindowEvent(window);
 
@@ -76,18 +80,18 @@ int main()
 		handleScalingOption(window);
 
 		// handle game instruction
-		handleGameInstruction(window);
+		handleGameInstruction(thisTime);
 
 		// clear the window with the chosen color
 		window.clear(Color::White);
 
 		// detect character collision
-		character.detectCollision(platforms, thisTime);
+		character.detectCollision(platforms, elapsed);
 
 		// move all moving objects
 		for (Movable* moving : movingObjects)
 		{
-			moving->update(window, thisTime);
+			moving->update(window, elapsed);
 		}
 
 		// draw the objects needed
@@ -98,6 +102,8 @@ int main()
 
 		// end of the current frame, show the window
 		window.display();
+
+		lastTime = thisTime;
 	}
 
 	return 0;
@@ -145,7 +151,7 @@ void handleScalingOption(RenderWindow& window)
 	}
 }
 
-void handleGameInstruction(RenderWindow& window)
+void handleGameInstruction(double & thisTime)
 {
 	if (Keyboard::isKeyPressed(Keyboard::P))
 	{// switch paused status
@@ -154,19 +160,22 @@ void handleGameInstruction(RenderWindow& window)
 	}
 
 	if ((Keyboard::isKeyPressed(Keyboard::LControl) || Keyboard::isKeyPressed(Keyboard::RControl))
-		&& Keyboard::isKeyPressed(Keyboard::N))
-	{// set to normal time speed
-		gameTime.setStepSize(1);
-	}
-	if ((Keyboard::isKeyPressed(Keyboard::LControl) || Keyboard::isKeyPressed(Keyboard::RControl))
 		&& Keyboard::isKeyPressed(Keyboard::S))
 	{// set to slow time speed
 		gameTime.setStepSize(2);
+		thisTime = gameTime.getTime();
+	}
+	if ((Keyboard::isKeyPressed(Keyboard::LControl) || Keyboard::isKeyPressed(Keyboard::RControl))
+		&& Keyboard::isKeyPressed(Keyboard::N))
+	{// set to normal time speed
+		gameTime.setStepSize(1);
+		thisTime = gameTime.getTime();
 	}
 	if ((Keyboard::isKeyPressed(Keyboard::LControl) || Keyboard::isKeyPressed(Keyboard::RControl))
 		&& Keyboard::isKeyPressed(Keyboard::F))
 	{// set to fast time speed
 		gameTime.setStepSize(0.5);
+		thisTime = gameTime.getTime();
 	}
 }
 

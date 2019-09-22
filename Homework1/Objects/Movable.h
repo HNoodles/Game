@@ -11,7 +11,7 @@ class Movable
 protected:
 	Vector2f velocity;
 	Timeline& timeline;
-	double lastTime;
+	//double lastTime;
 public:
 	Movable(Vector2f velocity, Timeline& timeline);
 
@@ -25,5 +25,5 @@ public:
 		velocity = v;
 	}
 
-	virtual void update(RenderTarget& target, double thisTime) = 0;
+	virtual void update(RenderTarget& target, double elapsed) = 0;
 };

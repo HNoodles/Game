@@ -13,11 +13,8 @@ Character::Character(Vector2f velocity, Timeline& timeline) :
 	outVelocity = Vector2f(0.f, 0.f);
 }
 
-void Character::update(RenderTarget& target, double thisTime)
+void Character::update(RenderTarget& target, double elapsed)
 {
-	// calculate time elapsed
-	double elapsed = thisTime - lastTime;
-
 	// calculate total velocity
 	if (Keyboard::isKeyPressed(Keyboard::Left) || Keyboard::isKeyPressed(Keyboard::A))
 	{// left
@@ -37,12 +34,9 @@ void Character::update(RenderTarget& target, double thisTime)
 	Vector2f s = Vector2f(outVelocity.x * elapsed, outVelocity.y * elapsed);
 
 	move(s);
-
-	// refresh time
-	lastTime = thisTime;
 }
 
-void Character::detectCollision(list<MovingPlatform*> platforms, double thisTime)
+void Character::detectCollision(list<MovingPlatform*> platforms, double elapsed)
 {
 	// calculate four bounding points
 	FloatRect box = getGlobalBounds();
@@ -84,10 +78,10 @@ void Character::detectCollision(list<MovingPlatform*> platforms, double thisTime
 	}
 
 	// set out velocity
-	setOutVelocity(thisTime);
+	setOutVelocity(elapsed);
 }
 
-void Character::setOutVelocity(double thisTime)
+void Character::setOutVelocity(double elapsed)
 {
 	// clear out velocity to normal
 	outVelocity.x = 0;
@@ -119,6 +113,6 @@ void Character::setOutVelocity(double thisTime)
 	}
 	else // drop 
 	{
-		outVelocity.y += gravity.y * (thisTime - lastTime);
+		outVelocity.y += gravity.y * elapsed;
 	}
 }

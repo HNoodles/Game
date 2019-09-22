@@ -17,11 +17,11 @@ private:
 	Vector2f outVelocity;
 	Vector2f dy;
 
-	void setOutVelocity(double thisTime);
+	void setOutVelocity(double elapsed);
 public:
 	Character(Vector2f velocity, Timeline& timeline);
 
-	void update(RenderTarget& target, double thisTime) override;
+	void update(RenderTarget& target, double elapsed) override;
 
-	void detectCollision(list<MovingPlatform*> platforms, double thisTime);
+	void detectCollision(list<MovingPlatform*> platforms, double elapsed);
 };
