@@ -11,7 +11,6 @@ class Movable
 protected:
 	Vector2f velocity;
 	Timeline& timeline;
-	//double lastTime;
 public:
 	Movable(Vector2f velocity, Timeline& timeline);
 

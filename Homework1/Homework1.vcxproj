@@ -140,7 +140,6 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Objects\MovingPlatform.cpp" />
     <ClCompile Include="Objects\Character.cpp" />
-    <ClCompile Include="Times\Timeline.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Times\LocalTime.h" />

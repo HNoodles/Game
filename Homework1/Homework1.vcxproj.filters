@@ -27,9 +27,6 @@
     <ClCompile Include="Times\GameTime.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Times\Timeline.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="Times\LocalTime.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
