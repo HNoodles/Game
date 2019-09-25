@@ -7,26 +7,50 @@
 #include <string>
 #include <iostream>
 
+constexpr auto CLIENT_NAME = "A";
+
+using namespace std;
+using namespace zmq;
+
+string s_recv(socket_t& socket);
+void s_send(socket_t& socket, const string& string);
+
 int main()
 {
 	//  Prepare our context and socket
-	zmq::context_t context(1);
-	zmq::socket_t socket(context, ZMQ_REQ);
+	context_t context(1);
+	socket_t socket(context, ZMQ_REQ);
 
-	std::cout << "Connecting to hello world server¡­" << std::endl;
+	cout << "Connecting to server¡­" << endl;
 	socket.connect("tcp://localhost:5555");
 
-	//  Do 10 requests, waiting each time for a response
-	for (int request_nbr = 0; request_nbr != 10; request_nbr++) {
-		zmq::message_t request(5);
-		memcpy(request.data(), "Hello", 5);
-		std::cout << "Sending Hello " << request_nbr << "¡­" << std::endl;
-		socket.send(request, zmq::send_flags::dontwait);
+	// keep sending and recieving messages
+	while (true)
+	{
+		s_send(socket, CLIENT_NAME);
+		cout << s_recv(socket);
 
-		//  Get the reply.
-		zmq::message_t reply;
-		socket.recv(reply);
-		std::cout << "Received World " << request_nbr << std::endl;
+		// rest for 5 seconds before next iteration
+		Sleep(5000);
 	}
+
 	return 0;
+}
+
+//  Receive 0MQ string from socket and convert into string
+static string s_recv(socket_t& socket)
+{
+	message_t message;
+	socket.recv(message);
+
+	return string(static_cast<char*>(message.data()), message.size());
+}
+
+//  Convert string to 0MQ string and send to socket
+static void s_send(socket_t& socket, const string& string)
+{
+	message_t message(string.size());
+	memcpy(message.data(), string.data(), string.size());
+
+	socket.send(message, send_flags::dontwait);
 }

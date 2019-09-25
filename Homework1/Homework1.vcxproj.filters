@@ -63,7 +63,7 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <None Include="PropertySheetRelease.props" />
-    <None Include="PropertySheetDebug.props" />
+    <None Include="SFMLDebug.props" />
+    <None Include="SFMLRelease.props" />
   </ItemGroup>
 </Project>
