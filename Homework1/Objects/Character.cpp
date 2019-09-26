@@ -90,14 +90,14 @@ void Character::setOutVelocity(double elapsed)
 	{// left collision!
 		outVelocity += velocity;
 		outVelocity.x += (left->getHeadingPositive() ?
-			left->getVelocity().x : -left->getVelocity().x);
+			left->getVelocity().x * elapsed : -left->getVelocity().x * elapsed);
 	}
 
 	if (right != nullptr)
 	{// right collision!
 		outVelocity -= velocity;
 		outVelocity.x += (right->getHeadingPositive() ?
-			right->getVelocity().x : -right->getVelocity().x);
+			right->getVelocity().x * elapsed : -right->getVelocity().x * elapsed);
 	}
 
 	if (up != nullptr)
@@ -109,7 +109,7 @@ void Character::setOutVelocity(double elapsed)
 	{// bottom collision!
 		outVelocity.y = 0;
 		outVelocity.x += (bottom->getHeadingPositive() ?
-			bottom->getVelocity().x : -bottom->getVelocity().x);
+			bottom->getVelocity().x * elapsed : -bottom->getVelocity().x * elapsed);
 	}
 	else // drop 
 	{
