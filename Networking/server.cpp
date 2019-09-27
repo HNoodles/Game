@@ -1,8 +1,3 @@
-//
-//  Hello World server in C++
-//  Binds REP socket to tcp://*:5555
-//  Expects "Hello" from client, replies with "World"
-//
 #include <zmq.hpp>
 #include <string>
 #include <iostream>
@@ -23,94 +18,64 @@ typedef struct {
 	int iteration;
 } Client;
 
-typedef struct {
-	socket_t* socket;
-	string client_name;
-	vector<Client>* clients;
-} Thread_Args;
-
-void requestHandler(Thread_Args* args);
+void publisherHandler(socket_t* publisher, vector<Client>* clients);
 string s_recv(socket_t& socket);
 void s_send(socket_t& socket, const string& string);
-vector<Client>::iterator l_find(vector<Client>& clients, string name);
 string Message(int num, int iter);
 
 int main() 
 {
 	//  Prepare our context and socket
 	context_t context(1);
-	socket_t socket(context, ZMQ_REP);
-	socket.bind("tcp://*:5555");
-	cout << "Server started, listening for clients on port 5555..." << endl;
+
+	socket_t receiver(context, ZMQ_REP);
+	receiver.bind("tcp://*:5555");
+	cout << "Receiver started, listening for clients on port 5555..." << endl;
+
+	socket_t publisher(context, ZMQ_PUB);
+	publisher.bind("tcp://*:5556");
+	cout << "Publisher started, publishing messages on port 5556..." << endl;
 
 	vector<Client> clients;
+
+	// create new thread to handle publishing
+	thread newThread(publisherHandler, &publisher, &clients);
+	newThread.detach();
 
 	while (true)
 	{
 		// listen from clients
-		string client_name = s_recv(socket);
+		string client_name = s_recv(receiver);
 
-		//// encapsulate arguments for thread
-		//Thread_Args args = { &socket, client_name, &clients };
-		//
-		//// create new thread to handle request
-		//thread newThread(requestHandler, &args);
-		//newThread.detach();
+		// new client
+		Client client = { client_name, 1 };
+		clients.emplace_back(client);
+		cout << "New client " + client_name << endl;
 
-		// find the client stored
-		auto iter = l_find(clients, client_name);
-		if (iter == clients.end())
-		{// new client
-			Client client = { client_name, 1 };
-			clients.emplace_back(client);
-			cout << "New client " + client_name << endl;
-		}
-		else
-		{// old client, update iteration count
-			iter->iteration++;
-			cout << "Old client " + client_name << endl;
-		}
-
-		// send messages
-		string message = "";
-		for (size_t i = 0; i < clients.size(); i++)
-		{
-			message += Message(i + 1, clients[i].iteration);
-		}
-		s_send(socket, message + "\n");
+		// send a response to fulfill a come and go
+		s_send(receiver, "success");
 	}
 
 	return 0;
 }
 
-void requestHandler(Thread_Args* args)
+void publisherHandler(socket_t* publisher, vector<Client>* clients)
 {
-	// read out arguments
-	socket_t& socket = *args->socket;
-	string client_name = args->client_name;
-	vector<Client> clients = *args->clients;
-
-	// find the client stored
-	auto iter = l_find(clients, client_name);
-	if (iter == clients.end())
-	{// new client
-		Client client = { client_name, 1 };
-		clients.emplace_back(client);
-		cout << "New client " + client_name << endl;
-	}
-	else
-	{// old client, update iteration count
-		iter->iteration++;
-		cout << "Old client " + client_name << endl;
-	}
-
-	// send messages
-	string message = "";
-	for (size_t i = 0; i < clients.size(); i++)
+	// keep publishing current state of connection
+	while (true)
 	{
-		message += Message(i + 1, clients[i].iteration);
+		// publish current message
+		string message = "";
+		for (size_t i = 0; i < clients->size(); i++)
+		{
+			message += Message(i + 1, (*clients)[i].iteration++);
+		}
+		s_send(*publisher, message + "\n");
+		// cout << message << endl;
+
+		// rest for 5 seconds
+		Sleep(5000);
 	}
-	s_send(socket, message + "\n");
 }
 
 //  Receive 0MQ string from socket and convert into string
@@ -128,20 +93,7 @@ static void s_send(socket_t& socket, const string& string)
 	message_t message(string.size());
 	memcpy(message.data(), string.data(), string.size());
 
-	socket.send(message, send_flags::dontwait);
-}
-
-vector<Client>::iterator l_find(vector<Client>& clients, string name)
-{
-	auto iter = clients.begin();
-	for (; iter != clients.end(); iter++)
-	{
-		if (iter->name == name)
-		{
-			return iter;
-		}
-	}
-	return iter;
+	socket.send(message, send_flags::none);
 }
 
 string Message(int num, int iter) 

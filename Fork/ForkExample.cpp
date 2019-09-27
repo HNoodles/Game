@@ -37,7 +37,7 @@ class ForkExample
 
         void run()
         {
-            if(i==0)
+            if(i == 0)
             {
                 try
                 {
@@ -68,7 +68,7 @@ class ForkExample
                 {
                     std::cout << "Thread " << i << " is waiting!" << std::endl;
                     try 
-                    {
+                    {// being blocked by other threads? 
                         std::unique_lock<std::mutex> lock(*_mutex);
                         _condition_variable->wait(lock);
                         std::cout << "Thread " << i << " inside lock scope." << std::endl;
@@ -88,15 +88,17 @@ void run_wrapper(ForkExample *fe)
 {
     fe->run();
 }
-//
-//int main()
-//{
-//    std::mutex m;
-//    std::condition_variable cv;
-//    ForkExample t1(0, NULL, &m, &cv);
-//    ForkExample t2(1, &t1, &m, &cv);
-//    std::thread first(run_wrapper, &t1);
-//    std::thread second(run_wrapper, &t2);
-//    first.join();
-//    second.join();
-//}
+
+int main()
+{
+    std::mutex m;
+    std::condition_variable cv;
+    ForkExample t1(0, NULL, &m, &cv);
+    ForkExample t2(1, &t1, &m, &cv);
+    std::thread first(run_wrapper, &t1);
+    std::thread second(run_wrapper, &t2);
+    first.join();
+    second.join();
+
+	system("pause");
+}

@@ -1,8 +1,3 @@
-//
-//  Hello World client in C++
-//  Connects REQ socket to tcp://localhost:5555
-//  Sends "Hello" to server, expects "World" back
-//
 #include <zmq.hpp>
 #include <string>
 #include <iostream>
@@ -19,19 +14,24 @@ int main()
 {
 	//  Prepare our context and socket
 	context_t context(1);
-	socket_t socket(context, ZMQ_REQ);
 
-	cout << "Connecting to server¡­" << endl;
-	socket.connect("tcp://localhost:5555");
+	socket_t sender(context, ZMQ_REQ);
+	sender.connect("tcp://localhost:5555");
+	cout << "Connecting to server on port 5555..." << endl;
 
-	// keep sending and recieving messages
+	socket_t subscriber(context, ZMQ_SUB);
+	subscriber.connect("tcp://localhost:5556");
+	subscriber.setsockopt(ZMQ_SUBSCRIBE, "C", strlen("C"));
+	cout << "Subscribing to server on port 5556..." << endl;
+
+	// send name to connect to server
+	s_send(sender, CLIENT_NAME);
+	string response = s_recv(sender);
+
+	// keep printing out published messages
 	while (true)
 	{
-		s_send(socket, CLIENT_NAME);
-		cout << s_recv(socket);
-
-		// rest for 5 seconds before next iteration
-		Sleep(5000);
+		cout << s_recv(subscriber);
 	}
 
 	return 0;
@@ -52,5 +52,5 @@ static void s_send(socket_t& socket, const string& string)
 	message_t message(string.size());
 	memcpy(message.data(), string.data(), string.size());
 
-	socket.send(message, send_flags::dontwait);
+	socket.send(message, send_flags::none);
 }
