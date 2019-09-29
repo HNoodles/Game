@@ -19,13 +19,6 @@
 using namespace std;
 using namespace zmq;
 
-typedef struct {
-	//string name;
-	LocalTime time;
-	float x;
-	float y;
-} Client;
-
 
 class Server
 {
@@ -33,7 +26,7 @@ private:
 	context_t context;
 	socket_t receiver;
 	socket_t publisher;
-	map<string, Client> clients;
+	map<string, Character*>* characters;
 
 	string s_recv(socket_t& socket);
 
@@ -44,11 +37,10 @@ private:
 	string PlatformMessage(float x, float y);
 
 	string ClientMessage(string name, float x, float y, double thisTime);
-
 public:
-	Server(list<MovingPlatform*>* platforms);
+	Server(map<string, Character*>* characters);
 
-	void receiverHandler(GameTime* gameTime, map<string, Character*>* characters);
+	void receiverHandler(GameTime* gameTime);
 
 	void publisherHandler(list<MovingPlatform*>* platforms);
 };

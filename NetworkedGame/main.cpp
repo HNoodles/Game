@@ -18,8 +18,8 @@ int main()
 	cout << gameTime.getTime() << endl;
 
 	// init server
-	Server server(&platforms);
-	thread newThread(&Server::receiverHandler, &server, &gameTime, &characters);
+	Server server(&characters);
+	thread newThread(&Server::receiverHandler, &server, &gameTime);
 	newThread.detach();
 
 	// init platforms

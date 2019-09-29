@@ -24,5 +24,10 @@ public:
 		velocity = v;
 	}
 
+	Timeline& getTimeline()
+	{
+		return timeline;
+	}
+
 	virtual void update(double elapsed) = 0;
 };

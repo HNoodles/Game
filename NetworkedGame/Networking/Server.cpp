@@ -1,7 +1,7 @@
 #include "Server.h"
 
-Server::Server(list<MovingPlatform*>* platforms) 
-	: context(1), receiver(context, ZMQ_REP), publisher(context, ZMQ_PUB)
+Server::Server(map<string, Character*>* characters)
+	: context(1), receiver(context, ZMQ_REP), publisher(context, ZMQ_PUB), characters(characters)
 {
 	receiver.bind("tcp://*:5555");
 	cout << "Receiver started, listening for clients on port 5555..." << endl;
@@ -10,7 +10,7 @@ Server::Server(list<MovingPlatform*>* platforms)
 	cout << "Publisher started, publishing messages on port 5556..." << endl;
 }
 
-void Server::receiverHandler(GameTime* gameTime, map<string, Character*>* characters)
+void Server::receiverHandler(GameTime* gameTime)
 {
 	while (true)
 	{
@@ -22,30 +22,30 @@ void Server::receiverHandler(GameTime* gameTime, map<string, Character*>* charac
 		Split(client_string, " ", result);
 
 		// find client
-		auto iter = clients.find(result[0]);
+		auto iter = characters->find(result[0]);
 		// store client into map
-		if (iter == clients.end()) // new client
+		if (iter == characters->end()) // new client
 		{
-			Client client = { LocalTime(1, *gameTime), (float)atof(result[1].c_str()), (float)atof(result[2].c_str()) };
-			clients.emplace(result[0], client);
+			LocalTime local(1, *gameTime);
+			Character character(Vector2f(250.0f, 0.0f), local);
+			character.setPosition(Vector2f((float)atof(result[1].c_str()), (float)atof(result[2].c_str())));
+			characters->emplace(result[0], &character);
+			
 			cout << "New client " + result[0] << endl;
 		}
 		else // old client
 		{
-			Client client = { iter->second.time, (float)atof(result[1].c_str()), (float)atof(result[2].c_str()) };
-			if (result.size() > 3) // has set time step
-			{
-				client.time.setStepSize(atof(result[4].c_str()));
-			}
-			clients.emplace(result[0], client);
+			Character character = *iter->second;
+			character.setPosition(Vector2f((float)atof(result[1].c_str()), (float)atof(result[2].c_str())));
+			characters->emplace(result[0], &character);
+
+			//if (result.size() > 3) // has set time step
+			//{
+			//	client.time.setStepSize(atof(result[4].c_str()));
+			//}
+			
 			//cout << "Old client " + result[0] << endl;
 		}
-
-		// generate character object according to latest client info
-		Client client = clients.find(result[0])->second;
-		Character character(Vector2f(250.0f, 0.0f), *gameTime);
-		character.setPosition(Vector2f(client.x, client.y));
-		characters->emplace(result[0], &character);
 		
 		// send a response to fulfill a come and go
 		s_send(receiver, "success");
@@ -68,9 +68,10 @@ void Server::publisherHandler(list<MovingPlatform*>* platforms)
 		}
 
 		// generate clients message
-		for (auto client = clients.begin(); client != clients.end(); client++)
+		for (auto pair = characters->begin(); pair != characters->end(); pair++)
 		{
-			message += ClientMessage(client->first, client->second.x, client->second.y, client->second.time.getTime());
+			Vector2f pos = pair->second->getPosition();
+			message += ClientMessage(pair->first, pos.x, pos.y, pair->second->getTimeline().getTime());
 		}
 
 		// send message
