@@ -5,7 +5,7 @@ MovingPlatform::MovingPlatform(Vector2f size, Vector2f v, float lb, float range,
 {
 }
 
-void MovingPlatform::update(RenderTarget& target, double elapsed)
+void MovingPlatform::(RenderTarget& target, double elapsed)
 {
 	Vector2u target_size = target.getSize();
 	Vector2f pos = this->getPosition();

@@ -13,7 +13,7 @@ Character::Character(Vector2f velocity, Timeline& timeline) :
 	outVelocity = Vector2f(0.f, 0.f);
 }
 
-void Character::update(RenderTarget& target, double elapsed)
+void Character::(RenderTarget& target, double elapsed)
 {
 	// calculate total velocity
 	if (Keyboard::isKeyPressed(Keyboard::Left) || Keyboard::isKeyPressed(Keyboard::A))

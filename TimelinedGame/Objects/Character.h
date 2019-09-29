@@ -21,7 +21,7 @@ private:
 public:
 	Character(Vector2f velocity, Timeline& timeline);
 
-	void update(RenderTarget& target, double elapsed) override;
+	void (RenderTarget& target, double elapsed) override;
 
 	void detectCollision(list<MovingPlatform*> platforms, double elapsed);
 };
