@@ -1,12 +1,10 @@
 #include <SFML/Graphics.hpp>
-#include <list>
-#include <map>
-#include <iostream>
+
+#define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
-#include "Objects/MovingPlatform.h"
-#include "Objects/Character.h"
-#include "Times/GameTime.h"
+#include "Networking/Client.h"
+#include <thread>
 
 using namespace std;
 using namespace sf;
@@ -15,15 +13,14 @@ void initWindow(Window& window);
 void handleScalingOption(RenderWindow& window);
 void handleGameInstruction(double & thisTime);
 void loadTextureFromFile(Texture& texture, string file_name);
-//void initPlatforms();
 void loadTextures();
 void handleWindowEvent(RenderWindow& window);
 
 // define objects
 map<string, Texture> textures;
 list<Drawable*> objects;
-list<Movable*> movingObjects;
 list<MovingPlatform*> platforms;
+map<string, Character*> characters;
 
 GameTime gameTime(1);
 
@@ -33,7 +30,6 @@ Vector2u lastWindowSize(800, 600);// default window size
 
 int main()
 {
-	cout << gameTime.getTime() << endl;
 	// declare and init window
 	RenderWindow window;
 	initWindow(window);
@@ -44,64 +40,86 @@ int main()
 	// init platforms
 	MovingPlatform platform(Vector2f(200.f, 50.f), Vector2f(0.f, 0.f), 100.f, 100.f, gameTime);
 	platform.setTexture(&textures["grass"], true);
-	platform.setPosition(Vector2f(100.f, 400.f));
 	objects.emplace_back(&platform);
-	movingObjects.emplace_back(&platform);
 	platforms.emplace_back(&platform);
 
 	MovingPlatform movingPlatform(Vector2f(200.f, 50.f), Vector2f(100.f, 0.f), 300.f, 200.f, gameTime);
 	movingPlatform.setTexture(&textures["grass"], true);
-	movingPlatform.setPosition(Vector2f(550.f, 300.f));
 	objects.emplace_back(&movingPlatform);
-	movingObjects.emplace_back(&movingPlatform);
 	platforms.emplace_back(&movingPlatform);
 
 	// init character
-	/*Character character(Vector2f(250.0f, 0.0f), gameTime);
+	Character character(Vector2f(250.0f, 0.0f), gameTime);
 	character.setTexture(&textures["hero"], true);
-	character.setPosition(Vector2f(550.f, 100.f));
+	character.setPosition(Vector2f(200.f, 100.f));
 	objects.emplace_back(&character);
-	movingObjects.emplace_back(&character);*/
+	characters.emplace(CLIENT_NAME, &character);
+
+	// init client
+	Client client(&characters);
+
+	// send message to notify server this new client
+	client.sendHandler();
+
+	// update platform and other character infos from server
+	thread newThread(&Client::subscribeHandler, &client, &platforms);
+	newThread.detach();
+
+	// get updated game time
+	gameTime = *dynamic_cast<GameTime*>(&character.getTimeline());
 
 	// timer
 	double elapsed, thisTime, lastTime = gameTime.getTime();
 	
 	// run the program as long as the window is open
-	while (true)
+	while (window.isOpen())
 	{
+		// get updated game time
+		gameTime = *dynamic_cast<GameTime*>(&character.getTimeline());
+
 		// get time tic elapsed for this iteration
 		thisTime = gameTime.getTime();
 		elapsed = thisTime - lastTime;
-		
-		//// deal with events
-		//handleWindowEvent(window);
 
-		//// handle scaling option
-		//handleScalingOption(window);
-
-		//// handle game instruction
-		//handleGameInstruction(thisTime);
-
-		//// clear the window with the chosen color
-		//window.clear(Color::White);
-
-		//// detect character collision
-		//character.detectCollision(platforms, elapsed);
-
-		// move all moving objects
-		for (Movable* moving : movingObjects)
+		// only handle key events when window is focused
+		if (window.hasFocus())
 		{
-			moving->update(elapsed);
+			// deal with events
+			handleWindowEvent(window);
+
+			// handle scaling option
+			handleScalingOption(window);
+
+			// handle game instruction
+			handleGameInstruction(thisTime);
 		}
 
-		//// draw the objects needed
-		//for (const Drawable* object : objects) 
-		//{
-		//	window.draw(*object);
-		//}
+		// detect character collision
+		character.detectCollision(platforms, elapsed);
 
-		//// end of the current frame, show the window
-		//window.display();
+		if (window.hasFocus())
+		{
+			// move character
+			character.handleKeyInput();
+		}
+
+		// update character position 
+		character.update(elapsed);
+
+		// send message to notify server the update of this client
+		client.sendHandler();
+
+		// clear the window with the chosen color
+		window.clear(Color::White);
+
+		// draw the objects needed
+		for (const Drawable* object : objects) 
+		{
+			window.draw(*object);
+		}
+
+		// end of the current frame, show the window
+		window.display();
 
 		lastTime = thisTime;
 	}
@@ -147,7 +165,7 @@ void handleScalingOption(RenderWindow& window)
 		window.setTitle("My Demo Window (Proportional)");
 		Vector2u defaultSize(800, 600);
 		window.setSize(defaultSize);
-		window.setView(View(FloatRect(0, 0, defaultSize.x, defaultSize.y)));
+		window.setView(View(FloatRect(0, 0, (float)defaultSize.x, (float)defaultSize.y)));
 	}
 }
 
@@ -186,23 +204,6 @@ void loadTextureFromFile(Texture& texture, std::string file_name)
 		cout << "load texture failed" << endl;
 	}
 }
-
-//void initPlatforms() 
-//{
-//	MovingPlatform platform(Vector2f(200.f, 50.f), Vector2f(0.f, 0.f), 100.f, 100.f);
-//	platform.setTexture(&textures["grass"], true);
-//	platform.setPosition(Vector2f(100.f, 400.f));
-//	objects.emplace_back(&platform);
-//	movingObjects.emplace_back(&platform);
-//	platforms.emplace_back(&platform);
-//
-//	MovingPlatform movingPlatform(Vector2f(200.f, 50.f), Vector2f(1.f, 0.f), 300.f, 200.f);
-//	movingPlatform.setTexture(&textures["grass"], true);
-//	movingPlatform.setPosition(Vector2f(550.f, 300.f));
-//	objects.emplace_back(&movingPlatform);
-//	movingObjects.emplace_back(&movingPlatform);
-//	platforms.emplace_back(&movingPlatform);
-//}
 
 void loadTextures()
 {

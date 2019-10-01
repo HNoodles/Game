@@ -23,5 +23,7 @@ public:
 
 	void update(double elapsed) override;
 
+	void handleKeyInput();
+
 	void detectCollision(list<MovingPlatform*> platforms, double elapsed);
 };

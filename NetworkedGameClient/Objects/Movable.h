@@ -24,5 +24,15 @@ public:
 		velocity = v;
 	}
 
+	void setTimeline(Timeline& timeline)
+	{
+		this->timeline = timeline;
+	}
+
+	Timeline& getTimeline() const
+	{
+		return timeline;
+	}
+
 	virtual void update(double elapsed) = 0;
 };

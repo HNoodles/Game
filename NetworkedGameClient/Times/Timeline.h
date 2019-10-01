@@ -9,6 +9,7 @@ protected:
 	bool paused = false;
 	double pausedTics = 0;
 	double lastPausedPoint = 0;
+	//double lastTime = 0;
 public:
 	std::chrono::nanoseconds getNowRealTime()
 	{
@@ -19,6 +20,14 @@ public:
 	{
 		return paused;
 	}
+
+	/*double getElapsed()
+	{
+		double thisTime = getTime();
+		double elapsed = thisTime - lastTime;
+		lastTime = thisTime;
+		return elapsed;
+	}*/
 
 	virtual void setPaused(bool p) = 0;
 

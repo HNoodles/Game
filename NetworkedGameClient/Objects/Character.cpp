@@ -15,7 +15,14 @@ Character::Character(Vector2f velocity, Timeline& timeline) :
 
 void Character::update(double elapsed)
 {
-	// calculate total velocity
+	// calculate total displacement
+	Vector2f s = Vector2f(outVelocity.x * elapsed, outVelocity.y * elapsed);
+
+	move(s);
+}
+
+void Character::handleKeyInput()
+{
 	if (Keyboard::isKeyPressed(Keyboard::Left) || Keyboard::isKeyPressed(Keyboard::A))
 	{// left
 		outVelocity -= velocity;
@@ -24,16 +31,11 @@ void Character::update(double elapsed)
 	{// right
 		outVelocity += velocity;
 	}
-	if ((Keyboard::isKeyPressed(Keyboard::Up) || Keyboard::isKeyPressed(Keyboard::W)) 
+	if ((Keyboard::isKeyPressed(Keyboard::Up) || Keyboard::isKeyPressed(Keyboard::W))
 		&& bottom != nullptr) // character should be on a platform to jump
 	{// jump
 		outVelocity.y = -300.f;
 	}
-
-	// calculate total displacement
-	Vector2f s = Vector2f(outVelocity.x * elapsed, outVelocity.y * elapsed);
-
-	move(s);
 }
 
 void Character::detectCollision(list<MovingPlatform*> platforms, double elapsed)

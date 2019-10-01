@@ -4,6 +4,11 @@ GameTime::GameTime(double step_size) : step_size(step_size * 1e9), start_time(ge
 {
 }
 
+GameTime::GameTime(double step_size, double time) : step_size(step_size * 1e9)
+{
+	start_time = getNowRealTime() - duration<int>((int)(time * step_size));
+}
+
 void GameTime::setPaused(bool p) 
 {
 	if (p)
