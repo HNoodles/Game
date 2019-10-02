@@ -1,7 +1,7 @@
 #include "Server.h"
 
-Server::Server(map<string, Character*>* characters)
-	: context(1), receiver(context, ZMQ_REP), publisher(context, ZMQ_PUB), characters(characters)
+Server::Server()
+	: context(1), receiver(context, ZMQ_REP), publisher(context, ZMQ_PUB)
 {
 	receiver.bind("tcp://*:5555");
 	cout << "Receiver started, listening for clients on port 5555..." << endl;
@@ -24,22 +24,22 @@ void Server::receiverHandler(GameTime* gameTime)
 		Split(client_string, " ", result);
 
 		// find client
-		auto iter = characters->find(result[0]);
+		auto iter = characters.find(result[0]);
 		// store client into map
-		if (iter == characters->end()) // new client
+		if (iter == characters.end()) // new client
 		{
 			LocalTime local(1, *gameTime);
 			Character character(Vector2f(250.0f, 0.0f), local);
 			character.setPosition(Vector2f((float)atof(result[1].c_str()), (float)atof(result[2].c_str())));
-			characters->emplace(result[0], &character);
+			characters.insert({ result[0], character });
 			
 			cout << "New client " + result[0] << endl;
 		}
 		else // old client
 		{
-			Character* character = iter->second;
-			character->setPosition(Vector2f((float)atof(result[1].c_str()), (float)atof(result[2].c_str())));
-			characters->emplace(result[0], character);
+			Character& character = iter->second;
+			character.setPosition(Vector2f((float)atof(result[1].c_str()), (float)atof(result[2].c_str())));
+			//characters->emplace(result[0], character);
 
 			//if (result.size() > 3) // has set time step
 			//{
@@ -66,15 +66,15 @@ void Server::publisherHandler(list<MovingPlatform*>* platforms)
 	}
 
 	// generate clients message
-	for (auto pair = characters->begin(); pair != characters->end(); pair++)
+	for (auto pair : characters)
 	{
-		message += ClientMessage(pair->first, pair->second);
+		message += ClientMessage(pair.first, &pair.second);
 	}
 
 	// send message
 	s_send(publisher, message);
 
-	// sleep for 16 milliseconds to avoid too frequent publish
+	// sleep for 16ms to avoid too frequent publish
 	Sleep(16);
 }
 

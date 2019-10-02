@@ -8,14 +8,13 @@ using namespace sf;
 
 // define objects
 list<MovingPlatform*> platforms;
-map<string, Character*> characters;
 
 GameTime gameTime(1);
 
 int main()
 {
 	// init server
-	Server server(&characters);
+	Server server;
 	thread newThread(&Server::receiverHandler, &server, &gameTime);
 	newThread.detach();
 	//server.receiverHandler(&gameTime);

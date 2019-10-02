@@ -22,7 +22,7 @@ private:
 	context_t context;
 	socket_t receiver;
 	socket_t publisher;
-	map<string, Character*>* characters;
+	map<string, Character> characters;
 
 	string s_recv(socket_t& socket);
 
@@ -34,7 +34,7 @@ private:
 
 	string ClientMessage(const string& name, const Character * character);
 public:
-	Server(map<string, Character*>* characters);
+	Server();
 
 	void receiverHandler(GameTime* gameTime);
 
