@@ -24,5 +24,5 @@ public:
 		velocity = v;
 	}
 
-	virtual void (RenderTarget& target, double elapsed) = 0;
+	virtual void update(RenderTarget& target, double elapsed) = 0;
 };

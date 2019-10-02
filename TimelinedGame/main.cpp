@@ -91,7 +91,7 @@ int main()
 		// move all moving objects
 		for (Movable* moving : movingObjects)
 		{
-			moving->(window, elapsed);
+			moving->update(window, elapsed);
 		}
 
 		// draw the objects needed
