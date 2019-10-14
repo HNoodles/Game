@@ -1,7 +1,7 @@
 #pragma once
 #include "Movable.h"
 
-class MovingPlatform : public RectangleShape, public Movable
+class MovingPlatform : public RectangleShape, public Movable, 
 {
 private:
 	//Transform& transform;

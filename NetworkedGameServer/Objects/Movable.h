@@ -6,13 +6,13 @@
 
 using namespace sf;
 
-class Movable
+class Movable, 
 {
 protected:
 	Vector2f velocity;
 	Timeline& timeline;
 public:
-	Movable(Vector2f velocity, Timeline& timeline);
+	Movable, (Vector2f velocity, Timeline& timeline);
 
 	Vector2f getVelocity() const
 	{

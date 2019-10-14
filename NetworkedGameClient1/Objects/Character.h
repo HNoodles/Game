@@ -10,7 +10,7 @@ using namespace sf;
 using namespace std;
 
 
-class Character : public ConvexShape, public Movable
+class Character : public ConvexShape, public Movable, 
 {
 private:
 	MovingPlatform *left, *right, *up, *bottom;

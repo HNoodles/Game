@@ -3,7 +3,7 @@
 Vector2f gravity(0.f, 500.f);
 
 Character::Character(Vector2f velocity, Timeline& timeline) :
-	ConvexShape(4), Movable(velocity, timeline), left(nullptr), right(nullptr), up(nullptr), bottom(nullptr)
+	ConvexShape(4), Movable, (velocity, timeline), left(nullptr), right(nullptr), up(nullptr), bottom(nullptr)
 {
 	setPoint(0, Vector2f(30.f, 0.f));
 	setPoint(1, Vector2f(60.f, 60.f));

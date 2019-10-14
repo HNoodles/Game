@@ -1,7 +1,7 @@
 #include "MovingPlatform.h"
 
 MovingPlatform::MovingPlatform(Vector2f size, Vector2f v, float lb, float range, Timeline& timeline)
-	: RectangleShape(size), Movable(v, timeline), headingPositive(true), leftBound(lb), rightBound(lb + size.x + range)
+	: RectangleShape(size), Movable, (v, timeline), headingPositive(true), leftBound(lb), rightBound(lb + size.x + range)
 {
 }
 

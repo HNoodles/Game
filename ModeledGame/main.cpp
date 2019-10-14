@@ -22,7 +22,7 @@ void handleWindowEvent(RenderWindow& window);
 // define objects
 map<string, Texture> textures;
 list<Drawable*> objects;
-list<Movable*> movingObjects;
+list<Movable, *> movingObjects;
 list<MovingPlatform*> platforms;
 
 GameTime gameTime(1);
@@ -89,7 +89,7 @@ int main()
 		character.detectCollision(platforms, elapsed);
 
 		// move all moving objects
-		for (Movable* moving : movingObjects)
+		for (Movable, * moving : movingObjects)
 		{
 			moving->update(window, elapsed);
 		}
