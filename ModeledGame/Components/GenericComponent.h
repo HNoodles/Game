@@ -5,20 +5,15 @@
 
 using namespace sf;
 
-enum Type {
-	DRAWABLE, MOVABLE, COLORABLE
+enum ComponentType {
+	RENDERABLE, MOVABLE, COLLIDABLE
 };
 
 class GenericComponent // generic interface of game object components
 {
-//protected:
-//	enum::Type type;
 public:
-	/*enum::Type getType() {
-		return type;
-	}*/
-
-	virtual void work() {
+	virtual void work() 
+	{
 		return;
 	}
 };

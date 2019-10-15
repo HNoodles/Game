@@ -25,7 +25,12 @@ private:
 	void platformWork(Collidable* platform, FloatRect bound, vector<RectangleShape>& boundary_lines);
 public:
 	Collidable(::Collision collision, Renderable* render, Movable* movable, 
-		vector<Collidable*>* boundary_ptrs);
+		vector<Collidable*>* boundary_ptrs = nullptr);
+
+	void setBoundaryPtrs(vector<Collidable*>* boundary_ptrs)
+	{
+		this->boundary_ptrs = boundary_ptrs;
+	}
 
 	void work(list<Collidable*>& objects, double elapsed);
 };

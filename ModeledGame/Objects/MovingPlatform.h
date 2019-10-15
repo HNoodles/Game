@@ -1,20 +1,12 @@
 #pragma once
-#include "Movable.h"
+#include "GameObject.h"
+#include "../Components/Renderable.h"
+#include "../Components/Movable.h"
+#include "../Components/Collidable.h"
 
-class MovingPlatform : public RectangleShape, public Movable, 
+class MovingPlatform : public GameObject
 {
-private:
-	//Transform& transform;
-	bool headingPositive;
-	float leftBound, rightBound;
 public:
-	MovingPlatform(Vector2f size, Vector2f v, float lb, float range, Timeline& timeline);
-
-	void update(RenderTarget& target, double elapsed) override;
-
-	bool getHeadingPositive() const 
-	{
-		return headingPositive;
-	}
+	MovingPlatform(Renderable renderable, Movable movable, Collidable collidable);
 };
 
