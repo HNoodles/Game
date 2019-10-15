@@ -17,11 +17,13 @@ private:
 public:
 	Renderable(::Shape shape, ::Color color, Vector2f& size, Vector2f& pos);
 
-	sf::Shape* getShape() {
+	sf::Shape* getShape() 
+	{
 		return s;
 	}
 
-	Vector2f& getSize() {
+	Vector2f& getSize() 
+	{
 		return size;
 	}
 };

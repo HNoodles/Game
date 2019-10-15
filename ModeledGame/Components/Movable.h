@@ -8,7 +8,7 @@ enum Move {
 	HORIZONTAL, VERTICAL, INPUT
 };
 
-class Movable : public GenericComponent
+class Movable : public GenericComponent // incharge of moving related things
 {
 private:
 	sf::Shape* s;
@@ -37,9 +37,19 @@ public:
 		return velocity;
 	}
 
-	void setVelocity(Vector2f v) 
+	/*void setVelocity(Vector2f v) 
 	{
 		velocity = v;
+	}*/
+
+	Vector2f& getOutVelocity()
+	{
+		return outVelocity;
+	}
+
+	bool getHeadingPositive() const
+	{
+		return headingPositive;
 	}
 
 	void work(double elapsed);

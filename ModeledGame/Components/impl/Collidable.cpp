@@ -1,36 +1,99 @@
 #include "../Collidable.h"
 
-Collidable::Collidable(::Collision collision, Renderable* render) 
-	: collision(collision), render(render)
+void Collidable::setOutVelocity(double elapsed)
+{
+	Vector2f velocity = movable->getVelocity();
+	Vector2f& outVelocity = movable->getOutVelocity();
+
+	Collidable
+		* left = boundary_ptrs->at(0),
+		* right = boundary_ptrs->at(1),
+		* up = boundary_ptrs->at(2),
+		* bottom = boundary_ptrs->at(3);
+
+	// clear out velocity to normal
+	outVelocity.x = 0;
+
+	if (left != nullptr)
+	{// left collision!
+		Movable* lmovable = left->movable;
+		outVelocity += velocity;
+		outVelocity.x += (lmovable->getHeadingPositive() ?
+			lmovable->getVelocity().x : -lmovable->getVelocity().x);
+	}
+
+	if (right != nullptr)
+	{// right collision!
+		Movable* rmovable = right->movable;
+		outVelocity -= velocity;
+		outVelocity.x += (rmovable->getHeadingPositive() ?
+			rmovable->getVelocity().x : -rmovable->getVelocity().x);
+	}
+
+	if (up != nullptr)
+	{// up collision!
+		outVelocity.y = 0;
+	}
+
+	if (bottom != nullptr)
+	{// bottom collision!
+		Movable* bmovable = bottom->movable;
+		outVelocity.y = 0;
+		outVelocity.x += (bmovable->getHeadingPositive() ?
+			bmovable->getVelocity().x : -bmovable->getVelocity().x);
+	}
+	else // drop 
+	{
+		outVelocity.y += gravity.y * elapsed;
+	}
+}
+
+void Collidable::platformWork(Collidable* platform, FloatRect bound, vector<RectangleShape>& boundary_lines)
+{
+	// check collision using loop
+	for (size_t i = 0; i < boundary_lines.size(); i++) {
+		if (boundary_lines[i].getGlobalBounds().intersects(bound))
+		{// collision!
+			boundary_ptrs->at(i) = platform;
+		}
+	}
+}
+
+Collidable::Collidable(::Collision collision, Renderable* render, Movable* movable, 
+	vector<Collidable*>* boundary_ptrs)
+	: collision(collision), render(render), movable(movable), boundary_ptrs(boundary_ptrs)
 {
 }
 
-void Collidable::work(list<Collidable*>& objects, list<Collidable*>& boundary_ptrs)
+void Collidable::work(list<Collidable*>& objects, double elapsed)
 {
 	// calculate four boundaries
-	FloatRect box = render->getShape()->getGlobalBounds();
-	Vector2f height(1.f, box.height), width(box.width, 1.f);
+	FloatRect cbound = render->getShape()->getGlobalBounds();
+	Vector2f height(1.f, cbound.height), width(cbound.width, 1.f);
 
 	RectangleShape l(height), r(height), u(width), b(width);
-	l.setPosition(Vector2f(box.left, box.top));
-	r.setPosition(Vector2f(box.left + box.width, box.top));
-	u.setPosition(Vector2f(box.left, box.top));
-	b.setPosition(Vector2f(box.left, box.top + box.height));
+	l.setPosition(Vector2f(cbound.left, cbound.top));
+	r.setPosition(Vector2f(cbound.left + cbound.width, cbound.top));
+	u.setPosition(Vector2f(cbound.left, cbound.top));
+	b.setPosition(Vector2f(cbound.left, cbound.top + cbound.height));
+
+	vector<RectangleShape> boundary_lines({ l, r, u, b });
 
 	// reset all bdry ptrs to null
-	for (Collidable* ptr : boundary_ptrs)
+	for (Collidable* ptr : *boundary_ptrs) {
 		ptr = nullptr;
+	}
 
 	for (Collidable* object : objects)
 	{
 		// get bound of object
 		FloatRect bound = object->render->getShape()->getGlobalBounds();
 
-		if (box.intersects(bound)) {// collision happens
+		if (cbound.intersects(bound)) {// collision happens
 			switch (object->collision)
 			{
 			case PLATFORM:
-				// TODO: platform handler
+				platformWork(object, bound, boundary_lines);
 				break;
 			case DEADZONE: // implement in section 3
 				break;
@@ -39,25 +102,6 @@ void Collidable::work(list<Collidable*>& objects, list<Collidable*>& boundary_pt
 			default:
 				break;
 			}
-		}
-		
-
-		// check collision and set out velocity
-		if (l.getGlobalBounds().intersects(bound))
-		{// left collision!
-			left = platform;
-		}
-		if (r.getGlobalBounds().intersects(bound))
-		{// right collision!
-			right = platform;
-		}
-		if (u.getGlobalBounds().intersects(bound))
-		{// up collision!
-			up = platform;
-		}
-		if (b.getGlobalBounds().intersects(bound))
-		{// bottom collision!
-			bottom = platform;
 		}
 	}
 

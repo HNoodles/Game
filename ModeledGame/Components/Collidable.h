@@ -2,6 +2,7 @@
 
 #include <list>
 #include "Renderable.h"
+#include "Movable.h"
 
 using namespace std;
 
@@ -9,18 +10,23 @@ enum Collision {
 	CHARACTER, PLATFORM, DEADZONE, BOUNDARY
 };
 
-class Collidable : public GenericComponent
+class Collidable : public GenericComponent // in charge of collision related affairs
 {
 private:
 	::Collision collision;
 	Renderable* render;
+	Movable* movable;
+	const Vector2f gravity = Vector2f(0.f, 500.f);
 
-	Vector2f* velocity; // for platform
-	Vector2f* outVelocity; // for character
+	vector<Collidable*>* boundary_ptrs;// only character has
 
+	void setOutVelocity(double elapsed);
+
+	void platformWork(Collidable* platform, FloatRect bound, vector<RectangleShape>& boundary_lines);
 public:
-	Collidable(::Collision collision, Renderable* render);
+	Collidable(::Collision collision, Renderable* render, Movable* movable, 
+		vector<Collidable*>* boundary_ptrs);
 
-	void work(list<Collidable*>& objects, list<Collidable*>& boundary_ptrs);
+	void work(list<Collidable*>& objects, double elapsed);
 };
 

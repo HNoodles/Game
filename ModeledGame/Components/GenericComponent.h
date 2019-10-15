@@ -9,7 +9,7 @@ enum Type {
 	DRAWABLE, MOVABLE, COLORABLE
 };
 
-class GenericComponent
+class GenericComponent // generic interface of game object components
 {
 //protected:
 //	enum::Type type;
