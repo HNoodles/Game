@@ -44,7 +44,7 @@ void Collidable::setOutVelocity(double elapsed)
 	}
 	else // drop 
 	{
-		outVelocity.y += gravity.y * elapsed;
+		outVelocity.y += (float)(gravity.y * elapsed);
 	}
 }
 
@@ -92,12 +92,12 @@ void Collidable::work(list<Collidable*>& objects, double elapsed)
 		if (cbound.intersects(bound)) {// collision happens
 			switch (object->collision)
 			{
-			case PLATFORM:
+			case Collision::PLATFORM:
 				platformWork(object, bound, boundary_lines);
 				break;
-			case DEADZONE: // implement in section 3
+			case Collision::DEADZONE: // implement in section 3
 				break;
-			case BOUNDARY: // implement in section 3
+			case Collision::BOUNDARY: // implement in section 3
 				break;
 			default:
 				break;

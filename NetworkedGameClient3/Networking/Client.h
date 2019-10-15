@@ -31,6 +31,6 @@ public:
 
 	void sendHandler();
 
-	void subscribeHandler(list<MovingPlatform*>* platforms);
+	void subscribeHandler(list<MovingPlatform*>* collidableObjects);
 };
 

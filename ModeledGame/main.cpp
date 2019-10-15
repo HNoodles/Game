@@ -1,15 +1,9 @@
-#include <SFML/Graphics.hpp>
-#include <list>
-#include <map>
 #include <iostream>
 #include <windows.h>
 
 #include "Objects/MovingPlatform.h"
 #include "Objects/Character.h"
 #include "Times/GameTime.h"
-
-using namespace std;
-using namespace sf;
 
 void initWindow(Window& window);
 void handleScalingOption(RenderWindow& window);
@@ -20,10 +14,10 @@ void loadTextures();
 void handleWindowEvent(RenderWindow& window);
 
 // define objects
-map<string, Texture> textures;
+//map<string, Texture> textures;
 list<Drawable*> objects;
-list<Movable, *> movingObjects;
-list<MovingPlatform*> platforms;
+list<Movable*> movingObjects;
+list<Collidable*> collidableObjects;
 
 GameTime gameTime(1);
 
@@ -39,29 +33,40 @@ int main()
 	initWindow(window);
 	
 	// load textures
-	loadTextures();
+	//loadTextures();
 
 	// init platforms
-	MovingPlatform platform(Vector2f(200.f, 50.f), Vector2f(0.f, 0.f), 100.f, 100.f, gameTime);
-	platform.setTexture(&textures["grass"], true);
-	platform.setPosition(Vector2f(100.f, 400.f));
-	objects.emplace_back(&platform);
-	movingObjects.emplace_back(&platform);
-	platforms.emplace_back(&platform);
+	Renderable pr(::Shape::RECTANGLE, ::Color::GREEN, Vector2f(200.f, 50.f), Vector2f(100.f, 400.f));
+	Movable pm(&pr, Vector2f(0.f, 0.f), gameTime, Move::HORIZONTAL);
+	Collidable pc(Collision::PLATFORM, &pr, &pm);
+	MovingPlatform platform(pr, pm, pc);
+	objects.emplace_back(dynamic_cast<Renderable*>(platform.getGC(ComponentType::RENDERABLE))->getShape());
+	//movingObjects.emplace_back(platform.getGC(ComponentType::MOVABLE));
+	collidableObjects.emplace_back(dynamic_cast<Collidable*>(platform.getGC(ComponentType::COLLIDABLE)));
 
-	MovingPlatform movingPlatform(Vector2f(200.f, 50.f), Vector2f(100.f, 0.f), 300.f, 200.f, gameTime);
-	movingPlatform.setTexture(&textures["grass"], true);
-	movingPlatform.setPosition(Vector2f(550.f, 300.f));
-	objects.emplace_back(&movingPlatform);
-	movingObjects.emplace_back(&movingPlatform);
-	platforms.emplace_back(&movingPlatform);
+	Renderable mr(::Shape::RECTANGLE, ::Color::RED, Vector2f(200.f, 50.f), Vector2f(450.f, 300.f));
+	Movable mm(&mr, Vector2f(100.f, 0.f), gameTime, Move::HORIZONTAL, 300.f, 200.f);
+	Collidable mc(Collision::PLATFORM, &mr, &mm);
+	MovingPlatform movingPlatform(mr, mm, mc);
+	objects.emplace_back(dynamic_cast<Renderable*>(movingPlatform.getGC(ComponentType::RENDERABLE))->getShape());
+	movingObjects.emplace_back(dynamic_cast<Movable*>(movingPlatform.getGC(ComponentType::MOVABLE)));
+	collidableObjects.emplace_back(dynamic_cast<Collidable*>(movingPlatform.getGC(ComponentType::COLLIDABLE)));
+
+	Renderable vr(::Shape::RECTANGLE, ::Color::RED, Vector2f(200.f, 50.f), Vector2f(550.f, 200.f));
+	Movable vm(&vr, Vector2f(100.f, 0.f), gameTime, Move::VERTICAL, 220.f, 50.f);
+	Collidable vc(Collision::PLATFORM, &vr, &vm);
+	MovingPlatform verticalPlatform(vr, vm, vc);
+	objects.emplace_back(dynamic_cast<Renderable*>(verticalPlatform.getGC(ComponentType::RENDERABLE))->getShape());
+	movingObjects.emplace_back(dynamic_cast<Movable*>(verticalPlatform.getGC(ComponentType::MOVABLE)));
+	collidableObjects.emplace_back(dynamic_cast<Collidable*>(verticalPlatform.getGC(ComponentType::COLLIDABLE)));
 
 	// init character
-	Character character(Vector2f(250.0f, 0.0f), gameTime);
-	character.setTexture(&textures["hero"], true);
-	character.setPosition(Vector2f(550.f, 100.f));
-	objects.emplace_back(&character);
-	movingObjects.emplace_back(&character);
+	Renderable cr(::Shape::DIAMOND, ::Color::BLUE, Vector2f(60.f, 120.f), Vector2f(200.f, 100.f));
+	Movable cm(&cr, Vector2f(250.0f, 0.0f), gameTime, Move::KEYINPUT);
+	Collidable cc(Collision::CHARACTER, &cr, &cm);
+	Character character(cr, cm, cc);
+	objects.emplace_back(dynamic_cast<Renderable*>(character.getGC(ComponentType::RENDERABLE))->getShape());
+	movingObjects.emplace_back(dynamic_cast<Movable*>(character.getGC(ComponentType::MOVABLE)));
 
 	// timer
 	double elapsed, thisTime, lastTime = gameTime.getTime();
@@ -82,17 +87,18 @@ int main()
 		// handle game instruction
 		handleGameInstruction(thisTime);
 
-		// clear the window with the chosen color
-		window.clear(Color::White);
-
 		// detect character collision
-		character.detectCollision(platforms, elapsed);
+		Collidable* co = dynamic_cast<Collidable*>(character.getGC(ComponentType::COLLIDABLE));
+		co->work(collidableObjects, elapsed);
 
 		// move all moving objects
-		for (Movable, * moving : movingObjects)
+		for (Movable* moving : movingObjects)
 		{
-			moving->update(window, elapsed);
+			moving->work(elapsed);
 		}
+
+		// clear the window with the chosen color
+		window.clear(sf::Color::White);
 
 		// draw the objects needed
 		for (const Drawable* object : objects) 
@@ -147,7 +153,7 @@ void handleScalingOption(RenderWindow& window)
 		window.setTitle("My Demo Window (Proportional)");
 		Vector2u defaultSize(800, 600);
 		window.setSize(defaultSize);
-		window.setView(View(FloatRect(0, 0, defaultSize.x, defaultSize.y)));
+		window.setView(View(FloatRect(0, 0, (float)defaultSize.x, (float)defaultSize.y)));
 	}
 }
 
@@ -179,41 +185,24 @@ void handleGameInstruction(double & thisTime)
 	}
 }
 
-void loadTextureFromFile(Texture& texture, std::string file_name)
-{
-	if (!texture.loadFromFile(file_name))
-	{// fail to load
-		cout << "load texture failed" << endl;
-	}
-}
-
-//void initPlatforms() 
+//void loadTextureFromFile(Texture& texture, std::string file_name)
 //{
-//	MovingPlatform platform(Vector2f(200.f, 50.f), Vector2f(0.f, 0.f), 100.f, 100.f);
-//	platform.setTexture(&textures["grass"], true);
-//	platform.setPosition(Vector2f(100.f, 400.f));
-//	objects.emplace_back(&platform);
-//	movingObjects.emplace_back(&platform);
-//	platforms.emplace_back(&platform);
-//
-//	MovingPlatform movingPlatform(Vector2f(200.f, 50.f), Vector2f(1.f, 0.f), 300.f, 200.f);
-//	movingPlatform.setTexture(&textures["grass"], true);
-//	movingPlatform.setPosition(Vector2f(550.f, 300.f));
-//	objects.emplace_back(&movingPlatform);
-//	movingObjects.emplace_back(&movingPlatform);
-//	platforms.emplace_back(&movingPlatform);
+//	if (!texture.loadFromFile(file_name))
+//	{// fail to load
+//		cout << "load texture failed" << endl;
+//	}
 //}
-
-void loadTextures()
-{
-	Texture grass, hero;
-
-	loadTextureFromFile(grass, "Images/space.png");
-	loadTextureFromFile(hero, "Images/hero.png");
-	
-	textures.insert(pair<string, Texture>("grass", grass));
-	textures.insert(pair<string, Texture>("hero", hero));
-}
+//
+//void loadTextures()
+//{
+//	Texture grass, hero;
+//
+//	loadTextureFromFile(grass, "Images/space.png");
+//	loadTextureFromFile(hero, "Images/hero.png");
+//	
+//	textures.insert(pair<string, Texture>("grass", grass));
+//	textures.insert(pair<string, Texture>("hero", hero));
+//}
 
 void handleWindowEvent(RenderWindow& window) {
 	// track all the window's events that were triggered since the last iteration

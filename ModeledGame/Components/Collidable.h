@@ -1,12 +1,11 @@
 #pragma once
 
 #include <list>
-#include "Renderable.h"
 #include "Movable.h"
 
 using namespace std;
 
-enum Collision {
+enum class Collision {
 	CHARACTER, PLATFORM, DEADZONE, BOUNDARY
 };
 

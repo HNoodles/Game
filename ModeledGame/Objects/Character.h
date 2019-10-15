@@ -1,8 +1,6 @@
 #pragma once
 #include <vector>
 #include "GameObject.h"
-#include "../Components/Renderable.h"
-#include "../Components/Movable.h"
 #include "../Components/Collidable.h"
 
 class Character : public GameObject

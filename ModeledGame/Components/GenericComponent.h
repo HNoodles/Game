@@ -5,7 +5,7 @@
 
 using namespace sf;
 
-enum ComponentType {
+enum class ComponentType {
 	RENDERABLE, MOVABLE, COLLIDABLE
 };
 

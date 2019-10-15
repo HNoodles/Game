@@ -3,7 +3,7 @@
 MovingPlatform::MovingPlatform(Renderable renderable, Movable movable, Collidable collidable) 
 	: GameObject()
 {
-	this->addGC(RENDERABLE, &renderable);
-	this->addGC(MOVABLE, &movable);
-	this->addGC(COLLIDABLE, &collidable);
+	this->addGC(ComponentType::RENDERABLE, &renderable);
+	this->addGC(ComponentType::MOVABLE, &movable);
+	this->addGC(ComponentType::COLLIDABLE, &collidable);
 }

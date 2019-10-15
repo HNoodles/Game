@@ -38,6 +38,6 @@ public:
 
 	void receiverHandler(GameTime* gameTime);
 
-	void publisherHandler(list<MovingPlatform*>* platforms);
+	void publisherHandler(list<MovingPlatform*>* collidableObjects);
 };
 

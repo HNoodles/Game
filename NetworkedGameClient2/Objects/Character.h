@@ -25,5 +25,5 @@ public:
 
 	void handleKeyInput();
 
-	void detectCollision(list<MovingPlatform*> platforms, double elapsed);
+	void detectCollision(list<MovingPlatform*> collidableObjects, double elapsed);
 };

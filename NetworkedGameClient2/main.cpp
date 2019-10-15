@@ -19,7 +19,7 @@ void handleWindowEvent(RenderWindow& window);
 // define objects
 map<string, Texture> textures;
 list<Drawable*> objects;
-list<MovingPlatform*> platforms;
+list<MovingPlatform*> collidableObjects;
 map<string, Vector2f> characters;
 
 GameTime gameTime(1);
@@ -44,12 +44,12 @@ int main()
 	MovingPlatform platform(Vector2f(200.f, 50.f), Vector2f(0.f, 0.f), 100.f, 100.f, gameTime);
 	platform.setTexture(&textures["grass"], true);
 	objects.emplace_back(&platform);
-	platforms.emplace_back(&platform);
+	collidableObjects.emplace_back(&platform);
 
 	MovingPlatform movingPlatform(Vector2f(200.f, 50.f), Vector2f(100.f, 0.f), 300.f, 200.f, gameTime);
 	movingPlatform.setTexture(&textures["grass"], true);
 	objects.emplace_back(&movingPlatform);
-	platforms.emplace_back(&movingPlatform);
+	collidableObjects.emplace_back(&movingPlatform);
 
 	// init character
 	Character character(Vector2f(250.0f, 0.0f), gameTime);
@@ -64,7 +64,7 @@ int main()
 	client.sendHandler();
 
 	// update platform and other character infos from server
-	thread newThread(&Client::subscribeHandler, &client, &platforms);
+	thread newThread(&Client::subscribeHandler, &client, &collidableObjects);
 	newThread.detach();
 
 	// get updated game time
@@ -97,7 +97,7 @@ int main()
 		}
 
 		// detect character collision
-		character.detectCollision(platforms, elapsed);
+		character.detectCollision(collidableObjects, elapsed);
 
 		if (window.hasFocus())
 		{

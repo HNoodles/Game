@@ -3,16 +3,16 @@
 #include "GenericComponent.h"
 #include "../Times/Timeline.h"
 #include "../Times/GameTime.h"
+#include "Renderable.h"
 
-enum Move {
-	HORIZONTAL, VERTICAL, INPUT
+enum class Move {
+	HORIZONTAL, VERTICAL, KEYINPUT
 };
 
 class Movable : public GenericComponent // incharge of moving related things
 {
 private:
-	sf::Shape* s;
-	Vector2f& size;
+	Renderable* renderable;
 	Vector2f& velocity;
 	Timeline& timeline;
 	::Move move;
@@ -29,18 +29,13 @@ private:
 protected:
 	bool jumpable;
 public:
-	Movable(sf::Shape* s, Vector2f& size, 
-		Vector2f& velocity, Timeline& timeline, ::Move move, float negBound = 0, float range = 0); // for movable
+	Movable(Renderable* renderable, 
+		Vector2f velocity, Timeline& timeline, ::Move move, float negBound = 0, float range = 0); // for movable
 
 	Vector2f getVelocity() const
 	{
 		return velocity;
 	}
-
-	/*void setVelocity(Vector2f v) 
-	{
-		velocity = v;
-	}*/
 
 	Vector2f& getOutVelocity()
 	{

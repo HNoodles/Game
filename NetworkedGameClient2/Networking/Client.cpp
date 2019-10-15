@@ -21,14 +21,14 @@ void Client::sendHandler()
 	string response = s_recv(sender);
 }
 
-void Client::subscribeHandler(list<MovingPlatform*>* platforms)
+void Client::subscribeHandler(list<MovingPlatform*>* collidableObjects)
 {
 	while (true)
 	{
 		string message = s_recv(subscriber);
 
 		// prepare iterator
-		auto iterP = platforms->begin();
+		auto iterP = collidableObjects->begin();
 
 		// split into lines
 		vector<string> lines;

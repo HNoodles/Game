@@ -2,10 +2,13 @@
 
 void Movable::hMove(double elapsed)
 {
+	sf::Shape* s = renderable->getShape();
+	Vector2f& size = renderable->getSize();
+
 	Vector2f pos = s->getPosition();
 
 	// calculate displacement
-	Vector2f dis = Vector2f(velocity.x * elapsed, velocity.y * elapsed);
+	Vector2f dis = Vector2f((float)(velocity.x * elapsed), (float)(velocity.y * elapsed));
 
 	// move object
 	if ((headingPositive && pos.x + size.x <= posBound)
@@ -26,10 +29,13 @@ void Movable::hMove(double elapsed)
 
 void Movable::vMove(double elapsed)
 {
+	sf::Shape* s = renderable->getShape();
+	Vector2f& size = renderable->getSize();
+
 	Vector2f pos = s->getPosition();
 
 	// calculate displacement
-	Vector2f dis = Vector2f(velocity.x * elapsed, velocity.y * elapsed);
+	Vector2f dis = Vector2f((float)(velocity.x * elapsed), (float)(velocity.y * elapsed));
 
 	// move object
 	if ((headingPositive && pos.y + size.y <= posBound)
@@ -66,43 +72,43 @@ void Movable::iMove(double elapsed)
 	}
 
 	// calculate total displacement
-	Vector2f dis = Vector2f(outVelocity.x * elapsed, outVelocity.y * elapsed);
+	Vector2f dis = Vector2f((float)(outVelocity.x * elapsed), (float)(outVelocity.y * elapsed));
 
-	s->move(dis);
+	renderable->getShape()->move(dis);
 }
 
-Movable::Movable(sf::Shape* s, Vector2f& size,
-	Vector2f& velocity, Timeline& timeline, ::Move move, float negBound = 0, float range = 0) // for movable 
-	: s(s), size(size), 
+Movable::Movable(Renderable* renderable,
+	Vector2f velocity, Timeline& timeline, ::Move move, float negBound, float range) // for movable 
+	: renderable(renderable), 
 	velocity(velocity), timeline(timeline), move(move), 
-	headingPositive(true), // for platforms
+	headingPositive(true), negBound(negBound), posBound(negBound + range), // for platforms
 	outVelocity(0.f, 0.f), jumpable(false) // for character
 {
-	switch (move)
-	{
-	case HORIZONTAL:
-	case VERTICAL: // set bound
-		this->negBound = negBound;
-		this->posBound = negBound + range;
-		break;
-	case INPUT: // do nothing
-		break;
-	default:
-		break;
-	}
+	//switch (move)
+	//{
+	//case HORIZONTAL:
+	//case VERTICAL: // set bound
+	//	this->negBound = negBound;
+	//	this->posBound = negBound + range;
+	//	break;
+	//case INPUT: // do nothing
+	//	break;
+	//default:
+	//	break;
+	//}
 }
 
 void Movable::work(double elapsed)
 {
 	switch (move)
 	{
-	case HORIZONTAL:
+	case Move::HORIZONTAL:
 		hMove(elapsed);
 		break;
-	case VERTICAL:
+	case Move::VERTICAL:
 		vMove(elapsed);
 		break;
-	case INPUT:
+	case Move::KEYINPUT:
 		iMove(elapsed);
 		break;
 	default:

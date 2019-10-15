@@ -54,13 +54,13 @@ void Server::receiverHandler(GameTime* gameTime)
 	}
 }
 
-void Server::publisherHandler(list<MovingPlatform*>* platforms)
+void Server::publisherHandler(list<MovingPlatform*>* collidableObjects)
 {	
 	// publish current message
 	string message = "";
 
 	// generate platforms message
-	for (MovingPlatform* platform : *platforms)
+	for (MovingPlatform* platform : *collidableObjects)
 	{
 		message += PlatformMessage(platform);
 	}

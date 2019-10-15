@@ -1,11 +1,11 @@
 #pragma once
 #include "GenericComponent.h"
 
-enum Shape {
-	RECT, CIRCLE, DIAMOND
+enum class Shape {
+	RECTANGLE, CIRCLE, DIAMOND
 };
 
-enum Color {
+enum class Color {
 	RED, GREEN, BLUE
 };
 
@@ -15,7 +15,7 @@ private:
 	sf::Shape* s;
 	Vector2f& size;
 public:
-	Renderable(::Shape shape, ::Color color, Vector2f& size, Vector2f& pos);
+	Renderable(::Shape shape, ::Color color, Vector2f size, Vector2f pos);
 
 	sf::Shape* getShape() 
 	{

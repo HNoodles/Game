@@ -23,5 +23,5 @@ public:
 
 	void update(double elapsed) override;
 
-	void detectCollision(list<MovingPlatform*> platforms, double elapsed);
+	void detectCollision(list<MovingPlatform*> collidableObjects, double elapsed);
 };

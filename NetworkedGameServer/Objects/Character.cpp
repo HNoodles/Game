@@ -38,7 +38,7 @@ void Character::update(double elapsed)
 	move(s);
 }
 
-void Character::detectCollision(list<MovingPlatform*> platforms, double elapsed)
+void Character::detectCollision(list<MovingPlatform*> collidableObjects, double elapsed)
 {
 	// calculate four bounding points
 	FloatRect box = getGlobalBounds();
@@ -58,7 +58,7 @@ void Character::detectCollision(list<MovingPlatform*> platforms, double elapsed)
 	// clear platforms to null
 	left = right = up = bottom = nullptr;
 
-	for (MovingPlatform *platform : platforms)
+	for (MovingPlatform *platform : collidableObjects)
 	{
 		// check collision and set out velocity
 		if (l.getGlobalBounds().intersects(platform->getGlobalBounds()))
