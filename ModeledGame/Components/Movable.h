@@ -13,7 +13,7 @@ class Movable : public GenericComponent // incharge of moving related things
 {
 private:
 	Renderable* renderable;
-	Vector2f& velocity;
+	Vector2f velocity;
 	Timeline& timeline;
 	::Move move;
 
@@ -26,7 +26,6 @@ private:
 	// for character
 	Vector2f outVelocity;
 	void iMove(double elapsed);
-protected:
 	bool jumpable;
 public:
 	Movable(Renderable* renderable, 
@@ -45,6 +44,11 @@ public:
 	bool getHeadingPositive() const
 	{
 		return headingPositive;
+	}
+
+	void setJumpable(bool jumpable)
+	{
+		this->jumpable = jumpable;
 	}
 
 	void work(double elapsed);

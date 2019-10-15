@@ -17,6 +17,8 @@ private:
 public:
 	Renderable(::Shape shape, ::Color color, Vector2f size, Vector2f pos);
 
+	~Renderable();
+
 	sf::Shape* getShape() 
 	{
 		return s;

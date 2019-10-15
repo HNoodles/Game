@@ -11,14 +11,14 @@ void Movable::hMove(double elapsed)
 	Vector2f dis = Vector2f((float)(velocity.x * elapsed), (float)(velocity.y * elapsed));
 
 	// move object
-	if ((headingPositive && pos.x + size.x <= posBound)
+	if ((headingPositive && pos.x <= posBound)
 		|| (!headingPositive && pos.x <= negBound))
 	{// heading right, not reaching bound
 	// heading left, reached bound
 		headingPositive = true;
 		s->move(dis);
 	}
-	else if ((headingPositive && pos.x + size.x > posBound)
+	else if ((headingPositive && pos.x > posBound)
 		|| (!headingPositive && pos.x > negBound))
 	{// heading right, reached bound
 	// heading left, not reaching bound
@@ -38,14 +38,14 @@ void Movable::vMove(double elapsed)
 	Vector2f dis = Vector2f((float)(velocity.x * elapsed), (float)(velocity.y * elapsed));
 
 	// move object
-	if ((headingPositive && pos.y + size.y <= posBound)
+	if ((headingPositive && pos.y <= posBound)
 		|| (!headingPositive && pos.y <= negBound))
 	{// heading down, not reaching bound
 	// heading up, reached bound
 		headingPositive = true;
 		s->move(dis);
 	}
-	else if ((headingPositive && pos.y + size.y > posBound)
+	else if ((headingPositive && pos.y > posBound)
 		|| (!headingPositive && pos.y > negBound))
 	{// heading down, reached bound
 	// heading up, not reaching bound
@@ -81,21 +81,9 @@ Movable::Movable(Renderable* renderable,
 	Vector2f velocity, Timeline& timeline, ::Move move, float negBound, float range) // for movable 
 	: renderable(renderable), 
 	velocity(velocity), timeline(timeline), move(move), 
-	headingPositive(true), negBound(negBound), posBound(negBound + range), // for platforms
+	headingPositive(false), negBound(negBound), posBound(negBound + range), // for platforms
 	outVelocity(0.f, 0.f), jumpable(false) // for character
 {
-	//switch (move)
-	//{
-	//case HORIZONTAL:
-	//case VERTICAL: // set bound
-	//	this->negBound = negBound;
-	//	this->posBound = negBound + range;
-	//	break;
-	//case INPUT: // do nothing
-	//	break;
-	//default:
-	//	break;
-	//}
 }
 
 void Movable::work(double elapsed)

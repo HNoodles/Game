@@ -5,6 +5,6 @@
 class MovingPlatform : public GameObject
 {
 public:
-	MovingPlatform(Renderable renderable, Movable movable, Collidable collidable);
+	MovingPlatform(Renderable* renderable, Movable* movable, Collidable* collidable);
 };
 

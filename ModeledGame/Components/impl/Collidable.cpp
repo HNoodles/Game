@@ -17,17 +17,15 @@ void Collidable::setOutVelocity(double elapsed)
 	if (left != nullptr)
 	{// left collision!
 		Movable* lmovable = left->movable;
-		outVelocity += velocity;
-		outVelocity.x += (lmovable->getHeadingPositive() ?
-			lmovable->getVelocity().x : -lmovable->getVelocity().x);
+		Vector2f lv = lmovable->getVelocity();
+		outVelocity.x = lmovable->getHeadingPositive() ? lv.x : -lv.x;
 	}
 
 	if (right != nullptr)
 	{// right collision!
 		Movable* rmovable = right->movable;
-		outVelocity -= velocity;
-		outVelocity.x += (rmovable->getHeadingPositive() ?
-			rmovable->getVelocity().x : -rmovable->getVelocity().x);
+		Vector2f rv = rmovable->getVelocity();
+		outVelocity.x = rmovable->getHeadingPositive() ? rv.x : -rv.x;
 	}
 
 	if (up != nullptr)
@@ -37,13 +35,19 @@ void Collidable::setOutVelocity(double elapsed)
 
 	if (bottom != nullptr)
 	{// bottom collision!
+		movable->setJumpable(true);
+
 		Movable* bmovable = bottom->movable;
-		outVelocity.y = 0;
-		outVelocity.x += (bmovable->getHeadingPositive() ?
-			bmovable->getVelocity().x : -bmovable->getVelocity().x);
+		Vector2f bv = bmovable->getVelocity();
+		// only when no blocks on the heading side can character get velocity.x from bottom
+		if ((left == nullptr && !bmovable->getHeadingPositive()) 
+			|| (right == nullptr && bmovable->getHeadingPositive()))
+			outVelocity.x = bmovable->getHeadingPositive() ? bv.x : -bv.x;
+		outVelocity.y = bmovable->getHeadingPositive() ? bv.y : -bv.y;
 	}
 	else // drop 
 	{
+		movable->setJumpable(false);
 		outVelocity.y += (float)(gravity.y * elapsed);
 	}
 }
@@ -80,8 +84,8 @@ void Collidable::work(list<Collidable*>& objects, double elapsed)
 	vector<RectangleShape> boundary_lines({ l, r, u, b });
 
 	// reset all bdry ptrs to null
-	for (Collidable* ptr : *boundary_ptrs) {
-		ptr = nullptr;
+	for (size_t i = 0; i < boundary_ptrs->size(); i++) {
+		boundary_ptrs->at(i) = nullptr;
 	}
 
 	for (Collidable* object : objects)

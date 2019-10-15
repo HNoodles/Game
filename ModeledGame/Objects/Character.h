@@ -8,7 +8,7 @@ class Character : public GameObject
 private:
 	vector<Collidable*> boundary_ptrs;
 public:
-	Character(Renderable renderable, Movable movable, Collidable collidable);
+	Character(Renderable* renderable, Movable* movable, Collidable* collidable);
 
 	vector<Collidable*>* getBoundaryPtrs()
 	{

@@ -2,8 +2,10 @@
 
 #include <SFML/Graphics.hpp>
 #include <stdarg.h>
+#include <iostream>
 
 using namespace sf;
+using namespace std;
 
 enum class ComponentType {
 	RENDERABLE, MOVABLE, COLLIDABLE
