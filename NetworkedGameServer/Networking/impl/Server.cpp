@@ -1,4 +1,4 @@
-#include "Server.h"
+#include "../Server.h"
 
 Server::Server()
 	: context(1), receiver(context, ZMQ_REP), publisher(context, ZMQ_PUB)
@@ -26,27 +26,24 @@ void Server::receiverHandler(GameTime* gameTime)
 		// find client
 		auto iter = characters.find(result[0]);
 		// store client into map
-		if (iter == characters.end()) // new client
+		if (iter == characters.end()) // new client, generate object
 		{
 			LocalTime local(1, *gameTime);
-			Character character(Vector2f(250.0f, 0.0f), local);
-			character.setPosition(Vector2f((float)atof(result[1].c_str()), (float)atof(result[2].c_str())));
+			Character character(
+				::Shape::DIAMOND, ::Color::BLUE, Vector2f(60.f, 120.f), 
+				Vector2f((float)atof(result[1].c_str()), (float)atof(result[2].c_str())), // pos
+				Vector2f(250.0f, 0.0f), local
+			);
 			characters.insert({ result[0], character });
 			
 			cout << "New client " + result[0] << endl;
 		}
-		else // old client
+		else // old client, set position
 		{
 			Character& character = iter->second;
-			character.setPosition(Vector2f((float)atof(result[1].c_str()), (float)atof(result[2].c_str())));
-			//characters->emplace(result[0], character);
-
-			//if (result.size() > 3) // has set time step
-			//{
-			//	client.time.setStepSize(atof(result[4].c_str()));
-			//}
-			
-			//cout << "Old client " + result[0] << endl;
+			dynamic_cast<Renderable*>(character.getGC(ComponentType::RENDERABLE))->getShape()->setPosition(
+				Vector2f((float)atof(result[1].c_str()), (float)atof(result[2].c_str()))
+			);
 		}
 		
 		// send a response to fulfill a come and go
@@ -54,15 +51,15 @@ void Server::receiverHandler(GameTime* gameTime)
 	}
 }
 
-void Server::publisherHandler(list<MovingPlatform*>* collidableObjects)
+void Server::publisherHandler(list<Collidable*>* collidableObjects)
 {	
 	// publish current message
 	string message = "";
 
 	// generate platforms message
-	for (MovingPlatform* platform : *collidableObjects)
+	for (Collidable* object : *collidableObjects)
 	{
-		message += PlatformMessage(platform);
+		message += CollidableObjectMessage(object);
 	}
 
 	// generate clients message
@@ -107,18 +104,35 @@ void Server::Split(const string& string, const std::string& separator, vector<st
 	}
 }
 
-string Server::PlatformMessage(const MovingPlatform * platform)
+string Server::CollidableObjectMessage(Collidable * object)
 {
-	// P 5.0 5.0 1\n
-	Vector2f pos = platform->getPosition();
-	return "P " + to_string(pos.x) + " " + to_string(pos.y) + " " 
-		+ to_string(platform->getHeadingPositive()) + "\n";
+	// TYPE COLOR 5.0 5.0\n
+	string t;
+	Collision type = object->getType();
+	switch (type)
+	{
+	case Collision::CHARACTER: // won't have this type
+		break;
+	case Collision::PLATFORM:
+		t = "P";
+		break;
+	case Collision::DEATHZONE: // not implemented yet
+		break;
+	case Collision::BOUNDARY: // not implemented yet
+		break;
+	default:
+		break;
+	}
+	Vector2f pos = object->getRenderable()->getShape()->getPosition();
+	return t + " " + to_string(pos.x) + " " + to_string(pos.y) + "\n";
 }
 
-string Server::ClientMessage(const string& name, const Character * character)
+string Server::ClientMessage(const string& name, Character * character)
 {
 	// C A 5.0 5.0 1.234\n
-	Vector2f pos = character->getPosition();
+	Vector2f pos = dynamic_cast<Renderable*>(character->getGC(ComponentType::RENDERABLE))
+		->getShape()->getPosition();
+	Timeline& time = dynamic_cast<Movable*>(character->getGC(ComponentType::MOVABLE))->getTimeline();
 	return "C " + name + " " + to_string(pos.x) + " " + to_string(pos.y) + " " 
-		+ to_string(character->getTimeline().getTime()) + "\n";
+		+ to_string(time.getTime()) + "\n";
 }

@@ -8,9 +8,8 @@
 void initWindow(Window& window);
 void handleScalingOption(RenderWindow& window);
 void handleGameInstruction(double & thisTime);
-void loadTextureFromFile(Texture& texture, string file_name);
-//void initPlatforms();
-void loadTextures();
+//void loadTextureFromFile(Texture& texture, string file_name);
+//void loadTextures();
 void handleWindowEvent(RenderWindow& window);
 
 // define objects

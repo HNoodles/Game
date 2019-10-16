@@ -30,14 +30,14 @@ private:
 
 	void Split(const string& string, const std::string& separator, vector<std::string>& result);
 
-	string PlatformMessage(const MovingPlatform * platform);
+	string CollidableObjectMessage(Collidable * object);
 
-	string ClientMessage(const string& name, const Character * character);
+	string ClientMessage(const string& name, Character * character);
 public:
 	Server();
 
 	void receiverHandler(GameTime* gameTime);
 
-	void publisherHandler(list<MovingPlatform*>* collidableObjects);
+	void publisherHandler(list<Collidable*>* collidableObjects);
 };
 

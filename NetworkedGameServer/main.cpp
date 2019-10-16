@@ -2,12 +2,13 @@
 #include <thread>
 
 #include "Networking/Server.h"
+#include "Objects/MovingPlatform.h"
 
 using namespace std;
 using namespace sf;
 
 // define objects
-list<MovingPlatform*> platforms;
+list<Collidable*> collidableObjects;
 
 GameTime gameTime(1);
 
@@ -17,45 +18,46 @@ int main()
 	Server server;
 	thread newThread(&Server::receiverHandler, &server, &gameTime);
 	newThread.detach();
-	//server.receiverHandler(&gameTime);
 
 	// init platforms
-	MovingPlatform platform(Vector2f(200.f, 50.f), Vector2f(0.f, 0.f), 100.f, 100.f, gameTime);
-	platform.setPosition(Vector2f(100.f, 400.f));
-	platforms.emplace_back(&platform);
+	MovingPlatform platform(
+		::Shape::RECTANGLE, ::Color::GREEN, Vector2f(200.f, 50.f), Vector2f(100.f, 400.f),
+		Vector2f(0.f, 0.f), gameTime, Move::HORIZONTAL
+	);
+	collidableObjects.emplace_back(dynamic_cast<Collidable*>(platform.getGC(ComponentType::COLLIDABLE)));
 
-	MovingPlatform movingPlatform(Vector2f(200.f, 50.f), Vector2f(100.f, 0.f), 300.f, 200.f, gameTime);
-	movingPlatform.setPosition(Vector2f(550.f, 300.f));
-	platforms.emplace_back(&movingPlatform);
+	MovingPlatform movingPlatform(
+		::Shape::RECTANGLE, ::Color::RED, Vector2f(200.f, 50.f), Vector2f(450.f, 320.f),
+		Vector2f(100.f, 0.f), gameTime, Move::HORIZONTAL, 300.f, 200.f
+	);
+	collidableObjects.emplace_back(dynamic_cast<Collidable*>(movingPlatform.getGC(ComponentType::COLLIDABLE)));
+
+	MovingPlatform verticalPlatform(
+		::Shape::RECTANGLE, ::Color::RED, Vector2f(200.f, 50.f), Vector2f(550.f, 220.f),
+		Vector2f(0.f, 100.f), gameTime, Move::VERTICAL, 200.f, 50.f
+	);
+	collidableObjects.emplace_back(dynamic_cast<Collidable*>(verticalPlatform.getGC(ComponentType::COLLIDABLE)));
 
 	// timer
 	double elapsed, thisTime, lastTime = gameTime.getTime();
 	
 	while (true)
 	{
-		//server.receiverHandler(&gameTime);
-
 		// get time tic elapsed for this iteration
 		thisTime = gameTime.getTime();
 		elapsed = thisTime - lastTime;
 
-		// detect character collision and move them
-		/*for (auto pair : characters)
-		{
-			pair.second->detectCollision(platforms, elapsed);
-			pair.second->update(elapsed);
-		}*/
-
 		// move all moving platforms
-		for (MovingPlatform* moving : platforms)
+		for (Collidable* moving : collidableObjects)
 		{
-			moving->update(elapsed);
+			dynamic_cast<Movable*>(moving->getMovable())->work(elapsed);
 		}
 
+		// refresh time
 		lastTime = thisTime;
 
 		// publish messages
-		server.publisherHandler(&platforms);
+		server.publisherHandler(&collidableObjects);
 	}
 
 	return 0;

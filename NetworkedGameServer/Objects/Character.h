@@ -1,27 +1,22 @@
 #pragma once
+#include <vector>
+#include "GameObject.h"
+#include "../Components/Collidable.h"
 
-#include <SFML/Graphics.hpp>
-#include <list>
-#include <iostream>
-
-#include "MovingPlatform.h"
-
-using namespace sf;
-using namespace std;
-
-
-class Character : public ConvexShape, public Movable, 
+class Character : public GameObject
 {
 private:
-	MovingPlatform *left, *right, *up, *bottom;
-	Vector2f outVelocity;
-	Vector2f dy;
-
-	void setOutVelocity(double elapsed);
+	vector<Collidable*> boundary_ptrs;
 public:
-	Character(Vector2f velocity, Timeline& timeline);
+	Character(Renderable* renderable, Movable* movable, Collidable* collidable);
 
-	void update(double elapsed) override;
+	Character(
+		::Shape shape, ::Color color, Vector2f size, Vector2f pos, 
+		Vector2f velocity, Timeline& timeline
+	);
 
-	void detectCollision(list<MovingPlatform*> collidableObjects, double elapsed);
+	vector<Collidable*>* getBoundaryPtrs()
+	{
+		return &boundary_ptrs;
+	}
 };
