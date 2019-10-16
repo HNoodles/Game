@@ -36,36 +36,34 @@ int main()
 	//loadTextures();
 
 	// init platforms
-	Renderable pr(::Shape::RECTANGLE, ::Color::GREEN, Vector2f(200.f, 50.f), Vector2f(100.f, 400.f));
-	Movable pm(&pr, Vector2f(0.f, 0.f), gameTime, Move::HORIZONTAL);
-	Collidable pc(Collision::PLATFORM, &pr, &pm);
-	MovingPlatform platform(&pr, &pm, &pc);
+	MovingPlatform platform(
+		::Shape::RECTANGLE, ::Color::GREEN, Vector2f(200.f, 50.f), Vector2f(100.f, 400.f), 
+		Vector2f(0.f, 0.f), gameTime, Move::HORIZONTAL
+	);
 	objects.emplace_back(dynamic_cast<Renderable*>(platform.getGC(ComponentType::RENDERABLE))->getShape());
-	//movingObjects.emplace_back(platform.getGC(ComponentType::MOVABLE));
 	collidableObjects.emplace_back(dynamic_cast<Collidable*>(platform.getGC(ComponentType::COLLIDABLE)));
 
-	Renderable mr(::Shape::RECTANGLE, ::Color::RED, Vector2f(200.f, 50.f), Vector2f(450.f, 320.f));
-	Movable mm(&mr, Vector2f(100.f, 0.f), gameTime, Move::HORIZONTAL, 300.f, 200.f);
-	Collidable mc(Collision::PLATFORM, &mr, &mm);
-	MovingPlatform movingPlatform(&mr, &mm, &mc);
+	MovingPlatform movingPlatform(
+		::Shape::RECTANGLE, ::Color::RED, Vector2f(200.f, 50.f), Vector2f(450.f, 320.f), 
+		Vector2f(100.f, 0.f), gameTime, Move::HORIZONTAL, 300.f, 200.f
+	);
 	objects.emplace_back(dynamic_cast<Renderable*>(movingPlatform.getGC(ComponentType::RENDERABLE))->getShape());
 	movingObjects.emplace_back(dynamic_cast<Movable*>(movingPlatform.getGC(ComponentType::MOVABLE)));
 	collidableObjects.emplace_back(dynamic_cast<Collidable*>(movingPlatform.getGC(ComponentType::COLLIDABLE)));
 
-	Renderable vr(::Shape::RECTANGLE, ::Color::RED, Vector2f(200.f, 50.f), Vector2f(550.f, 220.f));
-	Movable vm(&vr, Vector2f(0.f, 100.f), gameTime, Move::VERTICAL, 200.f, 50.f);
-	Collidable vc(Collision::PLATFORM, &vr, &vm);
-	MovingPlatform verticalPlatform(&vr, &vm, &vc);
+	MovingPlatform verticalPlatform(
+		::Shape::RECTANGLE, ::Color::RED, Vector2f(200.f, 50.f), Vector2f(550.f, 220.f), 
+		Vector2f(0.f, 100.f), gameTime, Move::VERTICAL, 200.f, 50.f
+	);
 	objects.emplace_back(dynamic_cast<Renderable*>(verticalPlatform.getGC(ComponentType::RENDERABLE))->getShape());
 	movingObjects.emplace_back(dynamic_cast<Movable*>(verticalPlatform.getGC(ComponentType::MOVABLE)));
 	collidableObjects.emplace_back(dynamic_cast<Collidable*>(verticalPlatform.getGC(ComponentType::COLLIDABLE)));
 
 	// init character
-	Renderable cr(::Shape::DIAMOND, ::Color::BLUE, Vector2f(60.f, 120.f), Vector2f(200.f, 100.f));
-	Movable cm(&cr, Vector2f(250.0f, 0.0f), gameTime, Move::KEYINPUT);
-	Collidable cc(Collision::CHARACTER, &cr, &cm);
-	Character character(&cr, &cm, &cc);
-	dynamic_cast<Collidable*>(character.getGC(ComponentType::COLLIDABLE))->setBoundaryPtrs(character.getBoundaryPtrs());
+	Character character(
+		::Shape::DIAMOND, ::Color::BLUE, Vector2f(60.f, 120.f), Vector2f(200.f, 100.f), 
+		Vector2f(250.0f, 0.0f), gameTime
+	);
 	objects.emplace_back(dynamic_cast<Renderable*>(character.getGC(ComponentType::RENDERABLE))->getShape());
 	movingObjects.emplace_back(dynamic_cast<Movable*>(character.getGC(ComponentType::MOVABLE)));
 

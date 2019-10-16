@@ -13,10 +13,13 @@ public:
 
 	GameObject(map<ComponentType, GenericComponent*> gcs) { this->gcs = gcs; }
 
-	/*map<ComponentType, GenericComponent*>& getGCS()
+	~GameObject()
 	{
-		return gcs;
-	}*/
+		for (auto pair : gcs) 
+		{
+			delete pair.second;
+		}
+	}
 
 	GenericComponent* getGC(ComponentType type)
 	{

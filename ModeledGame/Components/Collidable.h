@@ -6,7 +6,7 @@
 using namespace std;
 
 enum class Collision {
-	CHARACTER, PLATFORM, DEADZONE, BOUNDARY
+	CHARACTER, PLATFORM, DEATHZONE, BOUNDARY
 };
 
 class Collidable : public GenericComponent // in charge of collision related affairs

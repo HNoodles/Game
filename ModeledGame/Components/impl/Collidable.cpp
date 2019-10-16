@@ -99,7 +99,7 @@ void Collidable::work(list<Collidable*>& objects, double elapsed)
 			case Collision::PLATFORM:
 				platformWork(object, bound, boundary_lines);
 				break;
-			case Collision::DEADZONE: // implement in section 3
+			case Collision::DEATHZONE: // implement in section 3
 				break;
 			case Collision::BOUNDARY: // implement in section 3
 				break;

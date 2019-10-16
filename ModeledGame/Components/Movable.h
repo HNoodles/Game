@@ -9,7 +9,7 @@ enum class Move {
 	HORIZONTAL, VERTICAL, KEYINPUT
 };
 
-class Movable : public GenericComponent // incharge of moving related things
+class Movable : public GenericComponent // in charge of moving related things
 {
 private:
 	Renderable* renderable;
