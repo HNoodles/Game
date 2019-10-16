@@ -1,4 +1,4 @@
-#include "Client.h"
+#include "../Client.h"
 
 Client::Client(Character* thisChar, map<string, Vector2f>* characters)
 	: context(1), sender(context, ZMQ_REQ), subscriber(context, ZMQ_SUB), thisChar(thisChar), characters(characters)
@@ -21,7 +21,7 @@ void Client::sendHandler()
 	string response = s_recv(sender);
 }
 
-void Client::subscribeHandler(list<MovingPlatform*>* collidableObjects)
+void Client::subscribeHandler(list<Collidable*>* collidableObjects)
 {
 	while (true)
 	{
@@ -62,8 +62,10 @@ void Client::subscribeHandler(list<MovingPlatform*>* collidableObjects)
 					// get game time
 					GameTime time(1, atof(infos[4].c_str()));
 
-					thisChar->setPosition(pos);
-					thisChar->setTimeline(time);
+					dynamic_cast<Renderable*>(thisChar->getGC(ComponentType::RENDERABLE))
+						->getShape()->setPosition(pos);
+					dynamic_cast<Movable*>(thisChar->getGC(ComponentType::MOVABLE))
+						->setTimeline(time);
 				}
 				else // other client, only update pos
 				{
@@ -104,9 +106,10 @@ void Client::Split(const string& string, const std::string& separator, vector<st
 	}
 }
 
-string Client::ClientMessage(const string& name, const Character* character)
+string Client::ClientMessage(const string& name, Character* character)
 {
 	// A 5.0 5.0\n
-	Vector2f pos = character->getPosition();
+	Vector2f pos = dynamic_cast<Renderable*>(character->getGC(ComponentType::RENDERABLE))
+		->getShape()->getPosition();
 	return name + " " + to_string(pos.x) + " " + to_string(pos.y) + "\n";
 }

@@ -1,25 +1,15 @@
 #pragma once
-#include "Movable.h"
+#include "GameObject.h"
+#include "../Components/Collidable.h"
 
-class MovingPlatform : public RectangleShape, public Movable, 
+class MovingPlatform : public GameObject
 {
-private:
-	//Transform& transform;
-	bool headingPositive;
-	float leftBound, rightBound;
 public:
-	MovingPlatform(Vector2f size, Vector2f v, float lb, float range, Timeline& timeline);
+	MovingPlatform(Renderable* renderable, Movable* movable, Collidable* collidable);
 
-	void update(double elapsed) override;
-
-	bool getHeadingPositive() const 
-	{
-		return headingPositive;
-	}
-
-	void setHeadingPositive(bool h)
-	{
-		headingPositive = h;
-	}
+	MovingPlatform(
+		::Shape shape, ::Color color, Vector2f size, Vector2f pos,
+		Vector2f velocity, Timeline& timeline, ::Move move, float negBound = 0, float range = 0
+	);
 };
 

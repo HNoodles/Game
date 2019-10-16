@@ -40,16 +40,16 @@ int main()
 	// load textures
 	loadTextures();
 
-	// init platforms
-	MovingPlatform platform(Vector2f(200.f, 50.f), Vector2f(0.f, 0.f), 100.f, 100.f, gameTime);
-	platform.setTexture(&textures["grass"], true);
-	objects.emplace_back(&platform);
-	platforms.emplace_back(&platform);
+	//// init platforms
+	//MovingPlatform platform(Vector2f(200.f, 50.f), Vector2f(0.f, 0.f), 100.f, 100.f, gameTime);
+	//platform.setTexture(&textures["grass"], true);
+	//objects.emplace_back(&platform);
+	//platforms.emplace_back(&platform);
 
-	MovingPlatform movingPlatform(Vector2f(200.f, 50.f), Vector2f(100.f, 0.f), 300.f, 200.f, gameTime);
-	movingPlatform.setTexture(&textures["grass"], true);
-	objects.emplace_back(&movingPlatform);
-	platforms.emplace_back(&movingPlatform);
+	//MovingPlatform movingPlatform(Vector2f(200.f, 50.f), Vector2f(100.f, 0.f), 300.f, 200.f, gameTime);
+	//movingPlatform.setTexture(&textures["grass"], true);
+	//objects.emplace_back(&movingPlatform);
+	//platforms.emplace_back(&movingPlatform);
 
 	// init character
 	Character character(Vector2f(250.0f, 0.0f), gameTime);
