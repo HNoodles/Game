@@ -14,6 +14,7 @@ class Renderable : public GenericComponent // define shape and color
 private:
 	sf::Shape* s;
 	Vector2f& size;
+	::Color color;
 public:
 	Renderable(::Shape shape, ::Color color, Vector2f size, Vector2f pos);
 
@@ -24,9 +25,14 @@ public:
 		return s;
 	}
 
-	Vector2f& getSize() 
+	Vector2f& getSize() const 
 	{
 		return size;
+	}
+
+	::Color getColor() const
+	{
+		return color;
 	}
 };
 

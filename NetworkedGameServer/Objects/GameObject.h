@@ -13,7 +13,7 @@ public:
 
 	GameObject(map<ComponentType, GenericComponent*> gcs) { this->gcs = gcs; }
 
-	~GameObject()
+	virtual ~GameObject()
 	{
 		for (auto pair : gcs) 
 		{

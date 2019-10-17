@@ -17,6 +17,7 @@ private:
 	socket_t subscriber;
 	map<string, Vector2f>* characters;
 	Character* thisChar;
+	bool connected;
 
 	string s_recv(socket_t& socket);
 
@@ -32,5 +33,7 @@ public:
 	void sendHandler();
 
 	void subscribeHandler(list<Collidable*>* collidableObjects);
+
+	void disconnect();
 };
 

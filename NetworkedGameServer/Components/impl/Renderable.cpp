@@ -1,7 +1,7 @@
 #include "../Renderable.h"
 
 Renderable::Renderable(::Shape shape, ::Color color, Vector2f size, Vector2f pos) 
-	: size(size)
+	: size(size), color(color)
 {
 	// set shape
 	ConvexShape* temp = new ConvexShape(4);// used for DIAMOND

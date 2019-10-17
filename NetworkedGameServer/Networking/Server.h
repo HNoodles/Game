@@ -22,7 +22,7 @@ private:
 	context_t context;
 	socket_t receiver;
 	socket_t publisher;
-	map<string, Character> characters;
+	map<string, Character*> characters;
 
 	string s_recv(socket_t& socket);
 
@@ -33,8 +33,12 @@ private:
 	string CollidableObjectMessage(Collidable * object);
 
 	string ClientMessage(const string& name, Character * character);
+
+	void disconnectHandler(const string& name);
 public:
 	Server();
+
+	~Server();
 
 	void receiverHandler(GameTime* gameTime);
 

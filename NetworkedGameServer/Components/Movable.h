@@ -56,5 +56,7 @@ public:
 		this->jumpable = jumpable;
 	}
 
+	void handleKeyInput();
+
 	void work(double elapsed);
 };

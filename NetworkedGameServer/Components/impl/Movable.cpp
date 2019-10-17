@@ -56,6 +56,27 @@ void Movable::vMove(double elapsed)
 
 void Movable::iMove(double elapsed)
 {
+	// calculate total displacement
+	Vector2f dis = Vector2f((float)(outVelocity.x * elapsed), (float)(outVelocity.y * elapsed));
+
+	renderable->getShape()->move(dis);
+}
+
+Movable::Movable(Renderable* renderable,
+	Vector2f velocity, Timeline& timeline, ::Move move, float negBound, float range) // for movable 
+	: renderable(renderable), 
+	velocity(velocity), timeline(timeline), move(move), 
+	headingPositive(false), negBound(negBound), posBound(negBound + range), // for platforms
+	outVelocity(0.f, 0.f), jumpable(false) // for character
+{
+}
+
+void Movable::handleKeyInput()
+{
+	// only character can call this function
+	if (move != Move::KEYINPUT)
+		return;
+
 	// calculate total velocity
 	if (Keyboard::isKeyPressed(Keyboard::Left) || Keyboard::isKeyPressed(Keyboard::A))
 	{// left
@@ -70,20 +91,6 @@ void Movable::iMove(double elapsed)
 	{// jump
 		outVelocity.y = -300.f;
 	}
-
-	// calculate total displacement
-	Vector2f dis = Vector2f((float)(outVelocity.x * elapsed), (float)(outVelocity.y * elapsed));
-
-	renderable->getShape()->move(dis);
-}
-
-Movable::Movable(Renderable* renderable,
-	Vector2f velocity, Timeline& timeline, ::Move move, float negBound, float range) // for movable 
-	: renderable(renderable), 
-	velocity(velocity), timeline(timeline), move(move), 
-	headingPositive(false), negBound(negBound), posBound(negBound + range), // for platforms
-	outVelocity(0.f, 0.f), jumpable(false) // for character
-{
 }
 
 void Movable::work(double elapsed)

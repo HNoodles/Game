@@ -17,6 +17,7 @@ private:
 	socket_t subscriber;
 	map<string, Vector2f>* characters;
 	Character* thisChar;
+	bool connected;
 
 	string s_recv(socket_t& socket);
 
@@ -24,13 +25,15 @@ private:
 
 	void Split(const string& string, const std::string& separator, vector<std::string>& result);
 
-	string ClientMessage(const string& name, const Character* character);
+	string ClientMessage(const string& name, Character* character);
 
 public:
 	Client(Character* thisChar, map<string, Vector2f>* characters);
 
 	void sendHandler();
 
-	void subscribeHandler(list<MovingPlatform*>* collidableObjects);
+	void subscribeHandler(list<Collidable*>* collidableObjects);
+
+	void disconnect();
 };
 
