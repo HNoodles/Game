@@ -161,7 +161,7 @@ string Server::CollidableObjectMessage(Collidable * object)
 		break;
 	case Collision::DEATHZONE: // not implemented yet
 		break;
-	case Collision::BOUNDARY: // not implemented yet
+	case Collision::SIDEBOUNDARY: // not implemented yet
 		break;
 	default:
 		break;
@@ -188,7 +188,7 @@ string Server::CollidableObjectMessage(Collidable * object)
 	return t + to_string(pos.x) + " " + to_string(pos.y) + heading + "\n";
 }
 
-string Server::ClientMessage(const string& name, Character * character)
+string Server::ClientMessage(const string& name, Character* character)
 {
 	if (!character) // already disconnected character, notify all clients: C name D
 	{

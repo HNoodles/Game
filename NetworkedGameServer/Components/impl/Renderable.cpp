@@ -41,6 +41,9 @@ Renderable::Renderable(::Shape shape, ::Color color, Vector2f size, Vector2f pos
 	case ::Color::RED:
 		c = sf::Color::Red;
 		break;
+	case ::Color::TRANSPARENT:
+		c = sf::Color::Transparent;
+		break;
 	}
 	s->setFillColor(c);
 }

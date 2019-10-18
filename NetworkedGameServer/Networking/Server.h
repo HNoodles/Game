@@ -32,7 +32,7 @@ private:
 
 	string CollidableObjectMessage(Collidable * object);
 
-	string ClientMessage(const string& name, Character * character);
+	string ClientMessage(const string& name, Character* character);
 
 	void disconnectHandler(const string& name);
 public:

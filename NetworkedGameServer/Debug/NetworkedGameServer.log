@@ -1,5 +1,73 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(452,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (NetworkedGame.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  Collidable.cpp
+  Movable.cpp
+  Renderable.cpp
+  DeathZone.cpp
+  Character.cpp
+  MovingPlatform.cpp
   Server.cpp
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework3\NetworkedGameServer\Components\Renderable.h(9,20): error C2143: 语法错误: 缺少“}”(在“常数”的前面)
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework3\NetworkedGameServer\Components\Renderable.h(10,1): error C2059: 语法错误:“常数”
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework3\NetworkedGameServer\Components\Renderable.h(10,1): error C2143: 语法错误: 缺少“;”(在“}”的前面)
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework3\NetworkedGameServer\Components\Renderable.h(10,1): error C2059: 语法错误:“}”
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework3\NetworkedGameServer\Networking\Server.h(25,26): error C2059: 语法错误:“>”
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework3\NetworkedGameServer\Networking\Server.h(35,55): error C2059: 语法错误:“*”
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework3\NetworkedGameServer\Networking\impl\Server.cpp(17,3): error C2672: “begin”: 未找到匹配的重载函数
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework3\NetworkedGameServer\Networking\impl\Server.cpp(16,3): error C2893: 未能使函数模板“unknown-type std::begin(_Container &)”专用化
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\include\xutility(1041): message : 参见“std::begin”的声明
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework3\NetworkedGameServer\Networking\impl\Server.cpp(16,3): message : 用下列模板参数:
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework3\NetworkedGameServer\Networking\impl\Server.cpp(16,3): message : “_Container=unknown-type”
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework3\NetworkedGameServer\Networking\impl\Server.cpp(16,3): error C2784: “const _Elem *std::begin(std::initializer_list<_Elem>) noexcept”: 未能从“unknown-type”为“std::initializer_list<_Elem>”推导 模板 参数
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\include\initializer_list(53): message : 参见“std::begin”的声明
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework3\NetworkedGameServer\Networking\impl\Server.cpp(17,3): error C2672: “end”: 未找到匹配的重载函数
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework3\NetworkedGameServer\Networking\impl\Server.cpp(16,3): error C2893: 未能使函数模板“unknown-type std::end(_Container &)”专用化
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\include\xutility(1051): message : 参见“std::end”的声明
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework3\NetworkedGameServer\Networking\impl\Server.cpp(16,3): message : 用下列模板参数:
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework3\NetworkedGameServer\Networking\impl\Server.cpp(16,3): message : “_Container=unknown-type”
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework3\NetworkedGameServer\Networking\impl\Server.cpp(16,3): error C2784: “const _Elem *std::end(std::initializer_list<_Elem>) noexcept”: 未能从“unknown-type”为“std::initializer_list<_Elem>”推导 模板 参数
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\include\initializer_list(59): message : 参见“std::end”的声明
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework3\NetworkedGameServer\Networking\impl\Server.cpp(16,3): error C3536: “<begin>$L0”: 初始化之前无法使用
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework3\NetworkedGameServer\Networking\impl\Server.cpp(16,3): error C3536: “<end>$L0”: 初始化之前无法使用
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework3\NetworkedGameServer\Networking\impl\Server.cpp(16,3): error C2100: 非法的间接寻址
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework3\NetworkedGameServer\Networking\impl\Server.cpp(42,6): error C3536: “iter”: 初始化之前无法使用
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework3\NetworkedGameServer\Networking\impl\Server.cpp(48,18): error C2512: “Character”: 没有合适的默认构造函数可用
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework3\NetworkedGameServer\Networking\impl\Server.cpp(59,13): error C2059: 语法错误:“,”
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework3\NetworkedGameServer\Networking\impl\Server.cpp(60,30): error C2065: “character”: 未声明的标识符
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework3\NetworkedGameServer\Networking\impl\Server.cpp(84,2): error C2672: “begin”: 未找到匹配的重载函数
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework3\NetworkedGameServer\Networking\impl\Server.cpp(83,2): error C2893: 未能使函数模板“unknown-type std::begin(_Container &)”专用化
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\include\xutility(1041): message : 参见“std::begin”的声明
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework3\NetworkedGameServer\Networking\impl\Server.cpp(83,2): message : 用下列模板参数:
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework3\NetworkedGameServer\Networking\impl\Server.cpp(83,2): message : “_Container=unknown-type”
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework3\NetworkedGameServer\Networking\impl\Server.cpp(83,2): error C2784: “const _Elem *std::begin(std::initializer_list<_Elem>) noexcept”: 未能从“unknown-type”为“std::initializer_list<_Elem>”推导 模板 参数
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\include\initializer_list(53): message : 参见“std::begin”的声明
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework3\NetworkedGameServer\Networking\impl\Server.cpp(84,2): error C2672: “end”: 未找到匹配的重载函数
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework3\NetworkedGameServer\Networking\impl\Server.cpp(83,2): error C2893: 未能使函数模板“unknown-type std::end(_Container &)”专用化
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\include\xutility(1051): message : 参见“std::end”的声明
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework3\NetworkedGameServer\Networking\impl\Server.cpp(83,2): message : 用下列模板参数:
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework3\NetworkedGameServer\Networking\impl\Server.cpp(83,2): message : “_Container=unknown-type”
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework3\NetworkedGameServer\Networking\impl\Server.cpp(83,2): error C2784: “const _Elem *std::end(std::initializer_list<_Elem>) noexcept”: 未能从“unknown-type”为“std::initializer_list<_Elem>”推导 模板 参数
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\include\initializer_list(59): message : 参见“std::end”的声明
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework3\NetworkedGameServer\Networking\impl\Server.cpp(83,2): error C3536: “<begin>$L1”: 初始化之前无法使用
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework3\NetworkedGameServer\Networking\impl\Server.cpp(83,2): error C3536: “<end>$L1”: 初始化之前无法使用
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework3\NetworkedGameServer\Networking\impl\Server.cpp(83,2): error C2100: 非法的间接寻址
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework3\NetworkedGameServer\Networking\impl\Server.cpp(85,51): error C2660: “Server::ClientMessage”: 函数不接受 1 个参数
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework3\NetworkedGameServer\Networking\Server.h(35,9): message : 参见“Server::ClientMessage”的声明
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework3\NetworkedGameServer\Networking\impl\Server.cpp(111,13): error C3536: “pair”: 初始化之前无法使用
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework3\NetworkedGameServer\Networking\impl\Server.cpp(191,62): error C2059: 语法错误:“*”
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework3\NetworkedGameServer\Networking\impl\Server.cpp(193,7): error C2065: “character”: 未声明的标识符
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework3\NetworkedGameServer\Networking\impl\Server.cpp(199,44): error C2065: “character”: 未声明的标识符
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework3\NetworkedGameServer\Networking\impl\Server.cpp(201,43): error C2065: “character”: 未声明的标识符
+  SpawnPoint.cpp
+  SideBoundary.cpp
+  LocalTime.cpp
+  GameTime.cpp
   main.cpp
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework3\NetworkedGameServer\Networking\impl\Server.cpp(201,18): error C2530: “time”: 必须初始化引用
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework3\NetworkedGameServer\Components\Renderable.h(9,20): error C2143: 语法错误: 缺少“}”(在“常数”的前面)
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework3\NetworkedGameServer\Components\Renderable.h(10,1): error C2059: 语法错误:“常数”
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework3\NetworkedGameServer\Components\Renderable.h(10,1): error C2143: 语法错误: 缺少“;”(在“}”的前面)
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework3\NetworkedGameServer\Components\Renderable.h(10,1): error C2059: 语法错误:“}”
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework3\NetworkedGameServer\Networking\Server.h(25,26): error C2059: 语法错误:“>”
+  正在编译...
   正在生成代码...
-  NetworkedGameServer.vcxproj -> D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework3\Debug\NetworkedGameServer.exe
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework3\NetworkedGameServer\Networking\Server.h(35,55): error C2059: 语法错误:“*”
