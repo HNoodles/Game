@@ -28,7 +28,7 @@ private:
 	void iMove(double elapsed);
 	bool jumpable;
 public:
-	Movable(Renderable* renderable, 
+	Movable(void* gameObject, Renderable* renderable,
 		Vector2f velocity, Timeline& timeline, ::Move move, float negBound = 0, float range = 0); // for movable
 
 	Vector2f getVelocity() const

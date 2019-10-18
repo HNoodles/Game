@@ -7,16 +7,20 @@ class Character : public GameObject
 {
 private:
 	vector<Collidable*> boundary_ptrs;
+	vector<Renderable*>* spawnPoints;
 public:
-	Character(Renderable* renderable, Movable* movable, Collidable* collidable);
-
 	Character(
 		::Shape shape, ::Color color, Vector2f size, Vector2f pos, 
-		Vector2f velocity, Timeline& timeline
+		Vector2f velocity, Timeline& timeline, vector<Renderable*>* spawnPoints
 	);
 
 	vector<Collidable*>* getBoundaryPtrs()
 	{
 		return &boundary_ptrs;
+	}
+
+	vector<Renderable*>* getSpawnPoints()
+	{
+		return spawnPoints;
 	}
 };

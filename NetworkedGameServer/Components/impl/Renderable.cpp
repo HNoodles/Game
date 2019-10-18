@@ -1,7 +1,7 @@
 #include "../Renderable.h"
 
-Renderable::Renderable(::Shape shape, ::Color color, Vector2f size, Vector2f pos) 
-	: size(size), color(color)
+Renderable::Renderable(void* gameObject, ::Shape shape, ::Color color, Vector2f size, Vector2f pos)
+	: GenericComponent(gameObject), size(size), color(color)
 {
 	// set shape
 	ConvexShape* temp = new ConvexShape(4);// used for DIAMOND
@@ -41,7 +41,7 @@ Renderable::Renderable(::Shape shape, ::Color color, Vector2f size, Vector2f pos
 	case ::Color::RED:
 		c = sf::Color::Red;
 		break;
-	case ::Color::TRANSPARENT:
+	case ::Color::TRANS_PARENT:
 		c = sf::Color::Transparent;
 		break;
 	}

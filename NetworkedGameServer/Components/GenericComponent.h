@@ -13,7 +13,14 @@ enum class ComponentType {
 
 class GenericComponent // generic interface of game object components
 {
+protected:
+	void* gameObject;
 public:
+	GenericComponent(void* gameObject)
+	{
+		this->gameObject = gameObject;
+	}
+
 	virtual void work() 
 	{
 		return;

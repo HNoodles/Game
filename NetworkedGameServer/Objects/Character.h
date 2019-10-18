@@ -11,7 +11,7 @@ private:
 public:
 	Character(
 		::Shape shape, ::Color color, Vector2f size, Vector2f pos, 
-		Vector2f velocity, Timeline& timeline, vector<Renderable*>* spawnPoints
+		Vector2f velocity, Timeline& timeline, vector<Renderable*>* spawnPoints = nullptr
 	);
 
 	vector<Collidable*>* getBoundaryPtrs()

@@ -41,11 +41,6 @@ public:
 		return timeline;
 	}
 
-	void setTimeline(Timeline& timeline)
-	{
-		this->timeline = timeline;
-	}
-
 	Vector2f& getOutVelocity()
 	{
 		return outVelocity;
@@ -54,11 +49,6 @@ public:
 	bool getHeadingPositive() const
 	{
 		return headingPositive;
-	}
-
-	void setHeadingPositive(bool heading)
-	{
-		headingPositive = heading;
 	}
 
 	void setJumpable(bool jumpable)

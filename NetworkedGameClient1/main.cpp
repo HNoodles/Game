@@ -19,7 +19,7 @@ void handleWindowEvent(RenderWindow& window, Client* client);
 
 // define objects
 //map<string, Texture> textures;
-list<Drawable*> objects;
+list<sf::Shape*> objects;
 list<Collidable*> collidableObjects;
 map<string, Vector2f> characters;
 
@@ -29,8 +29,7 @@ GameTime gameTime(1);
 bool isConstantScaling = false;
 Vector2u lastWindowSize(800, 600);// default window size
 
-// write switch
-bool ableWriting = true;
+Vector2f renderOffset(0.f, 0.f);
 
 int main()
 {
@@ -43,22 +42,22 @@ int main()
 
 	// init platforms
 	MovingPlatform platform(
-		::Shape::RECTANGLE, ::Color::GREEN, Vector2f(200.f, 50.f), Vector2f(100.f, 400.f),
+		::Shape::RECTANGLE, ::Color::GREEN, Vector2f(400.f, 50.f), Vector2f(200.f, 400.f),
 		Vector2f(0.f, 0.f), gameTime, Move::HORIZONTAL
 	);
 	objects.emplace_back(dynamic_cast<Renderable*>(platform.getGC(ComponentType::RENDERABLE))->getShape());
 	collidableObjects.emplace_back(dynamic_cast<Collidable*>(platform.getGC(ComponentType::COLLIDABLE)));
 
 	MovingPlatform movingPlatform(
-		::Shape::RECTANGLE, ::Color::RED, Vector2f(200.f, 50.f), Vector2f(450.f, 320.f),
-		Vector2f(100.f, 0.f), gameTime, Move::HORIZONTAL, 300.f, 200.f
+		::Shape::RECTANGLE, ::Color::RED, Vector2f(400.f, 50.f), Vector2f(750.f, 320.f),
+		Vector2f(100.f, 0.f), gameTime, Move::HORIZONTAL, 600.f, 200.f
 	);
 	objects.emplace_back(dynamic_cast<Renderable*>(movingPlatform.getGC(ComponentType::RENDERABLE))->getShape());
 	collidableObjects.emplace_back(dynamic_cast<Collidable*>(movingPlatform.getGC(ComponentType::COLLIDABLE)));
 
 	MovingPlatform verticalPlatform(
-		::Shape::RECTANGLE, ::Color::RED, Vector2f(200.f, 50.f), Vector2f(550.f, 220.f),
-		Vector2f(0.f, 100.f), gameTime, Move::VERTICAL, 200.f, 50.f
+		::Shape::RECTANGLE, ::Color::RED, Vector2f(300.f, 50.f), Vector2f(1250.f, 220.f),
+		Vector2f(0.f, 50.f), gameTime, Move::VERTICAL, 200.f, 50.f
 	);
 	objects.emplace_back(dynamic_cast<Renderable*>(verticalPlatform.getGC(ComponentType::RENDERABLE))->getShape());
 	collidableObjects.emplace_back(dynamic_cast<Collidable*>(verticalPlatform.getGC(ComponentType::COLLIDABLE)));
@@ -138,16 +137,18 @@ int main()
 		for (auto pair : characters) 
 		{
 			Character toDraw(
-				::Shape::DIAMOND, ::Color::BLUE, Vector2f(60.f, 120.f), pair.second,
+				::Shape::DIAMOND, ::Color::BLUE, Vector2f(60.f, 120.f), pair.second + renderOffset,
 				Vector2f(250.0f, 0.0f), gameTime
 			);
 			window.draw(
 				*dynamic_cast<Renderable*>(toDraw.getGC(ComponentType::RENDERABLE))->getShape()
 			);
 		}
-		for (const Drawable* object : objects) 
+		for (sf::Shape* object : objects) 
 		{
+			object->move(renderOffset);
 			window.draw(*object);
+			object->move(-renderOffset);
 		}
 
 		// end of the current frame, show the window
@@ -166,7 +167,7 @@ void initWindow(Window& window) {
 
 	// create the window
 	window.create(
-		VideoMode(800, 600),
+		VideoMode(lastWindowSize.x, lastWindowSize.y),
 		"My Demo Window (Proportional)",
 		Style::Default, // default = titleBar + resize + close
 		settings

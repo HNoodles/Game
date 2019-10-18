@@ -2,11 +2,12 @@
 
 #include <list>
 #include "Movable.h"
+#include "../Objects/SideBoundary.h"
 
 using namespace std;
 
 enum class Collision {
-	CHARACTER, PLATFORM, DEATHZONE, BOUNDARY
+	CHARACTER, PLATFORM, DEATHZONE, SIDEBOUNDARY
 };
 
 class Collidable : public GenericComponent // in charge of collision related affairs
@@ -17,14 +18,23 @@ private:
 	Movable* movable;
 	const Vector2f gravity = Vector2f(0.f, 500.f);
 
-	vector<Collidable*>* boundary_ptrs;// only character has
+	// only character has
+	vector<Collidable*>* boundary_ptrs;
+	vector<Renderable*>* spawnPoints;
+
+	// only death zone has
+	::Direction direction;
+	Vector2f offset;
 
 	void setOutVelocity(double elapsed);
 
 	void platformWork(Collidable* platform, FloatRect bound, vector<RectangleShape>& boundary_lines);
+
+	void deathZoneWork();
+
+	void sideBoundaryWork(Collidable* sideBoundary, Vector2f& renderOffset, vector<SideBoundary*>* sideBoundaries);
 public:
-	Collidable(::Collision collision, Renderable* renderable, Movable* movable, 
-		vector<Collidable*>* boundary_ptrs = nullptr);
+	Collidable(::Collision collision, Renderable* renderable, Movable* movable);
 
 	::Collision getType() const
 	{
@@ -46,6 +56,32 @@ public:
 		this->boundary_ptrs = boundary_ptrs;
 	}
 
-	void work(list<Collidable*>& objects, double elapsed);
+	void setSpawnPoints(vector<Renderable*>* spawnPoints)
+	{
+		this->spawnPoints = spawnPoints;
+	}
+
+	void setOffset(Vector2f offset)
+	{
+		this->offset = offset;
+	}
+
+	Vector2f getOffset() const
+	{
+		return offset;
+	}
+
+	void setDirection(::Direction direction)
+	{
+		this->direction = direction;
+	}
+
+	::Direction getDirection() const
+	{
+		return direction;
+	}
+
+	void work(list<Collidable*>& objects, double elapsed, 
+		Vector2f& renderOffset, vector<SideBoundary*>* sideBoundaries);
 };
 

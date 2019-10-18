@@ -4,7 +4,7 @@ DeathZone::DeathZone(::Shape shape, Vector2f size, Vector2f pos) : GameObject()
 {
 	this->addGC(
 		ComponentType::RENDERABLE,
-		new Renderable(shape, ::Color::TRANS_PARENT, size, pos)
+		new Renderable(shape, ::Color::TRANSPARENT, size, pos)
 	);
 	this->addGC(
 		ComponentType::COLLIDABLE,

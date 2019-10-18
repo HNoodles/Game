@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "../Components/Collidable.h"
 
+
 enum class Direction {
 	LEFT, RIGHT, UP, BOTTOM
 };

@@ -6,7 +6,7 @@ enum class Shape {
 };
 
 enum class Color {
-	RED, GREEN, BLUE
+	RED, GREEN, BLUE, TRANSPARENT
 };
 
 class Renderable : public GenericComponent // define shape and color
@@ -25,7 +25,7 @@ public:
 		return s;
 	}
 
-	Vector2f& getSize() const
+	Vector2f& getSize() const 
 	{
 		return size;
 	}

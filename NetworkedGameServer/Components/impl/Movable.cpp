@@ -62,9 +62,9 @@ void Movable::iMove(double elapsed)
 	renderable->getShape()->move(dis);
 }
 
-Movable::Movable(Renderable* renderable,
+Movable::Movable(void* gameObject, Renderable* renderable,
 	Vector2f velocity, Timeline& timeline, ::Move move, float negBound, float range) // for movable 
-	: renderable(renderable), 
+	: GenericComponent(gameObject), renderable(renderable), 
 	velocity(velocity), timeline(timeline), move(move), 
 	headingPositive(false), negBound(negBound), posBound(negBound + range), // for platforms
 	outVelocity(0.f, 0.f), jumpable(false) // for character

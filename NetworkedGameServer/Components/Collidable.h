@@ -2,7 +2,6 @@
 
 #include <list>
 #include "Movable.h"
-#include "../Objects/SideBoundary.h"
 
 using namespace std;
 
@@ -22,19 +21,15 @@ private:
 	vector<Collidable*>* boundary_ptrs;
 	vector<Renderable*>* spawnPoints;
 
-	// only death zone has
-	::Direction direction;
-	Vector2f offset;
-
 	void setOutVelocity(double elapsed);
 
 	void platformWork(Collidable* platform, FloatRect bound, vector<RectangleShape>& boundary_lines);
 
 	void deathZoneWork();
 
-	void sideBoundaryWork(Collidable* sideBoundary, Vector2f& renderOffset, vector<SideBoundary*>* sideBoundaries);
+	void sideBoundaryWork(Collidable* sideBoundary);
 public:
-	Collidable(::Collision collision, Renderable* renderable, Movable* movable);
+	Collidable(void* gameObject, ::Collision collision, Renderable* renderable, Movable* movable);
 
 	::Collision getType() const
 	{
@@ -61,7 +56,7 @@ public:
 		this->spawnPoints = spawnPoints;
 	}
 
-	void setOffset(Vector2f offset)
+	/*void setOffset(Vector2f offset)
 	{
 		this->offset = offset;
 	}
@@ -79,9 +74,9 @@ public:
 	::Direction getDirection() const
 	{
 		return direction;
-	}
+	}*/
 
-	void work(list<Collidable*>& objects, double elapsed, 
-		Vector2f& renderOffset, vector<SideBoundary*>* sideBoundaries);
+	void work(list<Collidable*>& objects, double elapsed);
+		//Vector2f& renderOffset, vector<SideBoundary*>* sideBoundaries);
 };
 

@@ -71,27 +71,26 @@ void Collidable::deathZoneWork()
 	this->getRenderable()->getShape()->setPosition(point);
 }
 
-void Collidable::sideBoundaryWork(Collidable* sideBoundary, 
-	Vector2f& renderOffset, vector<SideBoundary*>* sideBoundaries)
+void Collidable::sideBoundaryWork(Collidable* sideBoundary)
 {
-	// add offset this time to overall offset
-	renderOffset += sideBoundary->getOffset();
+	//// add offset this time to overall offset
+	//renderOffset += sideBoundary->getOffset();
 
-	// update the position of all the sideBoundaries
-	for (SideBoundary* boundary : *sideBoundaries)
-	{
-		boundary->updatePos(sideBoundary->getDirection());
-	}
+	//// update the position of all the sideBoundaries
+	//for (SideBoundary* boundary : *sideBoundaries)
+	//{
+	//	boundary->updatePos(sideBoundary->getDirection());
+	//}
 }
 
-Collidable::Collidable(::Collision collision, Renderable* renderable, Movable* movable)
-	: collision(collision), renderable(renderable), movable(movable), 
+Collidable::Collidable(void* gameObject, ::Collision collision, Renderable* renderable, Movable* movable)
+	: GenericComponent(gameObject), collision(collision), renderable(renderable), movable(movable), 
 	boundary_ptrs(nullptr), spawnPoints(nullptr)
 {
 }
 
-void Collidable::work(list<Collidable*>& objects, double elapsed, 
-	Vector2f& renderOffset, vector<SideBoundary*>* sideBoundaries)
+void Collidable::work(list<Collidable*>& objects, double elapsed)
+	//Vector2f& renderOffset, vector<SideBoundary*>* sideBoundaries)
 {
 	// calculate four boundaries
 	FloatRect cbound = renderable->getShape()->getGlobalBounds();
@@ -124,7 +123,8 @@ void Collidable::work(list<Collidable*>& objects, double elapsed,
 			case Collision::DEATHZONE: 
 				deathZoneWork();
 				break;
-			case Collision::SIDEBOUNDARY: // implement in section 3
+			case Collision::SIDEBOUNDARY: 
+				sideBoundaryWork(object);
 				break;
 			default:
 				break;

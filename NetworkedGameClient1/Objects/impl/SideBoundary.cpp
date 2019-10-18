@@ -28,7 +28,7 @@ SideBoundary::SideBoundary(::Direction direction, Vector2f windowSize, float pad
 
 	this->addGC(
 		ComponentType::RENDERABLE,
-		new Renderable(::Shape::RECTANGLE, ::Color::TRANS_PARENT, size, pos)
+		new Renderable(::Shape::RECTANGLE, ::Color::TRANSPARENT, size, pos)
 	);
 	this->addGC(
 		ComponentType::COLLIDABLE,
