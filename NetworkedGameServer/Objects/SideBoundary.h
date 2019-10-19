@@ -10,11 +10,11 @@ class SideBoundary : public GameObject
 {
 private:
 	::Direction direction;
-	Vector2f windowSize;
+	Vector2u windowSize;
 	float padding;
 	Vector2f offset;
 public:
-	SideBoundary(::Direction direction, Vector2f windowSize, float padding); 
+	SideBoundary(::Direction direction, Vector2u windowSize, float padding); 
 
 	Vector2f getOffset() const
 	{

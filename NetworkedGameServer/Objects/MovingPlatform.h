@@ -18,7 +18,7 @@ public:
 		return headingPositive;
 	}
 
-	void setHeandingPositive(bool headingPositive)
+	void setHeadingPositive(bool headingPositive)
 	{
 		this->headingPositive = headingPositive;
 	}

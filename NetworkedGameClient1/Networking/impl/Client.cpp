@@ -25,14 +25,14 @@ void Client::sendHandler()
 	string response = s_recv(sender);
 }
 
-void Client::subscribeHandler(list<Collidable*>* collidableObjects)
+void Client::subscribeHandler(list<MovingPlatform*>* platforms)
 {
 	while (true)
 	{
 		string message = s_recv(subscriber);
 
 		// prepare iterator
-		auto iterP = collidableObjects->begin();
+		auto iterP = platforms->begin();
 
 		// split into lines
 		vector<string> lines;
@@ -50,9 +50,9 @@ void Client::subscribeHandler(list<Collidable*>* collidableObjects)
 				// get position info
 				Vector2f pos((float)atof(infos[1].c_str()), (float)atof(infos[2].c_str()));
 				// set position
-				(*iterP)->getRenderable()->getShape()->setPosition(pos);
+				dynamic_cast<Renderable*>((*iterP)->getGC(ComponentType::RENDERABLE))->getShape()->setPosition(pos);
 				// set head positive
-				(*iterP)->getMovable()->setHeadingPositive(infos[3] == "1");
+				(*iterP)->setHeadingPositive(infos[3] == "1");
 				// move to next iterP
 				iterP++;
 			}

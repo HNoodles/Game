@@ -21,14 +21,14 @@ void Movable::hMove(double elapsed)
 		|| (!headingPositive && pos.x <= negBound))
 	{// heading right, not reaching bound
 	// heading left, reached bound
-		platform->setHeandingPositive(true);
+		platform->setHeadingPositive(true);
 		s->move(dis);
 	}
 	else if ((headingPositive && pos.x > posBound)
 		|| (!headingPositive && pos.x > negBound))
 	{// heading right, reached bound
 	// heading left, not reaching bound
-		platform->setHeandingPositive(false);
+		platform->setHeadingPositive(false);
 		s->move(-dis);
 	}
 }
@@ -53,14 +53,14 @@ void Movable::vMove(double elapsed)
 		|| (!headingPositive && pos.y <= negBound))
 	{// heading down, not reaching bound
 	// heading up, reached bound
-		platform->setHeandingPositive(true);
+		platform->setHeadingPositive(true);
 		s->move(dis);
 	}
 	else if ((headingPositive && pos.y > posBound)
 		|| (!headingPositive && pos.y > negBound))
 	{// heading down, reached bound
 	// heading up, not reaching bound
-		platform->setHeandingPositive(false);
+		platform->setHeadingPositive(false);
 		s->move(-dis);
 	}
 }

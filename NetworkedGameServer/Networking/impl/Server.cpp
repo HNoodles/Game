@@ -82,7 +82,7 @@ void Server::publisherHandler(list<Collidable*>* collidableObjects)
 	// generate clients message
 	for (auto pair : characters)
 	{
-		message += ClientMessage(pair.first, pair.second);
+		message += CharacterMessage(pair.first, pair.second);
 
 		if (!pair.second) // disconnected client, delete it
 		{
@@ -149,46 +149,58 @@ void Server::Split(const string& string, const std::string& separator, vector<st
 string Server::CollidableObjectMessage(Collidable * object)
 {
 	// TYPE 5.0 5.0\n
-	string t, heading = "";
 	Collision type = object->getType();
 	switch (type)
 	{
+	case Collision::PLATFORM: 
+		return PlatformMessage(dynamic_cast<MovingPlatform*>(object->getGameObject()));
+	case Collision::DEATHZONE:
+		return DeathZoneMessage(dynamic_cast<DeathZone*>(object->getGameObject()));
 	case Collision::CHARACTER: // won't have this type
-		break;
-	case Collision::PLATFORM: // P 5.0 5.0 0\n
-		t = "P ";
-		heading = " " + to_string(dynamic_cast<MovingPlatform*>(object->getGameObject())->getHeadingPositive());
-		break;
-	case Collision::DEATHZONE: // not implemented yet
-		break;
-	case Collision::SIDEBOUNDARY: // not implemented yet
-		break;
-	default:
-		break;
+	case Collision::SIDEBOUNDARY: // won't have this type
+	default: // shouldn't reach here
+		return "";
 	}
-
-	/*string c = "";
-	::Color color = object->getRenderable()->getColor();
-	switch (color)
-	{
-	case ::Color::RED:
-		c = "R ";
-		break;
-	case ::Color::GREEN:
-		c = "G ";
-		break;
-	case ::Color::BLUE:
-		c = "B ";
-		break;
-	default:
-		break;
-	}*/
-
-	Vector2f pos = object->getRenderable()->getShape()->getPosition();
-	return t + to_string(pos.x) + " " + to_string(pos.y) + heading + "\n";
 }
 
-string Server::ClientMessage(const string& name, Character* character)
+string Server::PlatformMessage(MovingPlatform* platform) // P 5.0 5.0 0\n
+{
+	string message = "P ";
+
+	string heading = " " + to_string(platform->getHeadingPositive());
+	Vector2f pos = dynamic_cast<Renderable*>(platform->getGC(ComponentType::RENDERABLE))
+		->getShape()->getPosition();
+
+	message += to_string(pos.x) + " " + to_string(pos.y) + heading + "\n";
+
+	return message;
+}
+
+string Server::SpawnPointMessage(SpawnPoint* spawnPoint) // S 5.0 5.0\n
+{
+	string message = "S ";
+
+	Vector2f pos = dynamic_cast<Renderable*>(spawnPoint->getGC(ComponentType::RENDERABLE))
+		->getShape()->getPosition();
+
+	message += to_string(pos.x) + " " + to_string(pos.y) + "\n";
+
+	return message;
+}
+
+string Server::DeathZoneMessage(DeathZone* deathZone) // D pos.x pos.y\n
+{
+	string message = "D ";
+
+	sf::Shape* shape = dynamic_cast<Renderable*>(deathZone->getGC(ComponentType::RENDERABLE))->getShape();
+	Vector2f pos = shape->getPosition();
+
+	message += to_string(pos.x) + " " + to_string(pos.y) + "\n";
+
+	return message;
+}
+
+string Server::CharacterMessage(const string& name, Character* character)
 {
 	if (!character) // already disconnected character, notify all clients: C name D
 	{

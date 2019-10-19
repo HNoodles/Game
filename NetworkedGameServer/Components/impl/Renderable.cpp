@@ -24,8 +24,7 @@ Renderable::Renderable(GameObject* gameObject, ::Shape shape, ::Color color, Vec
 		break;
 	}
 	delete temp;
-
-
+	
 	// set pos
 	s->setPosition(pos);
 	

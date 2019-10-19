@@ -32,7 +32,7 @@ public:
 
 	void sendHandler();
 
-	void subscribeHandler(list<Collidable*>* collidableObjects);
+	void subscribeHandler(list<MovingPlatform*>* platforms);
 
 	void disconnect();
 };

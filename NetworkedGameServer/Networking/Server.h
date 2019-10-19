@@ -11,6 +11,8 @@
 
 #include "../Times/LocalTime.h"
 #include "../Objects/Character.h"
+#include "../Objects/SpawnPoint.h"
+#include "../Objects/DeathZone.h"
 
 using namespace std;
 using namespace zmq;
@@ -32,7 +34,13 @@ private:
 
 	string CollidableObjectMessage(Collidable * object);
 
-	string ClientMessage(const string& name, Character* character);
+	string PlatformMessage(MovingPlatform* platform);
+
+	string SpawnPointMessage(SpawnPoint* spawnPoint);
+
+	string DeathZoneMessage(DeathZone* deathZone);
+
+	string CharacterMessage(const string& name, Character* character);
 
 	void disconnectHandler(const string& name);
 public:
