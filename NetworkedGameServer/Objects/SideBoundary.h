@@ -12,11 +12,20 @@ private:
 	::Direction direction;
 	Vector2f windowSize;
 	float padding;
+	Vector2f offset;
 public:
 	SideBoundary(::Direction direction, Vector2f windowSize, float padding); 
 
-	Vector2f getOffset() const;
+	Vector2f getOffset() const
+	{
+		return offset;
+	}
 
-	void updatePos(::Direction direction);
+	::Direction getDirection() const
+	{
+		return direction;
+	}
+
+	void updatePos(Vector2f offset);
 };
 

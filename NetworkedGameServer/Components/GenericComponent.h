@@ -7,6 +7,8 @@
 using namespace sf;
 //using namespace std;
 
+class GameObject;
+
 enum class ComponentType {
 	RENDERABLE, MOVABLE, COLLIDABLE
 };
@@ -14,11 +16,16 @@ enum class ComponentType {
 class GenericComponent // generic interface of game object components
 {
 protected:
-	void* gameObject;
+	GameObject* gameObject;
 public:
-	GenericComponent(void* gameObject)
+	GenericComponent(GameObject* gameObject)
 	{
 		this->gameObject = gameObject;
+	}
+
+	GameObject* getGameObject()
+	{
+		return gameObject;
 	}
 
 	virtual void work() 

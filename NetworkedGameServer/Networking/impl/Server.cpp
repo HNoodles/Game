@@ -157,7 +157,7 @@ string Server::CollidableObjectMessage(Collidable * object)
 		break;
 	case Collision::PLATFORM: // P 5.0 5.0 0\n
 		t = "P ";
-		heading = " " + to_string(object->getMovable()->getHeadingPositive());
+		heading = " " + to_string(dynamic_cast<MovingPlatform*>(object->getGameObject())->getHeadingPositive());
 		break;
 	case Collision::DEATHZONE: // not implemented yet
 		break;

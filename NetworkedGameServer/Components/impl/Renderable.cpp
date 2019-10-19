@@ -1,6 +1,6 @@
 #include "../Renderable.h"
 
-Renderable::Renderable(void* gameObject, ::Shape shape, ::Color color, Vector2f size, Vector2f pos)
+Renderable::Renderable(GameObject* gameObject, ::Shape shape, ::Color color, Vector2f size, Vector2f pos)
 	: GenericComponent(gameObject), size(size), color(color)
 {
 	// set shape

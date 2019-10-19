@@ -3,6 +3,25 @@
 SideBoundary::SideBoundary(::Direction direction, Vector2f windowSize, float padding)
 	: GameObject(), direction(direction), windowSize(windowSize), padding(padding)
 {
+	// set offset
+	switch (direction)
+	{
+	case Direction::LEFT:
+		offset = Vector2f(windowSize.x - 2 * padding, 0.f);
+		break;
+	case Direction::RIGHT:
+		offset = Vector2f(-windowSize.x + 2 * padding, 0.f);
+		break;
+	case Direction::UP:
+		offset = Vector2f(0.f, windowSize.y - 2 * padding);
+		break;
+	case Direction::BOTTOM:
+		offset = Vector2f(0.f, -windowSize.y + 2 * padding);
+		break;
+	default:
+		break;
+	}
+
 	Vector2f size, pos;
 	switch (direction)
 	{
@@ -28,11 +47,12 @@ SideBoundary::SideBoundary(::Direction direction, Vector2f windowSize, float pad
 
 	this->addGC(
 		ComponentType::RENDERABLE,
-		new Renderable(::Shape::RECTANGLE, ::Color::TRANS_PARENT, size, pos)
+		new Renderable(this, ::Shape::RECTANGLE, ::Color::TRANS_PARENT, size, pos)
 	);
 	this->addGC(
 		ComponentType::COLLIDABLE,
 		new Collidable(
+			this, 
 			Collision::DEATHZONE,
 			dynamic_cast<Renderable*>(this->getGC(ComponentType::RENDERABLE)),
 			nullptr
@@ -40,34 +60,9 @@ SideBoundary::SideBoundary(::Direction direction, Vector2f windowSize, float pad
 	);
 }
 
-Vector2f SideBoundary::getOffset() const
-{
-	Vector2f offset;
-
-	switch (direction)
-	{
-	case Direction::LEFT:
-		offset = Vector2f(windowSize.x - 2 * padding, 0.f);
-		break;
-	case Direction::RIGHT:
-		offset = Vector2f( - windowSize.x + 2 * padding, 0.f);
-		break;
-	case Direction::UP:
-		offset = Vector2f(0.f, windowSize.y - 2 * padding);
-		break;
-	case Direction::BOTTOM:
-		offset = Vector2f(0.f, - windowSize.y + 2 * padding);
-		break;
-	default:
-		break;
-	}
-
-	return offset;
-}
-
-void SideBoundary::updatePos(::Direction direction)
+void SideBoundary::updatePos(Vector2f offset)
 {
 	// move to the other direction by distance of offset 
 	dynamic_cast<Renderable*>(this->getGC(ComponentType::RENDERABLE))
-		->getShape()->move(-getOffset());
+		->getShape()->move(-offset);
 }

@@ -16,7 +16,7 @@ private:
 	Vector2f& size;
 	::Color color;
 public:
-	Renderable(void* gameObject, ::Shape shape, ::Color color, Vector2f size, Vector2f pos);
+	Renderable(GameObject* gameObject, ::Shape shape, ::Color color, Vector2f size, Vector2f pos);
 
 	~Renderable();
 
