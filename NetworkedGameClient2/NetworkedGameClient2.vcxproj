@@ -141,7 +141,10 @@
     <ClCompile Include="Components\impl\Renderable.cpp" />
     <ClCompile Include="Networking\impl\Client.cpp" />
     <ClCompile Include="Objects\impl\Character.cpp" />
+    <ClCompile Include="Objects\impl\DeathZone.cpp" />
     <ClCompile Include="Objects\impl\MovingPlatform.cpp" />
+    <ClCompile Include="Objects\impl\SideBoundary.cpp" />
+    <ClCompile Include="Objects\impl\SpawnPoint.cpp" />
     <ClCompile Include="Times\LocalTime.cpp" />
     <ClCompile Include="Times\GameTime.cpp" />
     <ClCompile Include="main.cpp" />
@@ -152,7 +155,10 @@
     <ClInclude Include="Components\Movable.h" />
     <ClInclude Include="Components\Renderable.h" />
     <ClInclude Include="Networking\Client.h" />
+    <ClInclude Include="Objects\DeathZone.h" />
     <ClInclude Include="Objects\GameObject.h" />
+    <ClInclude Include="Objects\SideBoundary.h" />
+    <ClInclude Include="Objects\SpawnPoint.h" />
     <ClInclude Include="Times\LocalTime.h" />
     <ClInclude Include="Times\GameTime.h" />
     <ClInclude Include="Objects\MovingPlatform.h" />

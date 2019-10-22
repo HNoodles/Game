@@ -2,6 +2,7 @@
 #include <zmq.hpp>
 #include <string>
 #include <iostream>
+#include <mutex>
 #include "../Objects/Character.h"
 
 constexpr auto CLIENT_NAME = "D";
@@ -18,6 +19,7 @@ private:
 	map<string, Vector2f>* characters;
 	Character* thisChar;
 	bool connected;
+	mutex* lock;
 
 	string s_recv(socket_t& socket);
 
@@ -28,11 +30,11 @@ private:
 	string ClientMessage(const string& name, Character* character);
 
 public:
-	Client(Character* thisChar, map<string, Vector2f>* characters);
+	Client(Character* thisChar, map<string, Vector2f>* characters, mutex* lock);
 
 	void sendHandler();
 
-	void subscribeHandler(list<Collidable*>* collidableObjects);
+	void subscribeHandler(list<MovingPlatform*>* platforms);
 
 	void disconnect();
 };

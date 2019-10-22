@@ -39,6 +39,8 @@ Vector2u wholeSize(1600, 600); // whole view size
 
 Vector2f renderOffset(0.f, 0.f);
 
+mutex l;
+
 int main()
 {
 	// declare and init window
@@ -98,19 +100,17 @@ int main()
 	sideBoundaries.emplace_back(&rsb);
 	collidableObjects.emplace_back(dynamic_cast<Collidable*>(lsb.getGC(ComponentType::COLLIDABLE)));
 	collidableObjects.emplace_back(dynamic_cast<Collidable*>(rsb.getGC(ComponentType::COLLIDABLE)));
-	objects.emplace_back(dynamic_cast<Renderable*>(lsb.getGC(ComponentType::RENDERABLE))->getShape());
-	objects.emplace_back(dynamic_cast<Renderable*>(rsb.getGC(ComponentType::RENDERABLE))->getShape());
 
 	// init character
 	Character character(
 		::Shape::DIAMOND, ::Color::BLUE, Vector2f(60.f, 120.f), 
-		dynamic_cast<Renderable*>(verticalPlatform.getGC(ComponentType::RENDERABLE))->getShape()->getPosition(),
+		dynamic_cast<Renderable*>(spawnPoint.getGC(ComponentType::RENDERABLE))->getShape()->getPosition(),
 		Vector2f(250.0f, 0.0f), gameTime, &spawnPoints
 	);
 	objects.emplace_back(dynamic_cast<Renderable*>(character.getGC(ComponentType::RENDERABLE))->getShape());
 
 	// init client
-	Client client(&character, &characters);
+	Client client(&character, &characters, &l);
 
 	// send message to notify server this new client
 	client.sendHandler();
@@ -186,6 +186,7 @@ int main()
 		}
 		for (sf::Shape* object : objects) 
 		{
+			lock_guard<mutex> guard(l);
 			object->move(renderOffset);
 			window.draw(*object);
 			object->move(-renderOffset);

@@ -5,8 +5,11 @@
 
 using namespace std;
 
+class Character;
+class SideBoundary;
+
 enum class Collision {
-	CHARACTER, PLATFORM, DEATHZONE, BOUNDARY
+	CHARACTER, PLATFORM, DEATHZONE, SIDEBOUNDARY
 };
 
 class Collidable : public GenericComponent // in charge of collision related affairs
@@ -15,16 +18,16 @@ private:
 	::Collision collision;
 	Renderable* renderable;
 	Movable* movable;
-	const Vector2f gravity = Vector2f(0.f, 500.f);
 
-	vector<Collidable*>* boundary_ptrs;// only character has
+	void platformWork(Collidable* platform, FloatRect bound, vector<RectangleShape>& boundary_lines, vector<Collidable*>* boundary_ptrs);
 
-	void setOutVelocity(double elapsed);
+	void deathZoneWork(vector<Renderable*>* spawnPoints, 
+		Vector2f& renderOffset, vector<SideBoundary*>* sideBoundaries);
 
-	void platformWork(Collidable* platform, FloatRect bound, vector<RectangleShape>& boundary_lines);
+	void sideBoundaryWork(Collidable* sideBoundary,
+		Vector2f& renderOffset, vector<SideBoundary*>* sideBoundaries);
 public:
-	Collidable(::Collision collision, Renderable* renderable, Movable* movable, 
-		vector<Collidable*>* boundary_ptrs = nullptr);
+	Collidable(GameObject* gameObject, ::Collision collision, Renderable* renderable, Movable* movable);
 
 	::Collision getType() const
 	{
@@ -41,11 +44,7 @@ public:
 		return movable;
 	}
 
-	void setBoundaryPtrs(vector<Collidable*>* boundary_ptrs)
-	{
-		this->boundary_ptrs = boundary_ptrs;
-	}
-
-	void work(list<Collidable*>& objects, double elapsed);
+	void work(list<Collidable*>& objects, double elapsed, 
+		Vector2f& renderOffset, vector<SideBoundary*>* sideBoundaries);
 };
 

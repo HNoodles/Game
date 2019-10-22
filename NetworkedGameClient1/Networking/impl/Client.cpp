@@ -1,8 +1,8 @@
 #include "../Client.h"
 
-Client::Client(Character* thisChar, map<string, Vector2f>* characters)
+Client::Client(Character* thisChar, map<string, Vector2f>* characters, mutex* lock)
 	: context(1), sender(context, ZMQ_REQ), subscriber(context, ZMQ_SUB), 
-	thisChar(thisChar), characters(characters), connected(true)
+	thisChar(thisChar), characters(characters), connected(true), lock(lock)
 {
 	sender.connect("tcp://localhost:5555");
 	cout << "Connecting to server on port 5555..." << endl;
@@ -49,10 +49,14 @@ void Client::subscribeHandler(list<MovingPlatform*>* platforms)
 			{
 				// get position info
 				Vector2f pos((float)atof(infos[1].c_str()), (float)atof(infos[2].c_str()));
+
+				lock->lock();
 				// set position
 				dynamic_cast<Renderable*>((*iterP)->getGC(ComponentType::RENDERABLE))->getShape()->setPosition(pos);
 				// set head positive
 				(*iterP)->setHeadingPositive(infos[3] == "1");
+				lock->unlock();
+
 				// move to next iterP
 				iterP++;
 			}

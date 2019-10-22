@@ -35,15 +35,15 @@ void Collidable::deathZoneWork(vector<Renderable*>* spawnPoints,
 void Collidable::sideBoundaryWork(Collidable* sideBoundary,
 	Vector2f& renderOffset, vector<SideBoundary*>* sideBoundaries)
 {
-	cout << "hit side boundary" << endl;
+	//cout << "hit side boundary" << endl;
 	SideBoundary* boundary = dynamic_cast<SideBoundary*>(sideBoundary->getGameObject());
 
 	// add offset this time to overall offset
 	Vector2f offset = boundary->getOffset();
 	renderOffset += offset;
 
-	cout << "offset " << offset.x << " " << offset.y << endl;
-	cout << "render offset " << renderOffset.x << " " << renderOffset.y << endl << endl;
+	//cout << "offset " << offset.x << " " << offset.y << endl;
+	//cout << "render offset " << renderOffset.x << " " << renderOffset.y << endl << endl;
 
 	// update the position of all the sideBoundaries
 	for (SideBoundary* boundary : *sideBoundaries)
@@ -76,7 +76,8 @@ void Collidable::work(list<Collidable*>& objects, double elapsed,
 
 	// reset all bdry ptrs to null
 	vector<Collidable*>* boundary_ptrs = character->getBoundaryPtrs();
-	for (size_t i = 0; i < boundary_ptrs->size(); i++) {
+	for (size_t i = 0; i < boundary_ptrs->size(); i++) 
+	{
 		boundary_ptrs->at(i) = nullptr;
 	}
 

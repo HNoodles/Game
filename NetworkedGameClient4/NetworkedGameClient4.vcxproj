@@ -20,7 +20,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
-    <ProjectGuid>{257499EE-F05D-43D8-A86D-A2EF47CCD09B}</ProjectGuid>
+    <ProjectGuid>{AC7FFD05-510E-4374-9EA9-E667898818D7}</ProjectGuid>
     <RootNamespace>Homework1</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <ProjectName>NetworkedGameClient4</ProjectName>
@@ -141,7 +141,10 @@
     <ClCompile Include="Components\impl\Renderable.cpp" />
     <ClCompile Include="Networking\impl\Client.cpp" />
     <ClCompile Include="Objects\impl\Character.cpp" />
+    <ClCompile Include="Objects\impl\DeathZone.cpp" />
     <ClCompile Include="Objects\impl\MovingPlatform.cpp" />
+    <ClCompile Include="Objects\impl\SideBoundary.cpp" />
+    <ClCompile Include="Objects\impl\SpawnPoint.cpp" />
     <ClCompile Include="Times\LocalTime.cpp" />
     <ClCompile Include="Times\GameTime.cpp" />
     <ClCompile Include="main.cpp" />
@@ -152,7 +155,10 @@
     <ClInclude Include="Components\Movable.h" />
     <ClInclude Include="Components\Renderable.h" />
     <ClInclude Include="Networking\Client.h" />
+    <ClInclude Include="Objects\DeathZone.h" />
     <ClInclude Include="Objects\GameObject.h" />
+    <ClInclude Include="Objects\SideBoundary.h" />
+    <ClInclude Include="Objects\SpawnPoint.h" />
     <ClInclude Include="Times\LocalTime.h" />
     <ClInclude Include="Times\GameTime.h" />
     <ClInclude Include="Objects\MovingPlatform.h" />

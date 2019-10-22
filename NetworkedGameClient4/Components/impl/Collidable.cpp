@@ -1,58 +1,8 @@
-#include "../Collidable.h"
+#include "../../Objects/Character.h"
+#include "../../Objects/SideBoundary.h"
 
-void Collidable::setOutVelocity(double elapsed)
-{
-	Vector2f velocity = movable->getVelocity();
-	Vector2f& outVelocity = movable->getOutVelocity();
-
-	Collidable
-		* left = boundary_ptrs->at(0),
-		* right = boundary_ptrs->at(1),
-		* up = boundary_ptrs->at(2),
-		* bottom = boundary_ptrs->at(3);
-
-	// clear out velocity to normal
-	outVelocity.x = 0;
-
-	if (left != nullptr)
-	{// left collision!
-		Movable* lmovable = left->movable;
-		Vector2f lv = lmovable->getVelocity();
-		outVelocity.x = lmovable->getHeadingPositive() ? lv.x : -lv.x;
-	}
-
-	if (right != nullptr)
-	{// right collision!
-		Movable* rmovable = right->movable;
-		Vector2f rv = rmovable->getVelocity();
-		outVelocity.x = rmovable->getHeadingPositive() ? rv.x : -rv.x;
-	}
-
-	if (up != nullptr)
-	{// up collision!
-		outVelocity.y = 0;
-	}
-
-	if (bottom != nullptr)
-	{// bottom collision!
-		movable->setJumpable(true);
-
-		Movable* bmovable = bottom->movable;
-		Vector2f bv = bmovable->getVelocity();
-		// only when no blocks on the heading side can character get velocity.x from bottom
-		if ((left == nullptr && !bmovable->getHeadingPositive()) 
-			|| (right == nullptr && bmovable->getHeadingPositive()))
-			outVelocity.x = bmovable->getHeadingPositive() ? bv.x : -bv.x;
-		outVelocity.y = bmovable->getHeadingPositive() ? bv.y : -bv.y;
-	}
-	else // drop 
-	{
-		movable->setJumpable(false);
-		outVelocity.y += (float)(gravity.y * elapsed);
-	}
-}
-
-void Collidable::platformWork(Collidable* platform, FloatRect bound, vector<RectangleShape>& boundary_lines)
+void Collidable::platformWork(Collidable* platform, FloatRect bound, 
+	vector<RectangleShape>& boundary_lines, vector<Collidable*>* boundary_ptrs)
 {
 	// check collision using loop
 	for (size_t i = 0; i < boundary_lines.size(); i++) {
@@ -63,13 +13,52 @@ void Collidable::platformWork(Collidable* platform, FloatRect bound, vector<Rect
 	}
 }
 
-Collidable::Collidable(::Collision collision, Renderable* renderable, Movable* movable, 
-	vector<Collidable*>* boundary_ptrs)
-	: collision(collision), renderable(renderable), movable(movable), boundary_ptrs(boundary_ptrs)
+void Collidable::deathZoneWork(vector<Renderable*>* spawnPoints, 
+	Vector2f& renderOffset, vector<SideBoundary*>* sideBoundaries)
+{
+	// randomly select a spawn point to respawn
+	int index = rand() % spawnPoints->size();
+	Vector2f point = (*spawnPoints)[index]->getShape()->getPosition();
+	this->getRenderable()->getShape()->setPosition(point);
+
+	// set render offset back to default
+	Vector2f offset = renderOffset - Vector2f(0.f, 0.f);
+	renderOffset = Vector2f(0.f, 0.f);
+
+	// update the position of all the sideBoundaries
+	for (SideBoundary* boundary : *sideBoundaries)
+	{
+		boundary->updatePos(-offset);
+	}
+}
+
+void Collidable::sideBoundaryWork(Collidable* sideBoundary,
+	Vector2f& renderOffset, vector<SideBoundary*>* sideBoundaries)
+{
+	//cout << "hit side boundary" << endl;
+	SideBoundary* boundary = dynamic_cast<SideBoundary*>(sideBoundary->getGameObject());
+
+	// add offset this time to overall offset
+	Vector2f offset = boundary->getOffset();
+	renderOffset += offset;
+
+	//cout << "offset " << offset.x << " " << offset.y << endl;
+	//cout << "render offset " << renderOffset.x << " " << renderOffset.y << endl << endl;
+
+	// update the position of all the sideBoundaries
+	for (SideBoundary* boundary : *sideBoundaries)
+	{
+		boundary->updatePos(offset);
+	}
+}
+
+Collidable::Collidable(GameObject* gameObject, ::Collision collision, Renderable* renderable, Movable* movable)
+	: GenericComponent(gameObject), collision(collision), renderable(renderable), movable(movable)
 {
 }
 
-void Collidable::work(list<Collidable*>& objects, double elapsed)
+void Collidable::work(list<Collidable*>& objects, double elapsed, 
+	Vector2f& renderOffset, vector<SideBoundary*>* sideBoundaries)
 {
 	// calculate four boundaries
 	FloatRect cbound = renderable->getShape()->getGlobalBounds();
@@ -83,8 +72,12 @@ void Collidable::work(list<Collidable*>& objects, double elapsed)
 
 	vector<RectangleShape> boundary_lines({ l, r, u, b });
 
+	Character* character = dynamic_cast<Character*>(gameObject);
+
 	// reset all bdry ptrs to null
-	for (size_t i = 0; i < boundary_ptrs->size(); i++) {
+	vector<Collidable*>* boundary_ptrs = character->getBoundaryPtrs();
+	for (size_t i = 0; i < boundary_ptrs->size(); i++) 
+	{
 		boundary_ptrs->at(i) = nullptr;
 	}
 
@@ -97,11 +90,19 @@ void Collidable::work(list<Collidable*>& objects, double elapsed)
 			switch (object->collision)
 			{
 			case Collision::PLATFORM:
-				platformWork(object, bound, boundary_lines);
+				platformWork(object, bound, boundary_lines, boundary_ptrs);
 				break;
-			case Collision::DEATHZONE: // implement in section 3
+			case Collision::DEATHZONE: 
+				deathZoneWork(character->getSpawnPoints(), renderOffset, sideBoundaries);
 				break;
-			case Collision::BOUNDARY: // implement in section 3
+			case Collision::SIDEBOUNDARY: 
+				// only respond to first time collision 
+				// when character collides with a side boundary
+				if (!character->getHitBoundary()) 
+				{
+					character->setHitBoundary(true);
+					sideBoundaryWork(object, renderOffset, sideBoundaries);
+				}
 				break;
 			default:
 				break;
@@ -109,6 +110,9 @@ void Collidable::work(list<Collidable*>& objects, double elapsed)
 		}
 	}
 
+	// check if character has left the side boundary
+	character->checkHitBoundary(sideBoundaries);
+
 	// set out velocity
-	setOutVelocity(elapsed);
+	character->setOutVelocity(elapsed);
 }

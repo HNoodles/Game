@@ -6,7 +6,7 @@ enum class Shape {
 };
 
 enum class Color {
-	RED, GREEN, BLUE
+	RED, GREEN, BLUE, TRANS_PARENT
 };
 
 class Renderable : public GenericComponent // define shape and color
@@ -16,7 +16,7 @@ private:
 	Vector2f& size;
 	::Color color;
 public:
-	Renderable(::Shape shape, ::Color color, Vector2f size, Vector2f pos);
+	Renderable(GameObject* gameObject, ::Shape shape, ::Color color, Vector2f size, Vector2f pos);
 
 	~Renderable();
 
@@ -25,7 +25,7 @@ public:
 		return s;
 	}
 
-	Vector2f& getSize() const
+	Vector2f& getSize() const 
 	{
 		return size;
 	}
