@@ -12,110 +12,32 @@
       },
       "invocations": [
         {
-          "commandLine": "\"C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.23.28105\\bin\\HostX86\\x86\\c1xx.dll\" -ACf{1F7B090C-16DB-4822-966A-A93D26ED4681} -ACpmspft140.dll -Alint -D_PREFAST_ -D_AST_FE_ -Analyze -zm0x00AB3180 -il C:\\Users\\Huang\\AppData\\Local\\Temp\\_CL_0113c71fast -typedil -f Components\\impl\\Movable.cpp -Ze -D_MSC_EXTENSIONS -Zp8 -ZB64 -D_INTEGRAL_MAX_BITS=64 -Gs -pc \\:/ -D_MSC_VER=1923 -D_MSC_FULL_VER=192328106 -D_MSC_BUILD=4 -D_WIN32 -D_M_IX86=600 -D_M_IX86_FP=2 -GR -D_CPPRTTI -I C:\\libzmq-v141-4_3_2 -I C:\\SFML-2.5.1\\include -nologo -W 3 -diagnostics:column -D_GUARDOVERFLOW_CRT_ALLOCATORS=1 -Ot -DCODE_ANALYSIS -DSFML_STATIC -D_MBCS -EHs -D_CPPUNWIND -EHc -D__MSVC_RUNTIME_CHECKS -RTCs -RTCu -D_DEBUG -D_MT -D_DLL -GS -D_M_FP_PRECISE -permissive- -Zc:wchar_t -Zc:forScope -FoDebug\\Movable.obj -FdDebug\\vc142.pdb -Gd -analyze:quiet -analyze:plugin C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.23.28105\\bin\\HostX86\\x86\\EspXEngine.dll -FC -errorreport:prompt -analyze:ruleset C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\Team Tools\\Static Analysis Tools\\Rule Sets\\NativeRecommendedRules.ruleset -analyze:projectdirectory D:\\Huang\\Huang Yuanmin\\FDU\\2019-2020FDU Notes\\1 at NCSU\\Game Engine Foundation\\Code\\Homework3\\NetworkedGameServer -analyze:rulesetdirectory ;C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\Team Tools\\Static Analysis Tools\\\\Rule Sets -I C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.23.28105\\include -I C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.23.28105\\atlmfc\\include -I C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Auxiliary\\VS\\include -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.18362.0\\ucrt -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.18362.0\\um -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.18362.0\\shared -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.18362.0\\winrt -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.18362.0\\cppwinrt -I C:\\Program Files (x86)\\Windows Kits\\NETFXSDK\\4.7.2\\Include\\um"
+          "commandLine": "\"C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.23.28105\\bin\\HostX86\\x86\\c1xx.dll\" -ACf{1F7B090C-16DB-4822-966A-A93D26ED4681} -ACpmspft140.dll -Alint -D_PREFAST_ -D_AST_FE_ -Analyze -zm0x00EA3180 -il C:\\Users\\Huang\\AppData\\Local\\Temp\\_CL_2d6eeb99ast -typedil -f Components\\impl\\Movable.cpp -Ze -D_MSC_EXTENSIONS -Zp8 -ZB64 -D_INTEGRAL_MAX_BITS=64 -Gs -pc \\:/ -D_MSC_VER=1923 -D_MSC_FULL_VER=192328106 -D_MSC_BUILD=4 -D_WIN32 -D_M_IX86=600 -D_M_IX86_FP=2 -GR -D_CPPRTTI -I C:\\libzmq-v141-4_3_2 -I C:\\SFML-2.5.1\\include -nologo -W 3 -diagnostics:column -D_GUARDOVERFLOW_CRT_ALLOCATORS=1 -Ot -DCODE_ANALYSIS -DSFML_STATIC -D_MBCS -EHs -D_CPPUNWIND -EHc -D__MSVC_RUNTIME_CHECKS -RTCs -RTCu -D_DEBUG -D_MT -D_DLL -GS -D_M_FP_PRECISE -permissive- -Zc:wchar_t -Zc:forScope -FoDebug\\Movable.obj -FdDebug\\vc142.pdb -Gd -analyze:quiet -analyze:plugin C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.23.28105\\bin\\HostX86\\x86\\EspXEngine.dll -FC -errorreport:prompt -analyze:ruleset C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\Team Tools\\Static Analysis Tools\\Rule Sets\\NativeRecommendedRules.ruleset -analyze:projectdirectory D:\\Huang\\Huang Yuanmin\\FDU\\2019-2020FDU Notes\\1 at NCSU\\Game Engine Foundation\\Code\\Homework4\\NetworkedGameServer -analyze:rulesetdirectory ;C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\Team Tools\\Static Analysis Tools\\\\Rule Sets -I C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.23.28105\\include -I C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.23.28105\\atlmfc\\include -I C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Auxiliary\\VS\\include -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.18362.0\\ucrt -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.18362.0\\um -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.18362.0\\shared -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.18362.0\\winrt -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.18362.0\\cppwinrt -I C:\\Program Files (x86)\\Windows Kits\\NETFXSDK\\4.7.2\\Include\\um"
         }
       ],
       "files": {
-        "file:///d:/huang/huang yuanmin/fdu/2019-2020fdu notes/1 at ncsu/game engine foundation/code/homework3/networkedgameserver/times/localtime.h": {
-          "roles": [
-            "resultFile"
-          ]
-        },
-        "file:///c:/sfml-2.5.1/include/sfml/graphics/transformable.hpp": {
-          "roles": [
-            "resultFile"
-          ]
-        },
-        "file:///c:/sfml-2.5.1/include/sfml/system/string.inl": {
-          "roles": [
-            "resultFile"
-          ]
-        },
-        "file:///d:/huang/huang yuanmin/fdu/2019-2020fdu notes/1 at ncsu/game engine foundation/code/homework3/networkedgameserver/times/gametime.cpp": {
+        "file:///d:/huang/huang yuanmin/fdu/2019-2020fdu notes/1 at ncsu/game engine foundation/code/homework4/networkedgameserver/main.cpp": {
           "roles": [
             "analysisTarget",
             "resultFile"
           ]
         },
-        "file:///d:/huang/huang yuanmin/fdu/2019-2020fdu notes/1 at ncsu/game engine foundation/code/homework3/networkedgameserver/objects/gameobject.h": {
+        "file:///c:/sfml-2.5.1/include/sfml/system/clock.hpp": {
           "roles": [
             "resultFile"
           ]
         },
-        "file:///c:/sfml-2.5.1/include/sfml/system/time.hpp": {
+        "file:///c:/sfml-2.5.1/include/sfml/config.hpp": {
           "roles": [
             "resultFile"
           ]
         },
-        "file:///d:/huang/huang yuanmin/fdu/2019-2020fdu notes/1 at ncsu/game engine foundation/code/homework3/networkedgameserver/objects/sideboundary.h": {
+        "file:///c:/sfml-2.5.1/include/sfml/system.hpp": {
           "roles": [
             "resultFile"
           ]
         },
-        "file:///c:/sfml-2.5.1/include/sfml/window/event.hpp": {
-          "roles": [
-            "resultFile"
-          ]
-        },
-        "file:///c:/sfml-2.5.1/include/sfml/system/string.hpp": {
-          "roles": [
-            "resultFile"
-          ]
-        },
-        "file:///d:/huang/huang yuanmin/fdu/2019-2020fdu notes/1 at ncsu/game engine foundation/code/homework3/networkedgameserver/times/localtime.cpp": {
-          "roles": [
-            "analysisTarget",
-            "resultFile"
-          ]
-        },
-        "file:///c:/sfml-2.5.1/include/sfml/window/export.hpp": {
-          "roles": [
-            "resultFile"
-          ]
-        },
-        "file:///d:/huang/huang yuanmin/fdu/2019-2020fdu notes/1 at ncsu/game engine foundation/code/homework3/networkedgameserver/objects/impl/spawnpoint.cpp": {
-          "roles": [
-            "analysisTarget",
-            "resultFile"
-          ]
-        },
-        "file:///c:/sfml-2.5.1/include/sfml/window/clipboard.hpp": {
-          "roles": [
-            "resultFile"
-          ]
-        },
-        "file:///c:/sfml-2.5.1/include/sfml/system/thread.inl": {
-          "roles": [
-            "resultFile"
-          ]
-        },
-        "file:///c:/sfml-2.5.1/include/sfml/system/err.hpp": {
-          "roles": [
-            "resultFile"
-          ]
-        },
-        "file:///d:/huang/huang yuanmin/fdu/2019-2020fdu notes/1 at ncsu/game engine foundation/code/homework3/networkedgameserver/times/timeline.h": {
-          "roles": [
-            "resultFile"
-          ]
-        },
-        "file:///d:/huang/huang yuanmin/fdu/2019-2020fdu notes/1 at ncsu/game engine foundation/code/homework3/networkedgameserver/times/gametime.h": {
-          "roles": [
-            "resultFile"
-          ]
-        },
-        "file:///d:/huang/huang yuanmin/fdu/2019-2020fdu notes/1 at ncsu/game engine foundation/code/homework3/networkedgameserver/objects/impl/sideboundary.cpp": {
-          "roles": [
-            "analysisTarget",
-            "resultFile"
-          ]
-        },
-        "file:///c:/sfml-2.5.1/include/sfml/system/inputstream.hpp": {
-          "roles": [
-            "resultFile"
-          ]
-        },
-        "file:///d:/huang/huang yuanmin/fdu/2019-2020fdu notes/1 at ncsu/game engine foundation/code/homework3/networkedgameserver/components/genericcomponent.h": {
+        "file:///c:/sfml-2.5.1/include/sfml/graphics/texture.hpp": {
           "roles": [
             "resultFile"
           ]
@@ -135,27 +57,47 @@
             "resultFile"
           ]
         },
-        "file:///c:/sfml-2.5.1/include/sfml/system.hpp": {
-          "roles": [
-            "resultFile"
-          ]
-        },
-        "file:///c:/sfml-2.5.1/include/sfml/config.hpp": {
-          "roles": [
-            "resultFile"
-          ]
-        },
-        "file:///c:/sfml-2.5.1/include/sfml/system/clock.hpp": {
-          "roles": [
-            "resultFile"
-          ]
-        },
         "file:///c:/sfml-2.5.1/include/sfml/graphics/transform.hpp": {
           "roles": [
             "resultFile"
           ]
         },
         "file:///c:/sfml-2.5.1/include/sfml/system/export.hpp": {
+          "roles": [
+            "resultFile"
+          ]
+        },
+        "file:///c:/sfml-2.5.1/include/sfml/graphics/color.hpp": {
+          "roles": [
+            "resultFile"
+          ]
+        },
+        "file:///c:/sfml-2.5.1/include/sfml/system/time.hpp": {
+          "roles": [
+            "resultFile"
+          ]
+        },
+        "file:///c:/sfml-2.5.1/include/sfml/window/export.hpp": {
+          "roles": [
+            "resultFile"
+          ]
+        },
+        "file:///d:/huang/huang yuanmin/fdu/2019-2020fdu notes/1 at ncsu/game engine foundation/code/homework4/networkedgameserver/components/movable.h": {
+          "roles": [
+            "resultFile"
+          ]
+        },
+        "file:///c:/sfml-2.5.1/include/sfml/window/clipboard.hpp": {
+          "roles": [
+            "resultFile"
+          ]
+        },
+        "file:///c:/sfml-2.5.1/include/sfml/system/thread.inl": {
+          "roles": [
+            "resultFile"
+          ]
+        },
+        "file:///c:/sfml-2.5.1/include/sfml/system/err.hpp": {
           "roles": [
             "resultFile"
           ]
@@ -170,12 +112,22 @@
             "resultFile"
           ]
         },
+        "file:///c:/sfml-2.5.1/include/sfml/system/inputstream.hpp": {
+          "roles": [
+            "resultFile"
+          ]
+        },
         "file:///c:/sfml-2.5.1/include/sfml/graphics/rect.hpp": {
           "roles": [
             "resultFile"
           ]
         },
         "file:///c:/sfml-2.5.1/include/sfml/system/noncopyable.hpp": {
+          "roles": [
+            "resultFile"
+          ]
+        },
+        "file:///c:/sfml-2.5.1/include/sfml/graphics/font.hpp": {
           "roles": [
             "resultFile"
           ]
@@ -210,12 +162,17 @@
             "resultFile"
           ]
         },
+        "file:///c:/sfml-2.5.1/include/sfml/graphics/primitivetype.hpp": {
+          "roles": [
+            "resultFile"
+          ]
+        },
         "file:///c:/sfml-2.5.1/include/sfml/system/mutex.hpp": {
           "roles": [
             "resultFile"
           ]
         },
-        "file:///c:/sfml-2.5.1/include/sfml/graphics/primitivetype.hpp": {
+        "file:///c:/sfml-2.5.1/include/sfml/graphics/image.hpp": {
           "roles": [
             "resultFile"
           ]
@@ -225,7 +182,27 @@
             "resultFile"
           ]
         },
+        "file:///c:/sfml-2.5.1/include/sfml/window/event.hpp": {
+          "roles": [
+            "resultFile"
+          ]
+        },
+        "file:///c:/sfml-2.5.1/include/sfml/system/string.hpp": {
+          "roles": [
+            "resultFile"
+          ]
+        },
         "file:///c:/sfml-2.5.1/include/sfml/system/utf.hpp": {
+          "roles": [
+            "resultFile"
+          ]
+        },
+        "file:///c:/sfml-2.5.1/include/sfml/graphics/transformable.hpp": {
+          "roles": [
+            "resultFile"
+          ]
+        },
+        "file:///c:/sfml-2.5.1/include/sfml/system/string.inl": {
           "roles": [
             "resultFile"
           ]
@@ -250,6 +227,11 @@
             "resultFile"
           ]
         },
+        "file:///c:/sfml-2.5.1/include/sfml/graphics/vertex.hpp": {
+          "roles": [
+            "resultFile"
+          ]
+        },
         "file:///c:/sfml-2.5.1/include/sfml/window/mouse.hpp": {
           "roles": [
             "resultFile"
@@ -257,12 +239,6 @@
         },
         "file:///c:/sfml-2.5.1/include/sfml/system/vector2.inl": {
           "roles": [
-            "resultFile"
-          ]
-        },
-        "file:///d:/huang/huang yuanmin/fdu/2019-2020fdu notes/1 at ncsu/game engine foundation/code/homework3/networkedgameserver/components/impl/renderable.cpp": {
-          "roles": [
-            "analysisTarget",
             "resultFile"
           ]
         },
@@ -292,6 +268,11 @@
           ]
         },
         "file:///c:/sfml-2.5.1/include/sfml/window/cursor.hpp": {
+          "roles": [
+            "resultFile"
+          ]
+        },
+        "file:///d:/huang/huang yuanmin/fdu/2019-2020fdu notes/1 at ncsu/game engine foundation/code/homework4/networkedgameserver/components/renderable.h": {
           "roles": [
             "resultFile"
           ]
@@ -341,6 +322,11 @@
             "resultFile"
           ]
         },
+        "file:///c:/sfml-2.5.1/include/sfml/graphics/convexshape.hpp": {
+          "roles": [
+            "resultFile"
+          ]
+        },
         "file:///c:/sfml-2.5.1/include/sfml/graphics/renderstates.hpp": {
           "roles": [
             "resultFile"
@@ -361,37 +347,7 @@
             "resultFile"
           ]
         },
-        "file:///c:/sfml-2.5.1/include/sfml/graphics/vertex.hpp": {
-          "roles": [
-            "resultFile"
-          ]
-        },
-        "file:///c:/sfml-2.5.1/include/sfml/graphics/color.hpp": {
-          "roles": [
-            "resultFile"
-          ]
-        },
-        "file:///c:/sfml-2.5.1/include/sfml/graphics/convexshape.hpp": {
-          "roles": [
-            "resultFile"
-          ]
-        },
-        "file:///c:/sfml-2.5.1/include/sfml/graphics/font.hpp": {
-          "roles": [
-            "resultFile"
-          ]
-        },
         "file:///c:/sfml-2.5.1/include/sfml/graphics/glyph.hpp": {
-          "roles": [
-            "resultFile"
-          ]
-        },
-        "file:///c:/sfml-2.5.1/include/sfml/graphics/texture.hpp": {
-          "roles": [
-            "resultFile"
-          ]
-        },
-        "file:///c:/sfml-2.5.1/include/sfml/graphics/image.hpp": {
           "roles": [
             "resultFile"
           ]
@@ -446,60 +402,142 @@
             "resultFile"
           ]
         },
-        "file:///d:/huang/huang yuanmin/fdu/2019-2020fdu notes/1 at ncsu/game engine foundation/code/homework3/networkedgameserver/components/collidable.h": {
+        "file:///d:/huang/huang yuanmin/fdu/2019-2020fdu notes/1 at ncsu/game engine foundation/code/homework4/networkedgameserver/networking/server.h": {
           "roles": [
             "resultFile"
           ]
         },
-        "file:///d:/huang/huang yuanmin/fdu/2019-2020fdu notes/1 at ncsu/game engine foundation/code/homework3/networkedgameserver/components/movable.h": {
+        "file:///d:/huang/huang yuanmin/fdu/2019-2020fdu notes/1 at ncsu/game engine foundation/code/homework4/networkedgameserver/eventmgmt/event.h": {
           "roles": [
             "resultFile"
           ]
         },
-        "file:///d:/huang/huang yuanmin/fdu/2019-2020fdu notes/1 at ncsu/game engine foundation/code/homework3/networkedgameserver/components/renderable.h": {
+        "file:///c:/libzmq-v141-4_3_2/zmq.hpp": {
           "roles": [
             "resultFile"
           ]
         },
-        "file:///d:/huang/huang yuanmin/fdu/2019-2020fdu notes/1 at ncsu/game engine foundation/code/homework3/networkedgameserver/objects/spawnpoint.h": {
+        "file:///c:/libzmq-v141-4_3_2/zmq.h": {
           "roles": [
             "resultFile"
           ]
         },
-        "file:///d:/huang/huang yuanmin/fdu/2019-2020fdu notes/1 at ncsu/game engine foundation/code/homework3/networkedgameserver/objects/impl/movingplatform.cpp": {
+        "file:///d:/huang/huang yuanmin/fdu/2019-2020fdu notes/1 at ncsu/game engine foundation/code/homework4/networkedgameserver/times/localtime.h": {
+          "roles": [
+            "resultFile"
+          ]
+        },
+        "file:///d:/huang/huang yuanmin/fdu/2019-2020fdu notes/1 at ncsu/game engine foundation/code/homework4/networkedgameserver/times/timeline.h": {
+          "roles": [
+            "resultFile"
+          ]
+        },
+        "file:///d:/huang/huang yuanmin/fdu/2019-2020fdu notes/1 at ncsu/game engine foundation/code/homework4/networkedgameserver/objects/character.h": {
+          "roles": [
+            "resultFile"
+          ]
+        },
+        "file:///d:/huang/huang yuanmin/fdu/2019-2020fdu notes/1 at ncsu/game engine foundation/code/homework4/networkedgameserver/objects/gameobject.h": {
+          "roles": [
+            "resultFile"
+          ]
+        },
+        "file:///d:/huang/huang yuanmin/fdu/2019-2020fdu notes/1 at ncsu/game engine foundation/code/homework4/networkedgameserver/components/genericcomponent.h": {
+          "roles": [
+            "resultFile"
+          ]
+        },
+        "file:///d:/huang/huang yuanmin/fdu/2019-2020fdu notes/1 at ncsu/game engine foundation/code/homework4/networkedgameserver/components/collidable.h": {
+          "roles": [
+            "resultFile"
+          ]
+        },
+        "file:///d:/huang/huang yuanmin/fdu/2019-2020fdu notes/1 at ncsu/game engine foundation/code/homework4/networkedgameserver/times/gametime.h": {
+          "roles": [
+            "resultFile"
+          ]
+        },
+        "file:///d:/huang/huang yuanmin/fdu/2019-2020fdu notes/1 at ncsu/game engine foundation/code/homework4/networkedgameserver/objects/movingplatform.h": {
+          "roles": [
+            "resultFile"
+          ]
+        },
+        "file:///d:/huang/huang yuanmin/fdu/2019-2020fdu notes/1 at ncsu/game engine foundation/code/homework4/networkedgameserver/objects/spawnpoint.h": {
+          "roles": [
+            "resultFile"
+          ]
+        },
+        "file:///d:/huang/huang yuanmin/fdu/2019-2020fdu notes/1 at ncsu/game engine foundation/code/homework4/networkedgameserver/objects/deathzone.h": {
+          "roles": [
+            "resultFile"
+          ]
+        },
+        "file:///d:/huang/huang yuanmin/fdu/2019-2020fdu notes/1 at ncsu/game engine foundation/code/homework4/networkedgameserver/times/gametime.cpp": {
           "roles": [
             "analysisTarget",
             "resultFile"
           ]
         },
-        "file:///d:/huang/huang yuanmin/fdu/2019-2020fdu notes/1 at ncsu/game engine foundation/code/homework3/networkedgameserver/objects/movingplatform.h": {
-          "roles": [
-            "resultFile"
-          ]
-        },
-        "file:///d:/huang/huang yuanmin/fdu/2019-2020fdu notes/1 at ncsu/game engine foundation/code/homework3/networkedgameserver/objects/impl/character.cpp": {
+        "file:///d:/huang/huang yuanmin/fdu/2019-2020fdu notes/1 at ncsu/game engine foundation/code/homework4/networkedgameserver/times/localtime.cpp": {
           "roles": [
             "analysisTarget",
             "resultFile"
           ]
         },
-        "file:///d:/huang/huang yuanmin/fdu/2019-2020fdu notes/1 at ncsu/game engine foundation/code/homework3/networkedgameserver/objects/character.h": {
-          "roles": [
-            "resultFile"
-          ]
-        },
-        "file:///d:/huang/huang yuanmin/fdu/2019-2020fdu notes/1 at ncsu/game engine foundation/code/homework3/networkedgameserver/objects/impl/deathzone.cpp": {
+        "file:///d:/huang/huang yuanmin/fdu/2019-2020fdu notes/1 at ncsu/game engine foundation/code/homework4/networkedgameserver/objects/impl/sideboundary.cpp": {
           "roles": [
             "analysisTarget",
             "resultFile"
           ]
         },
-        "file:///d:/huang/huang yuanmin/fdu/2019-2020fdu notes/1 at ncsu/game engine foundation/code/homework3/networkedgameserver/objects/deathzone.h": {
+        "file:///d:/huang/huang yuanmin/fdu/2019-2020fdu notes/1 at ncsu/game engine foundation/code/homework4/networkedgameserver/objects/sideboundary.h": {
           "roles": [
             "resultFile"
           ]
         },
-        "file:///d:/huang/huang yuanmin/fdu/2019-2020fdu notes/1 at ncsu/game engine foundation/code/homework3/networkedgameserver/components/impl/movable.cpp": {
+        "file:///d:/huang/huang yuanmin/fdu/2019-2020fdu notes/1 at ncsu/game engine foundation/code/homework4/networkedgameserver/objects/impl/spawnpoint.cpp": {
+          "roles": [
+            "analysisTarget",
+            "resultFile"
+          ]
+        },
+        "file:///d:/huang/huang yuanmin/fdu/2019-2020fdu notes/1 at ncsu/game engine foundation/code/homework4/networkedgameserver/networking/impl/server.cpp": {
+          "roles": [
+            "analysisTarget",
+            "resultFile"
+          ]
+        },
+        "file:///d:/huang/huang yuanmin/fdu/2019-2020fdu notes/1 at ncsu/game engine foundation/code/homework4/networkedgameserver/objects/impl/movingplatform.cpp": {
+          "roles": [
+            "analysisTarget",
+            "resultFile"
+          ]
+        },
+        "file:///d:/huang/huang yuanmin/fdu/2019-2020fdu notes/1 at ncsu/game engine foundation/code/homework4/networkedgameserver/objects/impl/character.cpp": {
+          "roles": [
+            "analysisTarget",
+            "resultFile"
+          ]
+        },
+        "file:///d:/huang/huang yuanmin/fdu/2019-2020fdu notes/1 at ncsu/game engine foundation/code/homework4/networkedgameserver/objects/impl/deathzone.cpp": {
+          "roles": [
+            "analysisTarget",
+            "resultFile"
+          ]
+        },
+        "file:///d:/huang/huang yuanmin/fdu/2019-2020fdu notes/1 at ncsu/game engine foundation/code/homework4/networkedgameserver/eventmgmt/impl/event.cpp": {
+          "roles": [
+            "analysisTarget",
+            "resultFile"
+          ]
+        },
+        "file:///d:/huang/huang yuanmin/fdu/2019-2020fdu notes/1 at ncsu/game engine foundation/code/homework4/networkedgameserver/components/impl/renderable.cpp": {
+          "roles": [
+            "analysisTarget",
+            "resultFile"
+          ]
+        },
+        "file:///d:/huang/huang yuanmin/fdu/2019-2020fdu notes/1 at ncsu/game engine foundation/code/homework4/networkedgameserver/components/impl/movable.cpp": {
           "roles": [
             "analysisTarget",
             "resultFile"

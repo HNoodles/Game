@@ -7,8 +7,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NetworkedGameClient1", "Net
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NetworkedGameClient2", "NetworkedGameClient2\NetworkedGameClient2.vcxproj", "{61F3BAD3-0DD5-4BCB-B109-2C8FA3082C8F}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ModeledGame", "ModeledGame\ModeledGame.vcxproj", "{C9B0EFF4-02CD-45B9-9150-FBF827A82FE6}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NetworkedGameServer", "NetworkedGameServer\NetworkedGameServer.vcxproj", "{59FCECB5-639F-45C4-AA1C-3A7F888C7F0B}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NetworkedGameClient3", "NetworkedGameClient3\NetworkedGameClient3.vcxproj", "{6C745D9A-A100-492F-BC4D-3FE67B1E9219}"
@@ -39,14 +37,6 @@ Global
 		{61F3BAD3-0DD5-4BCB-B109-2C8FA3082C8F}.Release|x64.Build.0 = Release|x64
 		{61F3BAD3-0DD5-4BCB-B109-2C8FA3082C8F}.Release|x86.ActiveCfg = Release|Win32
 		{61F3BAD3-0DD5-4BCB-B109-2C8FA3082C8F}.Release|x86.Build.0 = Release|Win32
-		{C9B0EFF4-02CD-45B9-9150-FBF827A82FE6}.Debug|x64.ActiveCfg = Debug|x64
-		{C9B0EFF4-02CD-45B9-9150-FBF827A82FE6}.Debug|x64.Build.0 = Debug|x64
-		{C9B0EFF4-02CD-45B9-9150-FBF827A82FE6}.Debug|x86.ActiveCfg = Debug|Win32
-		{C9B0EFF4-02CD-45B9-9150-FBF827A82FE6}.Debug|x86.Build.0 = Debug|Win32
-		{C9B0EFF4-02CD-45B9-9150-FBF827A82FE6}.Release|x64.ActiveCfg = Release|x64
-		{C9B0EFF4-02CD-45B9-9150-FBF827A82FE6}.Release|x64.Build.0 = Release|x64
-		{C9B0EFF4-02CD-45B9-9150-FBF827A82FE6}.Release|x86.ActiveCfg = Release|Win32
-		{C9B0EFF4-02CD-45B9-9150-FBF827A82FE6}.Release|x86.Build.0 = Release|Win32
 		{59FCECB5-639F-45C4-AA1C-3A7F888C7F0B}.Debug|x64.ActiveCfg = Debug|x64
 		{59FCECB5-639F-45C4-AA1C-3A7F888C7F0B}.Debug|x64.Build.0 = Debug|x64
 		{59FCECB5-639F-45C4-AA1C-3A7F888C7F0B}.Debug|x86.ActiveCfg = Debug|Win32

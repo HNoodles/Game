@@ -139,6 +139,7 @@
     <ClCompile Include="Components\impl\Collidable.cpp" />
     <ClCompile Include="Components\impl\Movable.cpp" />
     <ClCompile Include="Components\impl\Renderable.cpp" />
+    <ClCompile Include="EventMgmt\impl\Event.cpp" />
     <ClCompile Include="Objects\impl\DeathZone.cpp" />
     <ClCompile Include="Objects\impl\Character.cpp" />
     <ClCompile Include="Objects\impl\MovingPlatform.cpp" />
@@ -148,12 +149,14 @@
     <ClCompile Include="Times\LocalTime.cpp" />
     <ClCompile Include="Times\GameTime.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="EventMgmt\impl\Variant.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Components\Collidable.h" />
     <ClInclude Include="Components\GenericComponent.h" />
     <ClInclude Include="Components\Movable.h" />
     <ClInclude Include="Components\Renderable.h" />
+    <ClInclude Include="EventMgmt\Event.h" />
     <ClInclude Include="Objects\DeathZone.h" />
     <ClInclude Include="Networking\Server.h" />
     <ClInclude Include="Objects\GameObject.h" />
@@ -164,6 +167,7 @@
     <ClInclude Include="Objects\MovingPlatform.h" />
     <ClInclude Include="Objects\Character.h" />
     <ClInclude Include="Times\Timeline.h" />
+    <ClInclude Include="EventMgmt\Variant.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Images\hero.png" />
