@@ -1,7 +1,7 @@
 #pragma once
 
 #include <map>
-#include "Variant.h"
+#include "util/Variant.h"
 
 #include <stdarg.h>
 
@@ -20,10 +20,26 @@ class Event
 private:
 	Event_t type;
 	double executeTime;
+protected:
 	map<Content_t, Variant> args;
 
 	void addArg(Content_t content_t, Variant_t variant_t, void* arg);
 public:
-	Event(Event_t type, double executeTime, ...);
+	Event(Event_t type, double executeTime);
+
+	Event_t getType()
+	{
+		return type;
+	}
+
+	double getExecuteTime()
+	{
+		return executeTime;
+	}
+
+	Variant getArg(Content_t content_t)
+	{
+		return args.find(content_t)->second;
+	}
 };
 

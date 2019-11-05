@@ -1,4 +1,4 @@
-#include "../Variant.h"
+#include "Variant.h"
 
 Variant::Variant(Variant_t type, void* value) : type(type)
 {
