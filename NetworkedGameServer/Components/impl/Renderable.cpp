@@ -51,3 +51,17 @@ Renderable::~Renderable()
 {
 	delete s;
 }
+
+vector<RectangleShape> Renderable::getBoundaryLines()
+{
+	FloatRect cbound = getShape()->getGlobalBounds();
+	Vector2f height(1.f, cbound.height), width(cbound.width, 1.f);
+
+	RectangleShape l(height), r(height), u(width), b(width);
+	l.setPosition(Vector2f(cbound.left, cbound.top));
+	r.setPosition(Vector2f(cbound.left + cbound.width, cbound.top));
+	u.setPosition(Vector2f(cbound.left, cbound.top));
+	b.setPosition(Vector2f(cbound.left, cbound.top + cbound.height));
+
+	return { l, r, u, b };
+}

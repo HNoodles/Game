@@ -1,5 +1,6 @@
 #include "../../Objects/Character.h"
 #include "../../Objects/SideBoundary.h"
+#include "../../Objects/SpawnPoint.h"
 
 void Collidable::platformWork(Collidable* platform, FloatRect bound, 
 	vector<RectangleShape>& boundary_lines, vector<Collidable*>* boundary_ptrs)
@@ -13,11 +14,12 @@ void Collidable::platformWork(Collidable* platform, FloatRect bound,
 	}
 }
 
-void Collidable::deathZoneWork(vector<Renderable*>* spawnPoints)
+void Collidable::deathZoneWork(vector<SpawnPoint*>* spawnPoints)
 {
 	// randomly select a spawn point to respawn
 	int index = rand() % spawnPoints->size();
-	Vector2f point = (*spawnPoints)[index]->getShape()->getPosition();
+	Vector2f point = dynamic_cast<Renderable*>((*spawnPoints)[index]->getGC(ComponentType::RENDERABLE))
+		->getShape()->getPosition();
 	this->getRenderable()->getShape()->setPosition(point);
 }
 
@@ -42,20 +44,11 @@ Collidable::Collidable(GameObject* gameObject, ::Collision collision, Renderable
 {
 }
 
-void Collidable::work(list<Collidable*>& objects, double elapsed, 
+void Collidable::work(list<Collidable*>& objects, double elapsed,
 	Vector2f& renderOffset, vector<SideBoundary*>* sideBoundaries)
 {
-	// calculate four boundaries
-	FloatRect cbound = renderable->getShape()->getGlobalBounds();
-	Vector2f height(1.f, cbound.height), width(cbound.width, 1.f);
-
-	RectangleShape l(height), r(height), u(width), b(width);
-	l.setPosition(Vector2f(cbound.left, cbound.top));
-	r.setPosition(Vector2f(cbound.left + cbound.width, cbound.top));
-	u.setPosition(Vector2f(cbound.left, cbound.top));
-	b.setPosition(Vector2f(cbound.left, cbound.top + cbound.height));
-
-	vector<RectangleShape> boundary_lines({ l, r, u, b });
+	// get four boundaries
+	vector<RectangleShape> boundary_lines = renderable->getBoundaryLines();
 
 	Character* character = dynamic_cast<Character*>(gameObject);
 
@@ -67,7 +60,8 @@ void Collidable::work(list<Collidable*>& objects, double elapsed,
 
 	for (Collidable* object : objects)
 	{
-		// get bound of object
+		// get bound of character and object
+		FloatRect cbound = renderable->getShape()->getGlobalBounds();
 		FloatRect bound = object->renderable->getShape()->getGlobalBounds();
 
 		if (cbound.intersects(bound)) {// collision happens

@@ -139,6 +139,7 @@
     <ClCompile Include="Components\impl\Collidable.cpp" />
     <ClCompile Include="Components\impl\Movable.cpp" />
     <ClCompile Include="Components\impl\Renderable.cpp" />
+    <ClCompile Include="EventMgmt\impl\EventHandler.cpp" />
     <ClCompile Include="EventMgmt\impl\EObjMovement.cpp" />
     <ClCompile Include="EventMgmt\impl\EUserInput.cpp" />
     <ClCompile Include="EventMgmt\impl\ECharSpawn.cpp" />
@@ -161,6 +162,7 @@
     <ClInclude Include="Components\GenericComponent.h" />
     <ClInclude Include="Components\Movable.h" />
     <ClInclude Include="Components\Renderable.h" />
+    <ClInclude Include="EventMgmt\EventHandler.h" />
     <ClInclude Include="EventMgmt\EObjMovement.h" />
     <ClInclude Include="EventMgmt\EUserInput.h" />
     <ClInclude Include="EventMgmt\ECharSpawn.h" />

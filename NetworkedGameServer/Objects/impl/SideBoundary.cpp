@@ -1,7 +1,9 @@
 #include "../SideBoundary.h"
 
-SideBoundary::SideBoundary(::Direction direction, Vector2u windowSize, float padding)
-	: GameObject(), direction(direction), windowSize(windowSize), padding(padding)
+SideBoundary::SideBoundary(::Direction direction, Vector2u windowSize, float padding,
+	Vector2f& renderOffset, vector<SideBoundary*>* sideBoundaries)
+	: GameObject(), direction(direction), windowSize(windowSize), padding(padding), 
+	renderOffset(renderOffset), sideBoundaries(sideBoundaries)
 {
 	// set offset
 	switch (direction)

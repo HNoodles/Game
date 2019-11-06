@@ -3,10 +3,9 @@
 #include <list>
 #include "Movable.h"
 
-using namespace std;
-
 class Character;
 class SideBoundary;
+class SpawnPoint;
 
 enum class Collision {
 	CHARACTER, PLATFORM, DEATHZONE, SIDEBOUNDARY
@@ -19,9 +18,10 @@ private:
 	Renderable* renderable;
 	Movable* movable;
 
-	void platformWork(Collidable* platform, FloatRect bound, vector<RectangleShape>& boundary_lines, vector<Collidable*>* boundary_ptrs);
+	void platformWork(Collidable* platform, FloatRect bound, 
+		vector<RectangleShape>& boundary_lines, vector<Collidable*>* boundary_ptrs);
 
-	void deathZoneWork(vector<Renderable*>* spawnPoints);
+	void deathZoneWork(vector<SpawnPoint*>* spawnPoints);
 
 	void sideBoundaryWork(Collidable* sideBoundary,
 		Vector2f& renderOffset, vector<SideBoundary*>* sideBoundaries);

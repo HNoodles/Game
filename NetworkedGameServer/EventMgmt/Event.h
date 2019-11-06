@@ -23,23 +23,26 @@ private:
 protected:
 	map<Content_t, Variant> args;
 
-	void addArg(Content_t content_t, Variant_t variant_t, void* arg);
-public:
-	Event(Event_t type, double executeTime);
-
-	Event_t getType()
+	void addArg(Content_t content_t, Variant_t variant_t, void* arg)
 	{
-		return type;
-	}
-
-	double getExecuteTime()
-	{
-		return executeTime;
+		args.insert({ content_t, Variant(variant_t, arg) });
 	}
 
 	Variant getArg(Content_t content_t)
 	{
 		return args.find(content_t)->second;
+	}
+public:
+	Event(Event_t type, double executeTime);
+
+	Event_t getType() const
+	{
+		return type;
+	}
+
+	double getExecuteTime() const
+	{
+		return executeTime;
 	}
 };
 

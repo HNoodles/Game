@@ -1,6 +1,7 @@
 #include "../Character.h"
 
-Character::Character(::Shape shape, ::Color color, Vector2f size, Vector2f pos, Vector2f velocity, Timeline& timeline, vector<Renderable*>* spawnPoints)
+Character::Character(::Shape shape, ::Color color, Vector2f size, Vector2f pos, 
+	Vector2f velocity, Timeline& timeline, vector<SpawnPoint*>* spawnPoints)
 	: GameObject(), outVelocity(0.f, 0.f), 
 	boundary_ptrs({ nullptr, nullptr, nullptr, nullptr }), spawnPoints(spawnPoints)
 {

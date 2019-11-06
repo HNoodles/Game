@@ -9,13 +9,13 @@ class Character : public GameObject
 private:
 	Vector2f outVelocity;
 	vector<Collidable*> boundary_ptrs;
-	vector<Renderable*>* spawnPoints;
+	vector<SpawnPoint*>* spawnPoints;
 
 	const Vector2f gravity = Vector2f(0.f, 500.f);
 public:
 	Character(
 		::Shape shape, ::Color color, Vector2f size, Vector2f pos, 
-		Vector2f velocity, Timeline& timeline, vector<Renderable*>* spawnPoints = nullptr
+		Vector2f velocity, Timeline& timeline, vector<SpawnPoint*>* spawnPoints = nullptr
 	);
 
 	void handleKeyInput();
@@ -27,18 +27,13 @@ public:
 		return &boundary_ptrs;
 	}
 
-	vector<Renderable*>* getSpawnPoints()
+	vector<SpawnPoint*>* getSpawnPoints()
 	{
 		return spawnPoints;
 	}
 
-	Vector2f getOutVelocity() const
+	Vector2f& getOutVelocity()
 	{
 		return outVelocity;
-	}
-
-	void setOutVelocity(Vector2f outVelocity)
-	{
-		this->outVelocity = outVelocity;
 	}
 };
