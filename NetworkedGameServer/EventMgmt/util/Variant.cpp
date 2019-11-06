@@ -11,7 +11,7 @@ Variant::Variant(Variant_t type, void* value) : type(type)
 		var.obj_ptr = *(GameObject**)value;
 		break;
 	case Variant_t::KEY:
-		var.key = *(Keyboard*)value;
+		var.key = *(Keyboard::Key*)value;
 	default:
 		break;
 	}

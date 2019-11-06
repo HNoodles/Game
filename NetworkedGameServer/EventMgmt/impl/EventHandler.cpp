@@ -90,7 +90,7 @@ void EventHandler::onCharSpawn(ECharSpawn e)
 void EventHandler::onObjMovement(EObjMovement e)
 {
 	GameObject* object = e.getObject();
-	Vector2f movement = Vector2f(e.getXVal(), e.getYVal());
+	Vector2f movement = Vector2f((float)e.getXVal(), (float)e.getYVal());
 
 	// move the object toward movement
 	dynamic_cast<Renderable*>(object->getGC(ComponentType::RENDERABLE))
@@ -126,7 +126,7 @@ EventHandler::EventHandler(GameTime& gameTime) : gameTime(gameTime)
 {
 }
 
-void EventHandler::onEvent(::Event* e)
+void EventHandler::onEvent(const ::MyEvent* e)
 {
 	switch (e->getType())
 	{

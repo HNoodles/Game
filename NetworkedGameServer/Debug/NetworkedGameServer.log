@@ -1,35 +1,43 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(452,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (NetworkedGame.vcxproj).  This can lead to incorrect clean and rebuild behavior.
   Collidable.cpp
+  Movable.cpp
+  Renderable.cpp
+  EventManager.cpp
   EventHandler.cpp
-D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework4\NetworkedGameServer\EventMgmt\impl\EventHandler.cpp(13,28): error C2065: “bound”: 未声明的标识符
-D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework4\NetworkedGameServer\EventMgmt\impl\EventHandler.cpp(13,35): error C2065: “boundary_lines”: 未声明的标识符
-D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework4\NetworkedGameServer\EventMgmt\impl\EventHandler.cpp(13,51): error C2065: “boundary_ptrs”: 未声明的标识符
-D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework4\NetworkedGameServer\EventMgmt\impl\EventHandler.cpp(13,3): error C3861: “platformWork”: 找不到标识符
-D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework4\NetworkedGameServer\EventMgmt\impl\EventHandler.cpp(19,32): error C2065: “renderOffset”: 未声明的标识符
-D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework4\NetworkedGameServer\EventMgmt\impl\EventHandler.cpp(19,46): error C2065: “sideBoundaries”: 未声明的标识符
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework4\NetworkedGameServer\EventMgmt\impl\EventHandler.cpp(93,53): warning C4244: “参数”: 从“double”转换到“T”，可能丢失数据
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework4\NetworkedGameServer\EventMgmt\impl\EventHandler.cpp(93,53): warning C4244:         with
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework4\NetworkedGameServer\EventMgmt\impl\EventHandler.cpp(93,53): warning C4244:         [
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework4\NetworkedGameServer\EventMgmt\impl\EventHandler.cpp(93,53): warning C4244:             T=float
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework4\NetworkedGameServer\EventMgmt\impl\EventHandler.cpp(93,53): warning C4244:         ]
   EObjMovement.cpp
   EUserInput.cpp
   ECharSpawn.cpp
   ECharDeath.cpp
   Event.cpp
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework4\NetworkedGameServer\EventMgmt\impl\EventHandler.cpp(93,40): warning C4244: “参数”: 从“double”转换到“T”，可能丢失数据
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework4\NetworkedGameServer\EventMgmt\impl\EventHandler.cpp(93,40): warning C4244:         with
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework4\NetworkedGameServer\EventMgmt\impl\EventHandler.cpp(93,40): warning C4244:         [
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework4\NetworkedGameServer\EventMgmt\impl\EventHandler.cpp(93,40): warning C4244:             T=float
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework4\NetworkedGameServer\EventMgmt\impl\EventHandler.cpp(93,40): warning C4244:         ]
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework4\NetworkedGameServer\EventMgmt\impl\Event.cpp(12,10): error C3083: “Event”:“::”左侧的符号必须是一种类型
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework4\NetworkedGameServer\EventMgmt\impl\Event.cpp(12,17): error C2039: “toString”: 不是“std::basic_string<char,std::char_traits<char>,std::allocator<char>>”的成员
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\include\xstring(4440): message : 参见“std::basic_string<char,std::char_traits<char>,std::allocator<char>>”的声明
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework4\NetworkedGameServer\EventMgmt\impl\Event.cpp(13,1): error C2270: “toString”: 非成员函数上不允许修饰符
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework4\NetworkedGameServer\EventMgmt\impl\Event.cpp(13,1): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework4\NetworkedGameServer\EventMgmt\impl\Event.cpp(15,10): error C2440: “return”: 无法从“std::string”转换为“int”
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework4\NetworkedGameServer\EventMgmt\impl\Event.cpp(15,9): message : 没有可用于执行该转换的用户定义的转换运算符，或者无法调用该运算符
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework4\NetworkedGameServer\EventMgmt\impl\Event.cpp(16,1): error C2617: “toString”: 返回语句不一致
   ECharCollision.cpp
+  DeathZone.cpp
+  Character.cpp
+  MovingPlatform.cpp
+  Server.cpp
+  SpawnPoint.cpp
   SideBoundary.cpp
-D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework4\NetworkedGameServer\EventMgmt\impl\EventHandler.cpp(19,3): error C3861: “sideBoundaryWork”: 找不到标识符
-D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework4\NetworkedGameServer\Objects\impl\SideBoundary.cpp(4,2): error C2511: “SideBoundary::SideBoundary(Direction,sf::Vector2u,float)”:“SideBoundary”中没有找到重载的成员函数
-D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework4\NetworkedGameServer\Objects\SideBoundary.h(9): message : 参见“SideBoundary”的声明
-D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework4\NetworkedGameServer\Objects\impl\SideBoundary.cpp(5,1): error C2550: “SideBoundary::{ctor}”: 构造函数初始值设定项列表只能在构造函数定义中使用
-D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework4\NetworkedGameServer\Objects\impl\SideBoundary.cpp(10,53): error C2597: 对非静态成员“SideBoundary::offset”的非法引用
-D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework4\NetworkedGameServer\Objects\impl\SideBoundary.cpp(13,56): error C2597: 对非静态成员“SideBoundary::offset”的非法引用
-D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework4\NetworkedGameServer\Objects\impl\SideBoundary.cpp(16,53): error C2597: 对非静态成员“SideBoundary::offset”的非法引用
-D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework4\NetworkedGameServer\Objects\impl\SideBoundary.cpp(19,56): error C2597: 对非静态成员“SideBoundary::offset”的非法引用
-D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework4\NetworkedGameServer\Objects\impl\SideBoundary.cpp(48,2): error C2671: “SideBoundary::{ctor}”: 静态成员函数没有“this”指针
-D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework4\NetworkedGameServer\Objects\impl\SideBoundary.cpp(50,18): error C2671: “SideBoundary::{ctor}”: 静态成员函数没有“this”指针
-D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework4\NetworkedGameServer\Objects\impl\SideBoundary.cpp(50,17): error C2661: “Renderable::Renderable”: 没有重载函数接受 4 个参数
-D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework4\NetworkedGameServer\Objects\impl\SideBoundary.cpp(52,2): error C2671: “SideBoundary::{ctor}”: 静态成员函数没有“this”指针
-D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework4\NetworkedGameServer\Objects\impl\SideBoundary.cpp(55,4): error C2671: “SideBoundary::{ctor}”: 静态成员函数没有“this”指针
-D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework4\NetworkedGameServer\Objects\impl\SideBoundary.cpp(57,30): error C2671: “SideBoundary::{ctor}”: 静态成员函数没有“this”指针
+  main.cpp
   Variant.cpp
-D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework4\NetworkedGameServer\Objects\impl\SideBoundary.cpp(54,17): error C2661: “Collidable::Collidable”: 没有重载函数接受 2 个参数
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework4\NetworkedGameServer\EventMgmt\impl\Event.cpp(12): message : 参见“toString”的声明
 D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework4\NetworkedGameServer\EventMgmt\util\Variant.cpp(14,30): error C2440: “=”: 无法从“sf::Keyboard”转换为“sf::Keyboard::Key”
   正在生成代码...
 D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework4\NetworkedGameServer\EventMgmt\util\Variant.cpp(14,13): message : 没有可用于执行该转换的用户定义的转换运算符，或者无法调用该运算符
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework4\NetworkedGameServer\EventMgmt\util\Variant.h(34): warning C4715: “Variant::getVal”: 不是所有的控件路径都返回值

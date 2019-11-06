@@ -29,7 +29,7 @@ public:
 		case Variant_t::KEY:
 			return &var.key;
 		default:
-			break;
+			return nullptr;
 		}
 	}
 };

@@ -1,8 +1,8 @@
 #pragma once
-#include "Event.h"
+#include "MyEvent.h"
 #include "../Objects/Character.h"
 
-class ECharDeath : public ::Event
+class ECharDeath : public ::MyEvent
 {
 public:
 	ECharDeath(double executeTime, Character* character);
