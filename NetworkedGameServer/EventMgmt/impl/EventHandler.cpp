@@ -126,7 +126,7 @@ EventHandler::EventHandler(GameTime& gameTime) : gameTime(gameTime)
 {
 }
 
-void EventHandler::onEvent(::Event* e)
+void EventHandler::onEvent(const ::Event* e)
 {
 	switch (e->getType())
 	{

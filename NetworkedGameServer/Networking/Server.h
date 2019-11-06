@@ -17,6 +17,7 @@
 using namespace std;
 using namespace zmq;
 
+constexpr auto SERVER_NAME = "S";
 
 class Server
 {
