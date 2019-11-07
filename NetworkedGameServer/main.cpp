@@ -22,7 +22,7 @@ int main()
 
 	// init platforms
 	MovingPlatform platform(
-		"SP", ::Shape::RECTANGLE, ::Color::GREEN, Vector2f(400.f, 50.f), Vector2f(200.f, 400.f),
+		"SP1", ::Shape::RECTANGLE, ::Color::GREEN, Vector2f(400.f, 50.f), Vector2f(200.f, 400.f),
 		Vector2f(0.f, 0.f), gameTime, Move::STATIC
 	);
 	collidableObjects.emplace_back(dynamic_cast<Collidable*>(platform.getGC(ComponentType::COLLIDABLE)));

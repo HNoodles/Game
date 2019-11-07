@@ -9,6 +9,8 @@
 #include <windows.h>
 #endif
 
+#include <mutex>
+
 #include "../Times/LocalTime.h"
 #include "../Objects/Character.h"
 #include "../Objects/SpawnPoint.h"
@@ -26,8 +28,10 @@ private:
 	context_t context;
 	socket_t receiver;
 	socket_t publisher;
-	map<string, Character*> characters;
+	//map<string, Character*> characters;
 	EventManager* manager;
+	list<string> disconnecting;
+	mutex mtxDisc, mtxEvt;
 
 	string s_recv(socket_t& socket);
 
@@ -35,7 +39,7 @@ private:
 
 	void Split(const string& string, const std::string& separator, vector<std::string>& result);
 
-	string CollidableObjectMessage(Collidable * object);
+	/*string CollidableObjectMessage(Collidable * object);
 
 	string PlatformMessage(MovingPlatform* platform);
 
@@ -43,7 +47,7 @@ private:
 
 	string DeathZoneMessage(DeathZone* deathZone);
 
-	string CharacterMessage(const string& name, Character* character);
+	string CharacterMessage(const string& name, Character* character);*/
 
 	void disconnectHandler(const string& name);
 public:

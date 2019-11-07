@@ -48,7 +48,19 @@ public:
 
 	void insertEvent(const char client_name, ::Event* e)
 	{
-		queues.find(client_name)->second.push(e);
+		// locate the pair
+		auto pair = queues.find(client_name);
+		
+		// insert the event
+		if (pair != queues.end())
+		{
+			pair->second.push(e);
+		}
+		else
+		{
+			addQueue(client_name);
+			queues.find(client_name)->second.push(e);
+		}
 
 		// store the event for publishing if is object movement event
 		if (e->getType() == ::Event_t::OBJ_MOVEMENT)
