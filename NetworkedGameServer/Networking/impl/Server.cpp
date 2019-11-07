@@ -12,9 +12,9 @@ Server::Server(EventManager* manager)
 
 Server::~Server()
 {
-	//// release all characters generated
-	//for (auto pair : characters)
-	//	delete pair.second;
+	// release all characters generated
+	for (auto pair : characters)
+		delete pair.second;
 }
 
 void Server::receiverHandler(GameTime* gameTime)
@@ -51,43 +51,37 @@ void Server::receiverHandler(GameTime* gameTime)
 			// we only care about character infos, whose ObjID has length of 1
 			if (result[2].length() > 1)
 				continue;
+
+			// new character if is newly connected client
+			auto iter = characters.find(result[2]);
+			// store client into map
+			if (iter == characters.end()) // new client, generate object
+			{
+				LocalTime local(1, *gameTime);
+
+				characters.insert({
+					result[2],
+					new Character(
+						result[2], ::Shape::DIAMOND, ::Color::BLUE, Vector2f(60.f, 120.f),
+						Vector2f((float)atof(result[3].c_str()), (float)atof(result[4].c_str())), // pos
+						Vector2f(250.0f, 0.0f), local
+					)
+				});
+
+				cout << "New client " + result[0] << endl;
+			}
 			
+			// insert new Event anyway
 			manager->insertEvent(
 				result[2][0],
 				new EObjMovement(
 					atof(result[1].c_str()),
-					,// character
+					characters.find(result[2])->second,// character
 					atof(result[3].c_str()),
 					atof(result[4].c_str())
 				)
 			);
 		}
-		
-		//// find client
-		//auto iter = characters.find(result[0]);
-		//// store client into map
-		//if (iter == characters.end()) // new client, generate object
-		//{
-		//	LocalTime local(1, *gameTime);
-
-		//	characters.insert({ 
-		//		result[0], 
-		//		new Character(
-		//			result[0], ::Shape::DIAMOND, ::Color::BLUE, Vector2f(60.f, 120.f),
-		//			Vector2f((float)atof(result[1].c_str()), (float)atof(result[2].c_str())), // pos
-		//			Vector2f(250.0f, 0.0f), local
-		//		)
-		//	});
-
-		//	cout << "New client " + result[0] << endl;
-		//}
-		//else // old client, set position
-		//{
-		//	Character* character = iter->second;
-		//	dynamic_cast<Renderable*>(character->getGC(ComponentType::RENDERABLE))->getShape()->setPosition(
-		//		Vector2f((float)atof(result[1].c_str()), (float)atof(result[2].c_str()))
-		//	);
-		//}
 		
 		// send a response to fulfill a come and go
 		s_send(receiver, "success");
@@ -130,6 +124,9 @@ void Server::disconnectHandler(const string& name)
 {
 	// remove the queue of the client
 	manager->removeQueue(name[0]);
+	// remove the character pointer in characters
+	delete characters.find(name)->second;
+	characters.erase(name);
 
 	// store the disconnected client in the list
 	mtxDisc.lock();

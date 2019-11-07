@@ -28,7 +28,7 @@ private:
 	context_t context;
 	socket_t receiver;
 	socket_t publisher;
-	//map<string, Character*> characters;
+	map<string, Character*> characters;
 	EventManager* manager;
 	list<string> disconnecting;
 	mutex mtxDisc, mtxEvt;
