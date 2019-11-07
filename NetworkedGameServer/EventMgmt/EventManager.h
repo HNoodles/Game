@@ -11,12 +11,14 @@ private:
 	EventHandler handler;
 	map <
 		const char, // client name
-		priority_queue<::Event, vector<::Event>, greater<::Event>>
+		priority_queue<::Event*, vector<::Event*>, greater<::Event*>>
 	> queues;
 	map <const char, double> GVTs;
 	list<EObjMovement> objMovements;
 public:
 	EventManager(GameTime& gameTime, const char selfName);
+
+	~EventManager();
 
 	void executeEvents();
 
@@ -29,7 +31,7 @@ public:
 
 	void addQueue(const char client_name)
 	{
-		priority_queue<::Event, vector<::Event>, greater<::Event>> newQueue;
+		priority_queue<::Event*, vector<::Event*>, greater<::Event*>> newQueue;
 		queues.insert({ client_name, newQueue });
 	}
 
@@ -37,5 +39,7 @@ public:
 	{
 		queues.erase(client_name);
 	}
+
+	void insertEvent(const char client_name, ::Event* e);
 };
 

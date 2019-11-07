@@ -1,4 +1,4 @@
-#include "../EventHandler.h"
+#include "../EventManager.h"
 #include "../../Objects/SideBoundary.h"
 
 void EventHandler::onCharCollision(ECharCollision e)
@@ -14,7 +14,7 @@ void EventHandler::onCharCollision(ECharCollision e)
 		platformWork(character, (MovingPlatform*)object);
 		break;
 	case Collision::DEATHZONE:
-		// TODO: generate new ECharDeath in manager
+		deathZoneWork(character);
 		break;
 	case Collision::SIDEBOUNDARY:
 		sideBoundaryWork((SideBoundary*)object);
@@ -49,6 +49,12 @@ void EventHandler::platformWork(Character* character, MovingPlatform* platform)
 	}
 }
 
+void EventHandler::deathZoneWork(Character* character)
+{
+	// generate a character death event in manager
+	manager->insertEvent(selfName, new ECharDeath(gameTime.getTime(), character));
+}
+
 void EventHandler::sideBoundaryWork(SideBoundary* boundary)
 {
 	// add offset this time to overall offset
@@ -70,7 +76,11 @@ void EventHandler::onCharDeath(ECharDeath e)
 	// randomly select a spawn point to respawn
 	int index = rand() % spawnPoints->size();
 	
-	// TODO: generate a character respawn event in manager
+	// generate a character respawn event in manager
+	manager->insertEvent(
+		selfName, 
+		new ECharSpawn(gameTime.getTime(), character, (*spawnPoints)[index])
+	);
 }
 
 void EventHandler::onCharSpawn(ECharSpawn e)
@@ -122,7 +132,8 @@ void EventHandler::onUserInput(EUserInput e)
 	}
 }
 
-EventHandler::EventHandler(GameTime& gameTime) : gameTime(gameTime)
+EventHandler::EventHandler(GameTime& gameTime, EventManager* manager, const char selfName)
+	: gameTime(gameTime), manager(manager), selfName(selfName)
 {
 }
 

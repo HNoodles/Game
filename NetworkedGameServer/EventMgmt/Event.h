@@ -17,10 +17,9 @@ enum class Content_t {
 
 class Event
 {
-private:
+protected:
 	Event_t type;
 	double executeTime;
-protected:
 	map<Content_t, Variant> args;
 
 	void addArg(Content_t content_t, Variant_t variant_t, void* arg)

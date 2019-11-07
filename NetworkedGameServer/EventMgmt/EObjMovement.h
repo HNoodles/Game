@@ -20,5 +20,7 @@ public:
 	{
 		return *(double*)getArg(Content_t::Y_VAL).getVal(Variant_t::DOUBLE);
 	}
+
+	string toString();
 };
 
