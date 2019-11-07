@@ -26,6 +26,6 @@ private:
 public:
 	EventHandler(GameTime& gameTime);
 
-	void onEvent(const ::MyEvent* e);
+	void onEvent(::Event* e);
 };
 

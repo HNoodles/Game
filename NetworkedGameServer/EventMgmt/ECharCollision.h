@@ -1,8 +1,8 @@
 #pragma once
-#include "MyEvent.h"
+#include "Event.h"
 #include "../Objects/Character.h"
 
-class ECharCollision : public ::MyEvent
+class ECharCollision : public ::Event
 {
 public:
 	ECharCollision(double executeTime, Character* character, GameObject* collidableObj);

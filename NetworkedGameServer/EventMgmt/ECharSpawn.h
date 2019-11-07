@@ -1,9 +1,9 @@
 #pragma once
-#include "MyEvent.h"
+#include "Event.h"
 #include "../Objects/Character.h"
 #include "../Objects/SpawnPoint.h"
 
-class ECharSpawn : public ::MyEvent
+class ECharSpawn : public ::Event
 {
 public:
 	ECharSpawn(double executeTime, Character* character, SpawnPoint* spawnPoint);

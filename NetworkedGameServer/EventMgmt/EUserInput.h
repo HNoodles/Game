@@ -1,8 +1,8 @@
 #pragma once
-#include "MyEvent.h"
+#include "Event.h"
 #include "../Objects/Character.h"
 
-class EUserInput : public ::MyEvent
+class EUserInput : public ::Event
 {
 public:
 	EUserInput(double executeTime, Character* character, Keyboard::Key* input);

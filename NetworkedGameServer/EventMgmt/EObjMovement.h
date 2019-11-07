@@ -1,7 +1,7 @@
 #pragma once
-#include "MyEvent.h"
+#include "Event.h"
 
-class EObjMovement : public ::MyEvent
+class EObjMovement : public ::Event
 {
 public:
 	EObjMovement(double executeTime, GameObject* character, double x_val, double y_val);

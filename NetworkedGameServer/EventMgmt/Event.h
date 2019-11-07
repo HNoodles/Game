@@ -15,7 +15,7 @@ enum class Content_t {
 	X_VAL, Y_VAL, CHARACTER_PTR, OBJ_PTR, USER_INPUT
 };
 
-class MyEvent
+class Event
 {
 private:
 	Event_t type;
@@ -33,7 +33,7 @@ protected:
 		return args.find(content_t)->second;
 	}
 public:
-	MyEvent(Event_t type, double executeTime);
+	Event(Event_t type, double executeTime);
 
 	Event_t getType() const
 	{
@@ -44,7 +44,5 @@ public:
 	{
 		return executeTime;
 	}
-
-	bool operator>(const MyEvent& rv) const;
 };
 
