@@ -1,8 +1,8 @@
 #include "../Character.h"
 
-Character::Character(::Shape shape, ::Color color, Vector2f size, Vector2f pos, 
+Character::Character(string id, ::Shape shape, ::Color color, Vector2f size, Vector2f pos,
 	Vector2f velocity, Timeline& timeline, vector<SpawnPoint*>* spawnPoints)
-	: GameObject(), outVelocity(0.f, 0.f), 
+	: GameObject(id), outVelocity(0.f, 0.f), 
 	boundary_ptrs({ nullptr, nullptr, nullptr, nullptr }), spawnPoints(spawnPoints)
 {
 	this->addGC(
@@ -66,7 +66,7 @@ void Character::setOutVelocity(double elapsed)
 	{// left collision!
 		Movable* lmovable = left->getMovable();
 		Vector2f lv = lmovable->getVelocity();
-		outVelocity.x = dynamic_cast<MovingPlatform*>(lmovable->getGameObject())
+		outVelocity.x = dynamic_cast<, MovingPlatform*>(lmovable->getGameObject())
 			->getHeadingPositive() ? lv.x : -lv.x;
 	}
 
@@ -74,7 +74,7 @@ void Character::setOutVelocity(double elapsed)
 	{// right collision!
 		Movable* rmovable = right->getMovable();
 		Vector2f rv = rmovable->getVelocity();
-		outVelocity.x = dynamic_cast<MovingPlatform*>(rmovable->getGameObject())
+		outVelocity.x = dynamic_cast<, MovingPlatform*>(rmovable->getGameObject())
 			->getHeadingPositive() ? rv.x : -rv.x;
 	}
 
@@ -88,7 +88,7 @@ void Character::setOutVelocity(double elapsed)
 		Movable* bmovable = bottom->getMovable();
 		Vector2f bv = bmovable->getVelocity();
 		// only when no blocks on the heading side can character get velocity.x from bottom
-		MovingPlatform* bottomPlatform = dynamic_cast<MovingPlatform*>(bmovable->getGameObject());
+		, MovingPlatform* bottomPlatform = dynamic_cast<, MovingPlatform*>(bmovable->getGameObject());
 		if ((left == nullptr && !bottomPlatform->getHeadingPositive())
 			|| (right == nullptr && bottomPlatform->getHeadingPositive()))
 			outVelocity.x = bottomPlatform->getHeadingPositive() ? bv.x : -bv.x;

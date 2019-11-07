@@ -6,6 +6,6 @@
 class DeathZone : public GameObject
 {
 public:
-	DeathZone(::Shape shape, Vector2f size, Vector2f pos);
+	DeathZone(string id, ::Shape shape, Vector2f size, Vector2f pos);
 };
 

@@ -1,6 +1,6 @@
 #include "../SpawnPoint.h"
 
-SpawnPoint::SpawnPoint(Vector2f pos) : GameObject()
+SpawnPoint::SpawnPoint(string id, Vector2f pos) : GameObject(id)
 {
 	this->addGC(
 		ComponentType::RENDERABLE,

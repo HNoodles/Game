@@ -14,7 +14,7 @@ private:
 	const Vector2f gravity = Vector2f(0.f, 500.f);
 public:
 	Character(
-		::Shape shape, ::Color color, Vector2f size, Vector2f pos, 
+		string id, ::Shape shape, ::Color color, Vector2f size, Vector2f pos,
 		Vector2f velocity, Timeline& timeline, vector<SpawnPoint*>* spawnPoints = nullptr
 	);
 

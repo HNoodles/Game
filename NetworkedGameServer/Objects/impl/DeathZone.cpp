@@ -1,6 +1,6 @@
 #include "../DeathZone.h"
 
-DeathZone::DeathZone(::Shape shape, Vector2f size, Vector2f pos) : GameObject()
+DeathZone::DeathZone(string id, ::Shape shape, Vector2f size, Vector2f pos) : GameObject(id)
 {
 	this->addGC(
 		ComponentType::RENDERABLE,

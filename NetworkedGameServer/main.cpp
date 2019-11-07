@@ -22,19 +22,19 @@ int main()
 
 	// init platforms
 	MovingPlatform platform(
-		::Shape::RECTANGLE, ::Color::GREEN, Vector2f(400.f, 50.f), Vector2f(200.f, 400.f),
+		"SP", ::Shape::RECTANGLE, ::Color::GREEN, Vector2f(400.f, 50.f), Vector2f(200.f, 400.f),
 		Vector2f(0.f, 0.f), gameTime, Move::STATIC
 	);
 	collidableObjects.emplace_back(dynamic_cast<Collidable*>(platform.getGC(ComponentType::COLLIDABLE)));
 
 	MovingPlatform movingPlatform(
-		::Shape::RECTANGLE, ::Color::RED, Vector2f(400.f, 50.f), Vector2f(750.f, 320.f),
+		"MP1", ::Shape::RECTANGLE, ::Color::RED, Vector2f(400.f, 50.f), Vector2f(750.f, 320.f),
 		Vector2f(100.f, 0.f), gameTime, Move::HORIZONTAL, 600.f, 200.f
 	);
 	collidableObjects.emplace_back(dynamic_cast<Collidable*>(movingPlatform.getGC(ComponentType::COLLIDABLE)));
 
 	MovingPlatform verticalPlatform(
-		::Shape::RECTANGLE, ::Color::RED, Vector2f(300.f, 50.f), Vector2f(1250.f, 220.f),
+		"MP2", ::Shape::RECTANGLE, ::Color::RED, Vector2f(300.f, 50.f), Vector2f(1250.f, 220.f),
 		Vector2f(0.f, 50.f), gameTime, Move::VERTICAL, 200.f, 50.f
 	);
 	collidableObjects.emplace_back(dynamic_cast<Collidable*>(verticalPlatform.getGC(ComponentType::COLLIDABLE)));

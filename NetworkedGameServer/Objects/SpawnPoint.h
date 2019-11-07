@@ -6,6 +6,6 @@
 class SpawnPoint : public GameObject
 {
 public:
-	SpawnPoint(Vector2f pos);
+	SpawnPoint(string id, Vector2f pos);
 };
 

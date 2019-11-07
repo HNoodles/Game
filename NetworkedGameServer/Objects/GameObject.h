@@ -7,11 +7,10 @@ using namespace std;
 class GameObject
 {
 private:
+	string id;
 	map<ComponentType, GenericComponent*> gcs;
 public:
-	GameObject() {};
-
-	GameObject(map<ComponentType, GenericComponent*> gcs) { this->gcs = gcs; }
+	GameObject(string id) : id(id) {};
 
 	virtual ~GameObject()
 	{
@@ -30,5 +29,10 @@ public:
 	void addGC(ComponentType type, GenericComponent* component)
 	{
 		gcs.insert({ type, component });
+	}
+
+	string getId() const
+	{
+		return id;
 	}
 };

@@ -1,8 +1,8 @@
 #include "../SideBoundary.h"
 
-SideBoundary::SideBoundary(::Direction direction, Vector2u windowSize, float padding,
+SideBoundary::SideBoundary(string id, ::Direction direction, Vector2u windowSize, float padding,
 	Vector2f& renderOffset, vector<SideBoundary*>* sideBoundaries)
-	: GameObject(), direction(direction), windowSize(windowSize), padding(padding), 
+	: GameObject(id), direction(direction), windowSize(windowSize), padding(padding), 
 	renderOffset(renderOffset), sideBoundaries(sideBoundaries)
 {
 	// set offset
