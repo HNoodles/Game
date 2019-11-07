@@ -44,5 +44,7 @@ public:
 	{
 		return executeTime;
 	}
+
+	bool operator>(const Event& rv) const;
 };
 
