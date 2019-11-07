@@ -17,12 +17,15 @@ void EventManager::executeEvents()
 		while (queue.top().getExecuteTime() <= GVT)
 		{
 			const ::Event* e = &(queue.top());
+
+			// handle event
 			handler.onEvent(e);
-			
+
 			// store the event for publishing if is object movement event
 			if (e->getType() == ::Event_t::OBJ_MOVEMENT)
 				objMovements.push_back(*(EObjMovement*)e);
-			
+
+			// pop it from the queue
 			queue.pop();
 		}
 	}	
