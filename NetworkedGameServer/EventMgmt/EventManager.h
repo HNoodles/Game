@@ -7,6 +7,7 @@ class EventManager
 {
 private:
 	GameTime& gameTime;
+	const char selfName;
 	double GVT;
 	EventHandler handler;
 	map <
@@ -24,6 +25,11 @@ public:
 
 	void updateGVT();
 
+	double getRequestGVT() const
+	{
+		return queues.find(selfName)->second.top()->getExecuteTime();
+	}
+
 	void insertGVT(const char client_name, double GVT)
 	{
 		GVTs.insert({ client_name, GVT });
@@ -40,6 +46,20 @@ public:
 		queues.erase(client_name);
 	}
 
-	void insertEvent(const char client_name, ::Event* e);
+	void insertEvent(const char client_name, ::Event* e)
+	{
+		queues.find(client_name)->second.push(e);
+
+		// store the event for publishing if is object movement event
+		if (e->getType() == ::Event_t::OBJ_MOVEMENT)
+		{
+			objMovements.push_back(*(EObjMovement*)e);
+		}
+	}
+
+	list<EObjMovement>* getObjMovements()
+	{
+		return &objMovements;
+	}
 };
 

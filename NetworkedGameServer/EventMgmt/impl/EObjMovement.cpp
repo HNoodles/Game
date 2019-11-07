@@ -16,5 +16,5 @@ string EObjMovement::toString()
 		to_string(executeTime) + " " + 
 		getObject()->getId() + " " + 
 		to_string(getXVal()) + " " +
-		to_string(getYVal());
+		to_string(getYVal()) + "\n";
 }

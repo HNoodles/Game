@@ -1,7 +1,7 @@
 #include "../EventManager.h"
 
 EventManager::EventManager(GameTime& gameTime, const char selfName)
-	: gameTime(gameTime), handler(gameTime, this, selfName), GVT(gameTime.getTime())
+	: gameTime(gameTime), selfName(selfName), handler(gameTime, this, selfName), GVT(gameTime.getTime())
 {
 	addQueue(selfName);
 	insertGVT(selfName, GVT);
@@ -34,14 +34,8 @@ void EventManager::executeEvents()
 
 			// handle event
 			handler.onEvent(e);
-
-			// store the event for publishing if is object movement event
-			if (e->getType() == ::Event_t::OBJ_MOVEMENT)
-				objMovements.push_back(*(EObjMovement*)e);
-
 			// delete the pointer
 			delete e;
-
 			// pop it from the queue
 			queue.pop();
 		}
@@ -60,9 +54,4 @@ void EventManager::updateGVT()
 	}
 
 	GVT = temp;
-}
-
-void EventManager::insertEvent(const char client_name, ::Event* e)
-{
-	queues.find(client_name)->second.push(e);
 }

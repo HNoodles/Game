@@ -1,7 +1,7 @@
 #include "../Server.h"
 
-Server::Server()
-	: context(1), receiver(context, ZMQ_REP), publisher(context, ZMQ_PUB)
+Server::Server(EventManager* manager)
+	: context(1), receiver(context, ZMQ_REP), publisher(context, ZMQ_PUB), manager(manager)
 {
 	receiver.bind("tcp://*:5555");
 	cout << "Receiver started, listening for clients on port 5555..." << endl;
@@ -46,7 +46,7 @@ void Server::receiverHandler(GameTime* gameTime)
 			characters.insert({ 
 				result[0], 
 				new Character(
-					::Shape::DIAMOND, ::Color::BLUE, Vector2f(60.f, 120.f),
+					result[0], ::Shape::DIAMOND, ::Color::BLUE, Vector2f(60.f, 120.f),
 					Vector2f((float)atof(result[1].c_str()), (float)atof(result[2].c_str())), // pos
 					Vector2f(250.0f, 0.0f), local
 				)
@@ -70,31 +70,14 @@ void Server::receiverHandler(GameTime* gameTime)
 void Server::publisherHandler(list<Collidable*>* collidableObjects)
 {	
 	// publish current message
-	string message = "";
+	string message = "GVT " + to_string(manager->getRequestGVT()) + "\n";
 
-	// generate platforms message
-	for (Collidable* object : *collidableObjects)
+	list<EObjMovement>* newObjMovements = manager->getObjMovements();
+	for (EObjMovement e : *newObjMovements)
 	{
-		message += CollidableObjectMessage(object);
+		message += e.toString();
 	}
-
-	string deleted = "";
-	// generate clients message
-	for (auto pair : characters)
-	{
-		message += CharacterMessage(pair.first, pair.second);
-
-		if (!pair.second) // disconnected client, delete it
-		{
-			//characters.erase(pair.first);
-			deleted = pair.first;
-		}
-	}
-	// delete pair of disconnected client after notifying everyone
-	if (characters.find(deleted) != characters.end())
-	{
-		characters.erase(deleted);
-	}
+	newObjMovements->clear();
 
 	// send message
 	s_send(publisher, message);

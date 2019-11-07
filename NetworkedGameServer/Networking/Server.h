@@ -13,6 +13,7 @@
 #include "../Objects/Character.h"
 #include "../Objects/SpawnPoint.h"
 #include "../Objects/DeathZone.h"
+#include "../EventMgmt/EventManager.h"
 
 using namespace std;
 using namespace zmq;
@@ -26,6 +27,7 @@ private:
 	socket_t receiver;
 	socket_t publisher;
 	map<string, Character*> characters;
+	EventManager* manager;
 
 	string s_recv(socket_t& socket);
 
@@ -45,7 +47,7 @@ private:
 
 	void disconnectHandler(const string& name);
 public:
-	Server();
+	Server(EventManager* manager);
 
 	~Server();
 
