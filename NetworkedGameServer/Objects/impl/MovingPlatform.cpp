@@ -1,8 +1,9 @@
 #include "../MovingPlatform.h"
 
-MovingPlatform::MovingPlatform(string id, ::Shape shape, ::Color color, Vector2f size, 
+MovingPlatform::MovingPlatform(string id, EventManager* manager, 
+	::Shape shape, ::Color color, Vector2f size,
 	Vector2f pos, Vector2f velocity, Timeline& timeline, ::Move move, float negBound, float range)
-	: GameObject(id), headingPositive(false), negBound(negBound), posBound(negBound + range)
+	: GameObject(id, manager), headingPositive(false), negBound(negBound), posBound(negBound + range)
 {
 	this->addGC(
 		ComponentType::RENDERABLE,

@@ -1,6 +1,7 @@
 #include "../DeathZone.h"
 
-DeathZone::DeathZone(string id, ::Shape shape, Vector2f size, Vector2f pos) : GameObject(id)
+DeathZone::DeathZone(string id, EventManager* manager, 
+	::Shape shape, Vector2f size, Vector2f pos) : GameObject(id, manager)
 {
 	this->addGC(
 		ComponentType::RENDERABLE,

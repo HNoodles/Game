@@ -9,7 +9,8 @@ private:
 	float negBound, posBound;
 public:
 	MovingPlatform(
-		string id, ::Shape shape, ::Color color, Vector2f size,
+		string id, EventManager* manager, 
+		::Shape shape, ::Color color, Vector2f size,
 		Vector2f pos, Vector2f velocity, Timeline& timeline, ::Move move, float negBound = 0, float range = 0
 	);
 

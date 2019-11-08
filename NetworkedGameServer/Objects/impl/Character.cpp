@@ -1,8 +1,9 @@
 #include "../Character.h"
 
-Character::Character(string id, ::Shape shape, ::Color color, Vector2f size, Vector2f pos,
+Character::Character(string id, EventManager* manager, 
+	::Shape shape, ::Color color, Vector2f size, Vector2f pos,
 	Vector2f velocity, Timeline& timeline, vector<SpawnPoint*>* spawnPoints)
-	: GameObject(id), outVelocity(0.f, 0.f), 
+	: GameObject(id, manager), outVelocity(0.f, 0.f), 
 	boundary_ptrs({ nullptr, nullptr, nullptr, nullptr }), spawnPoints(spawnPoints)
 {
 	this->addGC(

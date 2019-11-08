@@ -16,7 +16,8 @@ private:
 	Vector2f& renderOffset;
 	vector<SideBoundary*>* sideBoundaries;
 public:
-	SideBoundary(string id, ::Direction direction, Vector2u windowSize, float padding,
+	SideBoundary(string id, EventManager* manager, 
+		::Direction direction, Vector2u windowSize, float padding,
 		Vector2f& renderOffset, vector<SideBoundary*>* sideBoundaries);
 
 	Vector2f getOffset() const
