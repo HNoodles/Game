@@ -7,7 +7,7 @@ class EventManager
 {
 private:
 	Timeline& gameTime;
-	const char* const selfName;
+	static char* const selfName;
 	double GVT;
 	EventHandler handler;
 	map <
@@ -46,7 +46,7 @@ public:
 		queues.erase(client_name);
 	}
 
-	void insertEvent(const char* const client_name, ::Event* e)
+	void insertEvent(::Event* e, const char* const client_name = selfName)
 	{
 		// locate the pair
 		auto pair = queues.find(client_name);

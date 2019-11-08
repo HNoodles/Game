@@ -62,7 +62,8 @@ void Server::receiverHandler(GameTime* gameTime)
 				characters.insert({
 					result[2],
 					new Character(
-						result[2], ::Shape::DIAMOND, ::Color::BLUE, Vector2f(60.f, 120.f),
+						result[2], manager, 
+						::Shape::DIAMOND, ::Color::BLUE, Vector2f(60.f, 120.f),
 						Vector2f((float)atof(result[3].c_str()), (float)atof(result[4].c_str())), // pos
 						Vector2f(250.0f, 0.0f), local
 					)
@@ -73,13 +74,13 @@ void Server::receiverHandler(GameTime* gameTime)
 			
 			// insert new Event anyway
 			manager->insertEvent(
-				(const char* const)result[2][0],
 				new EObjMovement(
 					atof(result[1].c_str()),
 					characters.find(result[2])->second,// character
 					atof(result[3].c_str()),
 					atof(result[4].c_str())
-				)
+				), 
+				(const char* const)result[2][0]
 			);
 		}
 		

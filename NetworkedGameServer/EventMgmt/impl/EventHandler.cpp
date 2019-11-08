@@ -52,7 +52,7 @@ void EventHandler::platformWork(Character* character, MovingPlatform* platform)
 void EventHandler::deathZoneWork(Character* character)
 {
 	// generate a character death event in manager
-	manager->insertEvent(selfName, new ECharDeath(gameTime.getTime(), character));
+	manager->insertEvent(new ECharDeath(gameTime.getTime(), character));
 }
 
 void EventHandler::sideBoundaryWork(SideBoundary* boundary)
@@ -78,7 +78,6 @@ void EventHandler::onCharDeath(ECharDeath e)
 	
 	// generate a character respawn event in manager
 	manager->insertEvent(
-		selfName, 
 		new ECharSpawn(gameTime.getTime(), character, (*spawnPoints)[index])
 	);
 }

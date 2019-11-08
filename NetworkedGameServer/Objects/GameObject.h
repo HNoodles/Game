@@ -37,4 +37,9 @@ public:
 	{
 		return id;
 	}
+
+	EventManager* getEM()
+	{
+		return manager;
+	}
 };
