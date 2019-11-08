@@ -1,6 +1,6 @@
 #pragma once
 #include "Event.h"
-#include "../Objects/Character.h"
+#include "../Components/Collidable.h"
 
 class ECharCollision : public ::Event
 {

@@ -1,4 +1,6 @@
 #include "../EventManager.h"
+#include "../../Objects/Character.h"
+#include "../../Objects/SpawnPoint.h"
 #include "../../Objects/SideBoundary.h"
 
 void EventHandler::onCharCollision(ECharCollision e)
@@ -99,7 +101,7 @@ void EventHandler::onCharSpawn(ECharSpawn e)
 void EventHandler::onObjMovement(EObjMovement e)
 {
 	GameObject* object = e.getObject();
-	Vector2f movement = Vector2f(e.getXVal(), e.getYVal());
+	Vector2f movement = Vector2f((float)e.getXVal(), (float)e.getYVal());
 
 	// move the object toward movement
 	dynamic_cast<Renderable*>(object->getGC(ComponentType::RENDERABLE))

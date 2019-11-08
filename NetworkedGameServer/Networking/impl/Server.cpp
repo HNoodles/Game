@@ -89,7 +89,7 @@ void Server::receiverHandler(GameTime* gameTime)
 	}
 }
 
-void Server::publisherHandler(list<Collidable*>* collidableObjects)
+void Server::publisherHandler()
 {	
 	// start with requested GVT
 	string message = "GVT " + to_string(manager->getRequestGVT()) + "\n";
@@ -168,73 +168,3 @@ void Server::Split(const string& string, const std::string& separator, vector<st
 		start = index + strlen(separator.c_str());
 	}
 }
-
-//string Server::CollidableObjectMessage(Collidable * object)
-//{
-//	// TYPE 5.0 5.0\n
-//	Collision type = object->getType();
-//	switch (type)
-//	{
-//	case Collision::PLATFORM: 
-//		return PlatformMessage(dynamic_cast<MovingPlatform*>(object->getGameObject()));
-//	case Collision::DEATHZONE:
-//		return DeathZoneMessage(dynamic_cast<DeathZone*>(object->getGameObject()));
-//	case Collision::CHARACTER: // won't have this type
-//	case Collision::SIDEBOUNDARY: // won't have this type
-//	default: // shouldn't reach here
-//		return "";
-//	}
-//}
-//
-//string Server::PlatformMessage(MovingPlatform* platform) // P 5.0 5.0 0\n
-//{
-//	string message = "P ";
-//
-//	string heading = " " + to_string(platform->getHeadingPositive());
-//	Vector2f pos = dynamic_cast<Renderable*>(platform->getGC(ComponentType::RENDERABLE))
-//		->getShape()->getPosition();
-//
-//	message += to_string(pos.x) + " " + to_string(pos.y) + heading + "\n";
-//
-//	return message;
-//}
-//
-//string Server::SpawnPointMessage(SpawnPoint* spawnPoint) // S 5.0 5.0\n
-//{
-//	string message = "S ";
-//
-//	Vector2f pos = dynamic_cast<Renderable*>(spawnPoint->getGC(ComponentType::RENDERABLE))
-//		->getShape()->getPosition();
-//
-//	message += to_string(pos.x) + " " + to_string(pos.y) + "\n";
-//
-//	return message;
-//}
-//
-//string Server::DeathZoneMessage(DeathZone* deathZone) // D pos.x pos.y\n
-//{
-//	string message = "D ";
-//
-//	sf::Shape* shape = dynamic_cast<Renderable*>(deathZone->getGC(ComponentType::RENDERABLE))->getShape();
-//	Vector2f pos = shape->getPosition();
-//
-//	message += to_string(pos.x) + " " + to_string(pos.y) + "\n";
-//
-//	return message;
-//}
-//
-//string Server::CharacterMessage(const string& name, Character* character)
-//{
-//	if (!character) // already disconnected character, notify all clients: C name D
-//	{
-//		return "C " + name + " D\n";
-//	}
-//	else // C NAME 5.0 5.0 1.234\n
-//	{
-//		Vector2f pos = dynamic_cast<Renderable*>(character->getGC(ComponentType::RENDERABLE))
-//			->getShape()->getPosition();
-//		Timeline& time = dynamic_cast<Movable*>(character->getGC(ComponentType::MOVABLE))->getTimeline();
-//		return "C " + name + " " + to_string(pos.x) + " " + to_string(pos.y) + " " 
-//			+ to_string(time.getTime()) + "\n";
-//	}
-//}

@@ -39,16 +39,6 @@ private:
 
 	void Split(const string& string, const std::string& separator, vector<std::string>& result);
 
-	/*string CollidableObjectMessage(Collidable * object);
-
-	string PlatformMessage(MovingPlatform* platform);
-
-	string SpawnPointMessage(SpawnPoint* spawnPoint);
-
-	string DeathZoneMessage(DeathZone* deathZone);
-
-	string CharacterMessage(const string& name, Character* character);*/
-
 	void disconnectHandler(const string& name);
 public:
 	Server(EventManager* manager);
@@ -57,6 +47,6 @@ public:
 
 	void receiverHandler(GameTime* gameTime);
 
-	void publisherHandler(list<Collidable*>* collidableObjects);
+	void publisherHandler();
 };
 

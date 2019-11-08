@@ -1,6 +1,6 @@
-#include "Variant.h"
+#include "../../Objects/GameObject.h"
 
-Variant::Variant(Variant_t type, void* value) : type(type)
+Variant::Variant(Variant_t type, void* value) : type(type), var()
 {
 	switch (type)
 	{

@@ -1,6 +1,9 @@
 #pragma once
+#include <SFML/Graphics.hpp>
 
-#include "../../Objects/GameObject.h"
+using namespace sf;
+
+class GameObject;
 
 enum class Variant_t {
 	DOUBLE, OBJ_PTR, KEY, BOOL
@@ -32,6 +35,7 @@ public:
 		case Variant_t::BOOL:
 			return &var.bool_val;
 		default:
+			return nullptr;
 			break;
 		}
 	}

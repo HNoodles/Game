@@ -17,14 +17,6 @@ private:
 	::Collision collision;
 	Renderable* renderable;
 	Movable* movable;
-
-	void platformWork(Collidable* platform, FloatRect bound, 
-		vector<RectangleShape>& boundary_lines, vector<Collidable*>* boundary_ptrs);
-
-	void deathZoneWork(vector<SpawnPoint*>* spawnPoints);
-
-	void sideBoundaryWork(Collidable* sideBoundary,
-		Vector2f& renderOffset, vector<SideBoundary*>* sideBoundaries);
 public:
 	Collidable(GameObject* gameObject, ::Collision collision, Renderable* renderable, Movable* movable);
 

@@ -1,4 +1,5 @@
 #include "../EObjMovement.h"
+#include "../../Objects/GameObject.h"
 
 EObjMovement::EObjMovement(double executeTime, GameObject* object, 
 	double x_val, double y_val, bool positive)

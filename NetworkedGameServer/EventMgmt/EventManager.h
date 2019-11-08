@@ -1,13 +1,13 @@
 #pragma once
 #include <queue>
-#include "Event.h"
 #include "EventHandler.h"
+
+static char* selfName;
 
 class EventManager
 {
 private:
 	Timeline& gameTime;
-	static char* const selfName;
 	double GVT;
 	EventHandler handler;
 	map <

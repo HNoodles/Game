@@ -1,7 +1,6 @@
 #pragma once
 #include "Event.h"
-#include "../Objects/Character.h"
-#include "../Objects/SpawnPoint.h"
+#include "../Components/Collidable.h"
 
 class ECharSpawn : public ::Event
 {

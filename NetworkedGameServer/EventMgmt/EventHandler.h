@@ -5,6 +5,8 @@
 #include "EObjMovement.h"
 #include "EUserInput.h"
 
+class EventManager;
+
 class EventHandler
 {
 private:

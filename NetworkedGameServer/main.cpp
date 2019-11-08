@@ -65,7 +65,7 @@ int main()
 		lastTime = thisTime;
 
 		// publish messages
-		server.publisherHandler(&collidableObjects);
+		server.publisherHandler();
 	}
 
 	return 0;

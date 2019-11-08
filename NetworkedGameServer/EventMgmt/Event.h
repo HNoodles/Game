@@ -3,8 +3,6 @@
 #include <map>
 #include "util/Variant.h"
 
-#include <stdarg.h>
-
 using namespace std;
 
 enum class Event_t {
