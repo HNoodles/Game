@@ -8,9 +8,9 @@
 class EventHandler
 {
 private:
-	GameTime& gameTime;
+	Timeline& gameTime;
 	EventManager* manager;
-	const char selfName;
+	const char* const selfName;
 
 	void onCharCollision(ECharCollision e);
 
@@ -28,7 +28,7 @@ private:
 
 	void onUserInput(EUserInput e);
 public:
-	EventHandler(GameTime& gameTime, EventManager* manager, const char selfName);
+	EventHandler(Timeline& gameTime, EventManager* manager, const char* const selfName);
 
 	void onEvent(const ::Event* e);
 };

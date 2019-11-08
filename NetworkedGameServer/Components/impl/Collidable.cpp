@@ -65,7 +65,9 @@ void Collidable::work(list<Collidable*>& objects, double elapsed,
 		FloatRect bound = object->renderable->getShape()->getGlobalBounds();
 
 		if (cbound.intersects(bound)) {// collision happens
-			switch (object->collision)
+			// TODO: generate event in event manager
+									   
+			/*switch (object->collision)
 			{
 			case Collision::PLATFORM:
 				platformWork(object, bound, boundary_lines, boundary_ptrs);
@@ -78,7 +80,7 @@ void Collidable::work(list<Collidable*>& objects, double elapsed,
 				break;
 			default:
 				break;
-			}
+			}*/
 		}
 	}
 

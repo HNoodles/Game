@@ -132,7 +132,7 @@ void EventHandler::onUserInput(EUserInput e)
 	}
 }
 
-EventHandler::EventHandler(GameTime& gameTime, EventManager* manager, const char selfName)
+EventHandler::EventHandler(Timeline& gameTime, EventManager* manager, const char* const selfName)
 	: gameTime(gameTime), manager(manager), selfName(selfName)
 {
 }

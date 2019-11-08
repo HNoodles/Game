@@ -3,7 +3,7 @@
 #include "../../Objects/GameObject.h"
 
 enum class Variant_t {
-	DOUBLE, OBJ_PTR, KEY
+	DOUBLE, OBJ_PTR, KEY, BOOL
 };
 
 class Variant
@@ -14,6 +14,7 @@ private:
 		double double_val;
 		GameObject* obj_ptr;
 		Keyboard::Key key;
+		bool bool_val;
 	} var;
 public:
 	Variant(Variant_t type, void* value);
@@ -28,6 +29,8 @@ public:
 			return &var.obj_ptr;
 		case Variant_t::KEY:
 			return &var.key;
+		case Variant_t::BOOL:
+			return &var.bool_val;
 		default:
 			break;
 		}

@@ -12,7 +12,7 @@ enum class Event_t {
 };
 
 enum class Content_t {
-	X_VAL, Y_VAL, CHARACTER_PTR, OBJ_PTR, USER_INPUT
+	X_VAL, Y_VAL, CHARACTER_PTR, OBJ_PTR, USER_INPUT, POSITIVE
 };
 
 class Event

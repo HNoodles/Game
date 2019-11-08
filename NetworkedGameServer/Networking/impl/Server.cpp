@@ -40,7 +40,7 @@ void Server::receiverHandler(GameTime* gameTime)
 
 		// GVT name double
 		Split(lines[0], " ", result);
-		manager->insertGVT(result[1][0], atof(result[2].c_str()));
+		manager->insertGVT((const char* const)result[1][0], atof(result[2].c_str()));
 		lines.erase(lines.begin()); // remove first line
 
 		// E executeTime ObjID(client_name) X_val Y_val
@@ -73,7 +73,7 @@ void Server::receiverHandler(GameTime* gameTime)
 			
 			// insert new Event anyway
 			manager->insertEvent(
-				result[2][0],
+				(const char* const)result[2][0],
 				new EObjMovement(
 					atof(result[1].c_str()),
 					characters.find(result[2])->second,// character
@@ -123,7 +123,7 @@ void Server::publisherHandler(list<Collidable*>* collidableObjects)
 void Server::disconnectHandler(const string& name)
 {
 	// remove the queue of the client
-	manager->removeQueue(name[0]);
+	manager->removeQueue((const char* const)name[0]);
 	// remove the character pointer in characters
 	delete characters.find(name)->second;
 	characters.erase(name);

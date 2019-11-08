@@ -8,15 +8,18 @@ using namespace sf;
 
 // define objects
 list<Collidable*> collidableObjects;
-list<SpawnPoint*> spawnPoints;
+//list<SpawnPoint*> spawnPoints;
 //list<DeathZone*> deathZones;
 
 GameTime gameTime(1);
 
 int main()
 {
+	// init event manager
+	EventManager manager(gameTime, SERVER_NAME);
+
 	// init server
-	Server server;
+	Server server(&manager);
 	thread newThread(&Server::receiverHandler, &server, &gameTime);
 	newThread.detach();
 

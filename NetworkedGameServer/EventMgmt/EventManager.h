@@ -6,18 +6,18 @@
 class EventManager
 {
 private:
-	GameTime& gameTime;
-	const char selfName;
+	Timeline& gameTime;
+	const char* const selfName;
 	double GVT;
 	EventHandler handler;
 	map <
-		const char, // client name
+		const char* const, // client name
 		priority_queue<::Event*, vector<::Event*>, greater<::Event*>>
 	> queues;
-	map <const char, double> GVTs;
+	map <const char* const, double> GVTs;
 	list<EObjMovement> objMovements;
 public:
-	EventManager(GameTime& gameTime, const char selfName);
+	EventManager(Timeline& gameTime, const char* const selfName);
 
 	~EventManager();
 
@@ -30,23 +30,23 @@ public:
 		return queues.find(selfName)->second.top()->getExecuteTime();
 	}
 
-	void insertGVT(const char client_name, double GVT)
+	void insertGVT(const char* const client_name, double GVT)
 	{
 		GVTs.insert({ client_name, GVT });
 	}
 
-	void addQueue(const char client_name)
+	void addQueue(const char* const client_name)
 	{
 		priority_queue<::Event*, vector<::Event*>, greater<::Event*>> newQueue;
 		queues.insert({ client_name, newQueue });
 	}
 
-	void removeQueue(const char client_name)
+	void removeQueue(const char* const client_name)
 	{
 		queues.erase(client_name);
 	}
 
-	void insertEvent(const char client_name, ::Event* e)
+	void insertEvent(const char* const client_name, ::Event* e)
 	{
 		// locate the pair
 		auto pair = queues.find(client_name);
