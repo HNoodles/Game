@@ -22,7 +22,13 @@ void Movable::hMove(double elapsed)
 	{// heading right, not reaching bound
 	// heading left, reached bound
 		gameObject->getEM()->insertEvent(
-			new EObjMovement(gameObject->getEM()->getCurrentTime(), gameObject, dis.x, dis.y, true)
+			new EObjMovement(
+				gameObject->getEM()->getCurrentTime(), 
+				gameObject, 
+				pos.x + dis.x, 
+				pos.y + dis.y, 
+				true
+			)
 		);
 	}
 	else if ((headingPositive && pos.x > posBound)
@@ -30,7 +36,13 @@ void Movable::hMove(double elapsed)
 	{// heading right, reached bound
 	// heading left, not reaching bound
 		gameObject->getEM()->insertEvent(
-			new EObjMovement(gameObject->getEM()->getCurrentTime(), gameObject, -dis.x, -dis.y, false)
+			new EObjMovement(
+				gameObject->getEM()->getCurrentTime(), 
+				gameObject, 
+				pos.x - dis.x, 
+				pos.y - dis.y, 
+				false
+			)
 		);
 	}
 }
@@ -56,7 +68,13 @@ void Movable::vMove(double elapsed)
 	{// heading down, not reaching bound
 	// heading up, reached bound
 		gameObject->getEM()->insertEvent(
-			new EObjMovement(gameObject->getEM()->getCurrentTime(), gameObject, dis.x, dis.y, true)
+			new EObjMovement(
+				gameObject->getEM()->getCurrentTime(),
+				gameObject,
+				pos.x + dis.x,
+				pos.y + dis.y,
+				true
+			)
 		);
 	}
 	else if ((headingPositive && pos.y > posBound)
@@ -64,7 +82,13 @@ void Movable::vMove(double elapsed)
 	{// heading down, reached bound
 	// heading up, not reaching bound
 		gameObject->getEM()->insertEvent(
-			new EObjMovement(gameObject->getEM()->getCurrentTime(), gameObject, -dis.x, -dis.y, false)
+			new EObjMovement(
+				gameObject->getEM()->getCurrentTime(),
+				gameObject,
+				pos.x - dis.x,
+				pos.y - dis.y,
+				false
+			)
 		);
 	}
 }
@@ -76,8 +100,15 @@ void Movable::iMove(double elapsed)
 	// calculate total displacement
 	Vector2f dis = Vector2f((float)(outVelocity.x * elapsed), (float)(outVelocity.y * elapsed));
 
+	Vector2f pos = renderable->getShape()->getPosition();
+
 	gameObject->getEM()->insertEvent(
-		new EObjMovement(gameObject->getEM()->getCurrentTime(), gameObject, dis.x, dis.y)
+		new EObjMovement(
+			gameObject->getEM()->getCurrentTime(), 
+			gameObject, 
+			pos.x + dis.x,
+			pos.y + dis.y
+		)
 	);
 }
 

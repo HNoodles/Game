@@ -9,7 +9,7 @@ public:
 
 	GameObject* getObject()
 	{
-		return (GameObject*)getArg(Content_t::OBJ_PTR).getVal(Variant_t::OBJ_PTR);
+		return *(GameObject**)getArg(Content_t::OBJ_PTR).getVal(Variant_t::OBJ_PTR);
 	}
 
 	double getXVal()
