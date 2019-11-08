@@ -73,5 +73,10 @@ public:
 	{
 		return &objMovements;
 	}
+
+	double getCurrentTime() const
+	{
+		return gameTime.getTime();
+	}
 };
 

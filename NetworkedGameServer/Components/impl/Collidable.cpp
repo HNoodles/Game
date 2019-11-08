@@ -65,9 +65,14 @@ void Collidable::work(list<Collidable*>& objects, double elapsed,
 		FloatRect bound = object->renderable->getShape()->getGlobalBounds();
 
 		if (cbound.intersects(bound)) {// collision happens
-			// TODO: generate event in event manager
-			gameObject->getEM()->insertEvent(new ECharCollision())
-			
+			// generate character collision event in event manager
+			gameObject->getEM()->insertEvent(
+				new ECharCollision(
+					gameObject->getEM()->getCurrentTime(), 
+					character, 
+					object->getGameObject()
+				)
+			);
 		}
 	}
 

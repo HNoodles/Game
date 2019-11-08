@@ -38,7 +38,7 @@ public:
 		return id;
 	}
 
-	EventManager* getEM()
+	EventManager* getEM() const
 	{
 		return manager;
 	}

@@ -32,7 +32,7 @@ protected:
 		return args.find(content_t)->second;
 	}
 public:
-	Event(Event_t type, double executeTimeBias);
+	Event(Event_t type, double executeTime);
 
 	Event_t getType() const
 	{
