@@ -1,25 +1,2 @@
-﻿  Collidable.cpp
-  Movable.cpp
-  Renderable.cpp
-  EventManager.cpp
-  EventHandler.cpp
-  EObjMovement.cpp
-  EUserInput.cpp
-  ECharSpawn.cpp
-  ECharDeath.cpp
-  Event.cpp
-  ECharCollision.cpp
-  DeathZone.cpp
-  Character.cpp
-  MovingPlatform.cpp
-  Server.cpp
-  SpawnPoint.cpp
-  SideBoundary.cpp
-  LocalTime.cpp
-  GameTime.cpp
-  main.cpp
-  正在生成代码...
-  正在编译...
-  Variant.cpp
-  正在生成代码...
+﻿  main.cpp
   NetworkedGameServer.vcxproj -> D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework4\Debug\NetworkedGameServer.exe

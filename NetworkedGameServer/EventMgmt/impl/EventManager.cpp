@@ -1,11 +1,10 @@
 #include "../EventManager.h"
 
-EventManager::EventManager(Timeline& gameTime, const char* const self)
-	: gameTime(gameTime), handler(gameTime, this, selfName), GVT(gameTime.getTime())
+EventManager::EventManager(Timeline& gameTime)
+	: gameTime(gameTime), handler(gameTime, this), GVT(gameTime.getTime())
 {
-	selfName = (char*)self;
-	addQueue(selfName);
-	insertGVT(selfName, GVT);
+	addQueue(SELF_NAME);
+	insertGVT(SELF_NAME, GVT);
 }
 
 EventManager::~EventManager()

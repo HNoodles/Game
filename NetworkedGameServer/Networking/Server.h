@@ -20,7 +20,7 @@
 using namespace std;
 using namespace zmq;
 
-constexpr auto SERVER_NAME = "S";
+extern const char* const SELF_NAME;
 
 class Server
 {

@@ -16,7 +16,7 @@ GameTime gameTime(1);
 int main()
 {
 	// init event manager
-	EventManager manager(gameTime, SERVER_NAME);
+	EventManager manager(gameTime);
 
 	// init server
 	Server server(&manager);

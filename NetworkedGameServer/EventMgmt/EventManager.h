@@ -2,7 +2,7 @@
 #include <queue>
 #include "EventHandler.h"
 
-static char* selfName;
+const char* const SELF_NAME = "S";
 
 class EventManager
 {
@@ -17,7 +17,7 @@ private:
 	map <const char* const, double> GVTs;
 	list<EObjMovement> objMovements;
 public:
-	EventManager(Timeline& gameTime, const char* const selfName);
+	EventManager(Timeline& gameTime);
 
 	~EventManager();
 
@@ -27,7 +27,7 @@ public:
 
 	double getRequestGVT() const
 	{
-		return queues.find(selfName)->second.top()->getExecuteTime();
+		return queues.find(SELF_NAME)->second.top()->getExecuteTime();
 	}
 
 	void insertGVT(const char* const client_name, double GVT)
@@ -46,7 +46,7 @@ public:
 		queues.erase(client_name);
 	}
 
-	void insertEvent(::Event* e, const char* const client_name = selfName)
+	void insertEvent(::Event* e, const char* const client_name = SELF_NAME)
 	{
 		// locate the pair
 		auto pair = queues.find(client_name);

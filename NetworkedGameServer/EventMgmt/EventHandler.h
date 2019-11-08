@@ -12,7 +12,6 @@ class EventHandler
 private:
 	Timeline& gameTime;
 	EventManager* manager;
-	const char* const selfName;
 
 	void onCharCollision(ECharCollision e);
 
@@ -30,7 +29,7 @@ private:
 
 	void onUserInput(EUserInput e);
 public:
-	EventHandler(Timeline& gameTime, EventManager* manager, const char* const selfName);
+	EventHandler(Timeline& gameTime, EventManager* manager);
 
 	void onEvent(const ::Event* e);
 };
