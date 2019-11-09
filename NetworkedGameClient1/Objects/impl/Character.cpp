@@ -32,21 +32,25 @@ Character::Character(string id, EventManager* manager,
 void Character::handleKeyInput()
 {
 	Vector2f velocity = dynamic_cast<Movable*>(this->getGC(ComponentType::MOVABLE))->getVelocity();
+	Keyboard::Key keyPressed;
 
 	// calculate total velocity
 	if (Keyboard::isKeyPressed(Keyboard::Left) || Keyboard::isKeyPressed(Keyboard::A))
 	{// left
-		outVelocity -= velocity;
+		keyPressed = Keyboard::A;
 	}
 	if (Keyboard::isKeyPressed(Keyboard::Right) || Keyboard::isKeyPressed(Keyboard::D))
 	{// right
-		outVelocity += velocity;
+		keyPressed = Keyboard::D;
 	}
 	if ((Keyboard::isKeyPressed(Keyboard::Up) || Keyboard::isKeyPressed(Keyboard::W))
 		&& boundary_ptrs[3] != nullptr) // character should be on a platform to jump
 	{// jump
-		outVelocity.y = -300.f;
+		keyPressed = Keyboard::W;
 	}
+
+	// generate event
+	getEM()->insertEvent(new EUserInput(getEM()->getCurrentTime(), this, &keyPressed));
 }
 
 void Character::setOutVelocity(double elapsed)

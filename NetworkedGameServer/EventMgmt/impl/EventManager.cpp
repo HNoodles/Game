@@ -24,7 +24,7 @@ void EventManager::executeEvents()
 {
 	for (auto pair : queues)
 	{ // go through each queue
-		auto queue = pair.second;
+		auto& queue = pair.second;
 
 		// handle events on top of queue if execution time <= GVT
 		while (!queue.empty() && queue.top()->getExecuteTime() <= GVT)
@@ -36,6 +36,9 @@ void EventManager::executeEvents()
 			// pop it from the queue
 			queue.pop();
 		}
+
+		if (!queue.empty())
+			cout << "exe " << &pair.second << " " << queue.top()->getExecuteTime() << " " << GVT << endl;
 	}	
 }
 

@@ -118,15 +118,15 @@ void EventHandler::onUserInput(EUserInput e)
 	vector<Collidable*> boundary_ptrs = *character->getBoundaryPtrs();
 
 	// calculate total velocity
-	if (Keyboard::isKeyPressed(Keyboard::Left) || Keyboard::isKeyPressed(Keyboard::A))
+	if (keyPressed == Keyboard::Left || keyPressed == Keyboard::A)
 	{// left
 		outVelocity -= velocity;
 	}
-	if (Keyboard::isKeyPressed(Keyboard::Right) || Keyboard::isKeyPressed(Keyboard::D))
+	if (keyPressed == Keyboard::Right || keyPressed == Keyboard::D)
 	{// right
 		outVelocity += velocity;
 	}
-	if ((Keyboard::isKeyPressed(Keyboard::Up) || Keyboard::isKeyPressed(Keyboard::W))
+	if ((keyPressed == Keyboard::Up || keyPressed == Keyboard::W)
 		&& boundary_ptrs[3] != nullptr) // character should be on a platform to jump
 	{// jump
 		outVelocity.y = -300.f;

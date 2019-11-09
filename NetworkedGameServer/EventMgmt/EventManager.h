@@ -37,7 +37,7 @@ public:
 
 	double getRequestGVT() const
 	{
-		auto queue = queues.find(SELF_NAME)->second;
+		auto& queue = queues.find(SELF_NAME)->second;
 		
 		if (queue.empty()) // empty queue
 		{
@@ -45,6 +45,7 @@ public:
 		}
 		else
 		{
+			cout << "upda " << &queues.find(SELF_NAME)->second << " " << queue.top()->getExecuteTime() << endl;
 			return queue.top()->getExecuteTime();
 		}
 	}
