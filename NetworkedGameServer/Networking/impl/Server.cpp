@@ -86,10 +86,6 @@ void Server::receiverHandler(GameTime* gameTime)
 		
 		// send a response to fulfill a come and go
 		s_send(receiver, "success");
-
-		// update GVT and execute events
-		manager->updateGVT();
-		manager->executeEvents();
 	}
 }
 
@@ -118,8 +114,14 @@ void Server::publisherHandler()
 	newObjMovements->clear();
 	mtxEvt->unlock();
 
+	cout << message << endl;
+
 	// send message
 	s_send(publisher, message);
+
+	// update GVT and execute events
+	manager->updateGVT();
+	manager->executeEvents();
 
 	// sleep for 16ms to avoid too frequent publish
 	Sleep(16);

@@ -105,7 +105,7 @@ void EventHandler::onObjMovement(EObjMovement e)
 
 	// move the object toward movement
 	dynamic_cast<Renderable*>(object->getGC(ComponentType::RENDERABLE))
-		->getShape()->move(movement);
+		->getShape()->setPosition(movement);
 }
 
 void EventHandler::onUserInput(EUserInput e)

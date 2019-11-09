@@ -18,7 +18,7 @@ void Client::sendHandler()
 		return;
 	
 	// first, name GVT double 
-	string message = SELF_NAME + (string)" GVT " + to_string(manager->getRequestGVT());
+	string message = SELF_NAME + (string)" GVT " + to_string(manager->getRequestGVT()) + "\n";
 
 	// generate events string, SELF_NAME E executeTime ObjID X_val Y_val
 	list<EObjMovement>* newObjMovements = manager->getObjMovements();
@@ -31,6 +31,8 @@ void Client::sendHandler()
 	}
 	newObjMovements->clear();
 	mtxEvt->unlock();
+
+	cout << message << endl;
 
 	// send message and receive response
 	s_send(sender, message);

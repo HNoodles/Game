@@ -4,6 +4,11 @@
 {
 }
 
+bool ::Event::operator<(const Event& rv) const
+{
+	return this->executeTime < rv.executeTime;
+}
+
 bool ::Event::operator>(const Event& rv) const
 {
 	return this->executeTime > rv.executeTime;

@@ -1,7 +1,10 @@
 #pragma once
 #include <queue>
 #include <mutex>
+#include <iostream>
 #include "EventHandler.h"
+
+using namespace std;
 
 const char* const SELF_NAME = "S";
 
