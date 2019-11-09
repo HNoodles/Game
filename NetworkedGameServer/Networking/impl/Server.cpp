@@ -1,7 +1,7 @@
 #include "../Server.h"
 
 Server::Server(EventManager* manager)
-	: context(1), receiver(context, ZMQ_REP), publisher(context, ZMQ_PUB), manager(manager)
+	: context(1), receiver(context, ZMQ_REP), publisher(context, ZMQ_PUB), manager(manager), mtxEvt(manager->getMtxEvt())
 {
 	receiver.bind("tcp://*:5555");
 	cout << "Receiver started, listening for clients on port 5555..." << endl;
@@ -38,33 +38,33 @@ void Server::receiverHandler(GameTime* gameTime)
 		vector<string> lines;
 		Split(client_string, "\n", lines);
 
-		// GVT name double
+		// name GVT double
 		Split(lines[0], " ", result);
-		manager->insertGVT((const char* const)result[1][0], atof(result[2].c_str()));
+		manager->insertGVT((const char* const)result[0][0], atof(result[2].c_str()));
 		lines.erase(lines.begin()); // remove first line
 
-		// E executeTime ObjID(client_name) X_val Y_val
+		// SELF_NAME E executeTime ObjID(client_name) X_val Y_val
 		for (string line : lines)
 		{
 			Split(line, " ", result);
 
 			// we only care about character infos, whose ObjID has length of 1
-			if (result[2].length() > 1)
+			if (result[3].length() > 1)
 				continue;
 
 			// new character if is newly connected client
-			auto iter = characters.find(result[2]);
+			auto iter = characters.find(result[3]);
 			// store client into map
 			if (iter == characters.end()) // new client, generate object
 			{
 				LocalTime local(1, *gameTime);
 
 				characters.insert({
-					result[2],
+					result[3],
 					new Character(
-						result[2], manager, 
+						result[3], manager, 
 						::Shape::DIAMOND, ::Color::BLUE, Vector2f(60.f, 120.f),
-						Vector2f((float)atof(result[3].c_str()), (float)atof(result[4].c_str())), // pos
+						Vector2f((float)atof(result[4].c_str()), (float)atof(result[5].c_str())), // pos
 						Vector2f(250.0f, 0.0f), local
 					)
 				});
@@ -75,24 +75,28 @@ void Server::receiverHandler(GameTime* gameTime)
 			// insert new Event anyway
 			manager->insertEvent(
 				new EObjMovement(
-					atof(result[1].c_str()),
-					characters.find(result[2])->second,// character
-					atof(result[3].c_str()),
-					atof(result[4].c_str())
+					atof(result[2].c_str()),
+					characters.find(result[3])->second,// character
+					atof(result[4].c_str()),
+					atof(result[5].c_str())
 				), 
-				(const char* const)result[2][0]
+				(const char* const)result[0][0]
 			);
 		}
 		
 		// send a response to fulfill a come and go
 		s_send(receiver, "success");
+
+		// update GVT and execute events
+		manager->updateGVT();
+		manager->executeEvents();
 	}
 }
 
 void Server::publisherHandler()
 {	
 	// start with requested GVT
-	string message = "GVT " + to_string(manager->getRequestGVT()) + "\n";
+	string message = "GVT " + to_string(manager->getGVT()) + "\n";
 
 	// generate disconnection messages
 	mtxDisc.lock();
@@ -104,15 +108,15 @@ void Server::publisherHandler()
 	disconnecting.empty();
 	mtxDisc.unlock();
 
-	// generate events
+	// generate events string, SELF_NAME E executeTime ObjID X_val Y_val
 	list<EObjMovement>* newObjMovements = manager->getObjMovements();
-	mtxEvt.lock();
+	mtxEvt->lock();
 	for (EObjMovement e : *newObjMovements)
 	{
-		message += e.toString();
+		message += SELF_NAME + (string)" " + e.toString();
 	}
 	newObjMovements->clear();
-	mtxEvt.unlock();
+	mtxEvt->unlock();
 
 	// send message
 	s_send(publisher, message);
@@ -123,8 +127,9 @@ void Server::publisherHandler()
 
 void Server::disconnectHandler(const string& name)
 {
-	// remove the queue of the client
+	// remove the queue of the client, remove GVT of the client
 	manager->removeQueue((const char* const)name[0]);
+	manager->removeGVT((const char* const)name[0]);
 	// remove the character pointer in characters
 	delete characters.find(name)->second;
 	characters.erase(name);

@@ -1,5 +1,6 @@
 #pragma once
 #include <queue>
+#include <mutex>
 #include "EventHandler.h"
 
 const char* const SELF_NAME = "S";
@@ -16,6 +17,7 @@ private:
 	> queues;
 	map <const char* const, double> GVTs;
 	list<EObjMovement> objMovements;
+	mutex mtxEvt;
 public:
 	EventManager(Timeline& gameTime);
 
@@ -25,14 +27,29 @@ public:
 
 	void updateGVT();
 
+	double getGVT() const
+	{
+		return GVT;
+	}
+
 	double getRequestGVT() const
 	{
 		return queues.find(SELF_NAME)->second.top()->getExecuteTime();
 	}
 
+	void setGVT(double GVT)
+	{
+		this->GVT = GVT;
+	}
+
 	void insertGVT(const char* const client_name, double GVT)
 	{
 		GVTs.insert({ client_name, GVT });
+	}
+
+	void removeGVT(const char* const client_name)
+	{
+		GVTs.erase(client_name);
 	}
 
 	void addQueue(const char* const client_name)
@@ -65,7 +82,9 @@ public:
 		// store the event for publishing if is object movement event
 		if (e->getType() == ::Event_t::OBJ_MOVEMENT)
 		{
+			mtxEvt.lock();
 			objMovements.push_back(*(EObjMovement*)e);
+			mtxEvt.unlock();
 		}
 	}
 
@@ -77,6 +96,11 @@ public:
 	double getCurrentTime() const
 	{
 		return gameTime.getTime();
+	}
+
+	mutex* getMtxEvt()
+	{
+		return &mtxEvt;
 	}
 };
 

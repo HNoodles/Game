@@ -1,6 +1,8 @@
 #pragma once
 #include "GenericComponent.h"
 
+using namespace std;
+
 enum class Shape {
 	RECTANGLE, CIRCLE, DIAMOND
 };
@@ -19,6 +21,8 @@ public:
 	Renderable(GameObject* gameObject, ::Shape shape, ::Color color, Vector2f size, Vector2f pos);
 
 	~Renderable();
+
+	vector<RectangleShape> getBoundaryLines();
 
 	sf::Shape* getShape() 
 	{

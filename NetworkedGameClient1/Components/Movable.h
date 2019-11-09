@@ -38,10 +38,5 @@ public:
 		return timeline;
 	}
 
-	void setTimeline(Timeline& timeline)
-	{
-		this->timeline = timeline;
-	}
-
 	void work(double elapsed);
 };

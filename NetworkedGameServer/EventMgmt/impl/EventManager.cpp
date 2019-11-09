@@ -44,7 +44,8 @@ void EventManager::executeEvents()
 
 void EventManager::updateGVT()
 {
-	double temp = gameTime.getTime();
+	// get the smallest execution time of own
+	double temp = getRequestGVT();
 
 	// find the smallest claimed GVT
 	for (auto pair : GVTs)

@@ -1,8 +1,10 @@
 #include "../Character.h"
 
-Character::Character(::Shape shape, ::Color color, Vector2f size, Vector2f pos, Vector2f velocity, Timeline& timeline, vector<Renderable*>* spawnPoints)
-	: GameObject(), outVelocity(0.f, 0.f), 
-	boundary_ptrs({ nullptr, nullptr, nullptr, nullptr }), spawnPoints(spawnPoints), hitBoundary(false)
+Character::Character(string id, EventManager* manager, 
+	::Shape shape, ::Color color, Vector2f size, Vector2f pos,
+	Vector2f velocity, Timeline& timeline, vector<SpawnPoint*>* spawnPoints)
+	: GameObject(id, manager), outVelocity(0.f, 0.f), 
+	boundary_ptrs({ nullptr, nullptr, nullptr, nullptr }), spawnPoints(spawnPoints)
 {
 	this->addGC(
 		ComponentType::RENDERABLE, 
@@ -96,23 +98,5 @@ void Character::setOutVelocity(double elapsed)
 	else // drop 
 	{
 		outVelocity.y += (float)(gravity.y * elapsed);
-	}
-}
-
-void Character::checkHitBoundary(vector<SideBoundary*>* sideBoundaries)
-{
-	hitBoundary = false;
-	for (SideBoundary* sideBoundary : *sideBoundaries)
-	{
-		// get bound of boundary
-		FloatRect cbound = dynamic_cast<Renderable*>(getGC(ComponentType::RENDERABLE))
-			->getShape()->getGlobalBounds();
-		FloatRect bound = dynamic_cast<Renderable*>(sideBoundary->getGC(ComponentType::RENDERABLE))
-			->getShape()->getGlobalBounds();
-		if (cbound.intersects(bound))
-		{
-			hitBoundary = true;
-			break;
-		}
 	}
 }

@@ -1,14 +1,4 @@
-﻿  Collidable.cpp
-  Movable.cpp
-  EObjMovement.cpp
-  EventHandler.cpp
-  EventManager.cpp
-  Variant.cpp
-  Server.cpp
-  Character.cpp
-  DeathZone.cpp
-  MovingPlatform.cpp
-  SideBoundary.cpp
+﻿  Server.cpp
   SpawnPoint.cpp
   main.cpp
   正在生成代码...

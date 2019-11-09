@@ -39,7 +39,7 @@ Vector2u wholeSize(1600, 600); // whole view size
 
 Vector2f renderOffset(0.f, 0.f);
 
-mutex l;
+mutex mtxObjMov;
 
 int main()
 {
@@ -110,7 +110,7 @@ int main()
 	objects.emplace_back(dynamic_cast<Renderable*>(character.getGC(ComponentType::RENDERABLE))->getShape());
 
 	// init client
-	Client client(&character, &characters, &l);
+	Client client(&character, &characters, &mtxObjMov);
 
 	// send message to notify server this new client
 	client.sendHandler();
@@ -186,7 +186,7 @@ int main()
 		}
 		for (sf::Shape* object : objects) 
 		{
-			lock_guard<mutex> guard(l);
+			lock_guard<mutex> guard(mtxObjMov);
 			object->move(renderOffset);
 			window.draw(*object);
 			object->move(-renderOffset);

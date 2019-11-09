@@ -9,13 +9,9 @@
 #include <windows.h>
 #endif
 
-#include <mutex>
-
+#include "../EventMgmt/EventManager.h"
 #include "../Times/LocalTime.h"
 #include "../Objects/Character.h"
-#include "../Objects/SpawnPoint.h"
-#include "../Objects/DeathZone.h"
-#include "../EventMgmt/EventManager.h"
 
 using namespace std;
 using namespace zmq;
@@ -31,7 +27,7 @@ private:
 	map<string, Character*> characters;
 	EventManager* manager;
 	list<string> disconnecting;
-	mutex mtxDisc, mtxEvt;
+	mutex mtxDisc, *mtxEvt;
 
 	string s_recv(socket_t& socket);
 
