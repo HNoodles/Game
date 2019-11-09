@@ -34,7 +34,16 @@ public:
 
 	double getRequestGVT() const
 	{
-		return queues.find(SELF_NAME)->second.top()->getExecuteTime();
+		auto queue = queues.find(SELF_NAME)->second;
+
+		if (queue.empty()) // empty queue
+		{
+			return gameTime.getTime();
+		}
+		else
+		{
+			return queue.top()->getExecuteTime();
+		}
 	}
 
 	void setGVT(double GVT)

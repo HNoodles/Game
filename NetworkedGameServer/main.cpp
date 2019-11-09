@@ -8,8 +8,6 @@ using namespace sf;
 
 // define objects
 list<Collidable*> collidableObjects;
-//list<SpawnPoint*> spawnPoints;
-//list<DeathZone*> deathZones;
 
 GameTime gameTime(1);
 
@@ -41,10 +39,6 @@ int main()
 		Vector2f(0.f, 50.f), gameTime, Move::VERTICAL, 200.f, 50.f
 	);
 	collidableObjects.emplace_back(dynamic_cast<Collidable*>(verticalPlatform.getGC(ComponentType::COLLIDABLE)));
-
-	//// init spawn points
-	//SpawnPoint spawnPoint(Vector2f(400.f, 100.f));
-	//spawnPoints.emplace_back(&spawnPoint);
 
 	// timer
 	double elapsed, thisTime, lastTime = gameTime.getTime();

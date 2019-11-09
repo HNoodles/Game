@@ -33,10 +33,10 @@ void EventManager::executeEvents()
 			const ::Event* e = queue.top();
 
 			// handle event
-			if (e->getType == Event_t::OBJ_MOVEMENT)
+			if (e->getType() == Event_t::OBJ_MOVEMENT)
 				mtxObjMov->lock();
 			handler.onEvent(e);
-			if (e->getType == Event_t::OBJ_MOVEMENT)
+			if (e->getType() == Event_t::OBJ_MOVEMENT)
 				mtxObjMov->unlock();
 			// delete the pointer
 			delete e;
