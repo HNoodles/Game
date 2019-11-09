@@ -35,7 +35,6 @@ public:
 		return movable;
 	}
 
-	void work(list<Collidable*>& objects, double elapsed, 
-		Vector2f& renderOffset, vector<SideBoundary*>* sideBoundaries);
+	void work(list<Collidable*>& objects, double elapsed);
 };
 

@@ -22,12 +22,11 @@ void handleWindowEvent(RenderWindow& window, Client* client);
 
 // define objects
 //map<string, Texture> textures;
-list<sf::Shape*> objects;
+map<string, GameObject*> objects;
 list<Collidable*> collidableObjects;
-map<string, Vector2f> characters;
-list<MovingPlatform*> platforms;
-vector<Renderable*> spawnPoints;
-list<DeathZone*> deathZones;
+//list<MovingPlatform*> platforms;
+vector<SpawnPoint*> spawnPoints;
+//list<DeathZone*> deathZones;
 vector<SideBoundary*> sideBoundaries;
 
 GameTime gameTime(1);
@@ -50,52 +49,64 @@ int main()
 	//// load textures
 	//loadTextures();
 
+	// init event manager
+	EventManager manager(gameTime, &mtxObjMov);
+
 	// init platforms
 	MovingPlatform platform(
+		"SP1", &manager, 
 		::Shape::RECTANGLE, ::Color::GREEN, Vector2f(400.f, 50.f), Vector2f(200.f, 400.f),
 		Vector2f(0.f, 0.f), gameTime, Move::HORIZONTAL
 	);
-	objects.emplace_back(dynamic_cast<Renderable*>(platform.getGC(ComponentType::RENDERABLE))->getShape());
-	platforms.emplace_back(&platform);
+	objects.insert({ platform.getId(), &platform });
+	//platforms.emplace_back(&platform);
 	collidableObjects.emplace_back(dynamic_cast<Collidable*>(platform.getGC(ComponentType::COLLIDABLE)));
 
 	MovingPlatform movingPlatform(
+		"MP1", &manager, 
 		::Shape::RECTANGLE, ::Color::RED, Vector2f(400.f, 50.f), Vector2f(750.f, 320.f),
 		Vector2f(100.f, 0.f), gameTime, Move::HORIZONTAL, 600.f, 200.f
 	);
-	objects.emplace_back(dynamic_cast<Renderable*>(movingPlatform.getGC(ComponentType::RENDERABLE))->getShape());
-	platforms.emplace_back(&movingPlatform);
+	objects.insert({ movingPlatform.getId(), &movingPlatform });
+	//platforms.emplace_back(&movingPlatform);
 	collidableObjects.emplace_back(dynamic_cast<Collidable*>(movingPlatform.getGC(ComponentType::COLLIDABLE)));
 
 	MovingPlatform verticalPlatform(
+		"MP2", &manager, 
 		::Shape::RECTANGLE, ::Color::RED, Vector2f(300.f, 50.f), Vector2f(1250.f, 220.f),
 		Vector2f(0.f, 50.f), gameTime, Move::VERTICAL, 200.f, 50.f
 	);
-	objects.emplace_back(dynamic_cast<Renderable*>(verticalPlatform.getGC(ComponentType::RENDERABLE))->getShape());
-	platforms.emplace_back(&verticalPlatform);
+	objects.insert({ verticalPlatform.getId(), &verticalPlatform });
+	//platforms.emplace_back(&verticalPlatform);
 	collidableObjects.emplace_back(dynamic_cast<Collidable*>(verticalPlatform.getGC(ComponentType::COLLIDABLE)));
 
 	// init spawn points
-	SpawnPoint spawnPoint(Vector2f(400.f, 100.f));
-	spawnPoints.emplace_back(dynamic_cast<Renderable*>(spawnPoint.getGC(ComponentType::RENDERABLE)));
+	SpawnPoint spawnPoint("S1", &manager, Vector2f(400.f, 100.f));
+	spawnPoints.emplace_back(&spawnPoint);
 
 	// init death zones
-	DeathZone left(::Shape::RECTANGLE, Vector2f(1.f, (float)wholeSize.y), Vector2f(0.f, 0.f));
-	DeathZone right(::Shape::RECTANGLE, Vector2f(1.f, (float)wholeSize.y), Vector2f((float)wholeSize.x, 0.f));
-	DeathZone up(::Shape::RECTANGLE, Vector2f((float)wholeSize.x, 1.f), Vector2f(0.f, 0.f));
-	DeathZone bottom(::Shape::RECTANGLE, Vector2f((float)wholeSize.x, 1.f), Vector2f(0.f, (float)wholeSize.y));
-	deathZones.emplace_back(&left);
+	DeathZone left("DZ1", &manager, 
+		::Shape::RECTANGLE, Vector2f(1.f, (float)wholeSize.y), Vector2f(0.f, 0.f));
+	DeathZone right("DZ2", &manager, 
+		::Shape::RECTANGLE, Vector2f(1.f, (float)wholeSize.y), Vector2f((float)wholeSize.x, 0.f));
+	DeathZone up("DZ3", &manager, 
+		::Shape::RECTANGLE, Vector2f((float)wholeSize.x, 1.f), Vector2f(0.f, 0.f));
+	DeathZone bottom("DZ4", &manager, 
+		::Shape::RECTANGLE, Vector2f((float)wholeSize.x, 1.f), Vector2f(0.f, (float)wholeSize.y));
+	/*deathZones.emplace_back(&left);
 	deathZones.emplace_back(&right);
 	deathZones.emplace_back(&up);
-	deathZones.emplace_back(&bottom);
+	deathZones.emplace_back(&bottom);*/
 	collidableObjects.emplace_back(dynamic_cast<Collidable*>(left.getGC(ComponentType::COLLIDABLE)));
 	collidableObjects.emplace_back(dynamic_cast<Collidable*>(right.getGC(ComponentType::COLLIDABLE)));
 	collidableObjects.emplace_back(dynamic_cast<Collidable*>(up.getGC(ComponentType::COLLIDABLE)));
 	collidableObjects.emplace_back(dynamic_cast<Collidable*>(bottom.getGC(ComponentType::COLLIDABLE)));
 
 	// init side boundaries
-	SideBoundary lsb(::Direction::LEFT, lastWindowSize, 100.f);
-	SideBoundary rsb(::Direction::RIGHT, lastWindowSize, 100.f);
+	SideBoundary lsb("SB1", &manager, 
+		::Direction::LEFT, lastWindowSize, 100.f, renderOffset, &sideBoundaries);
+	SideBoundary rsb("SB2", &manager, 
+		::Direction::RIGHT, lastWindowSize, 100.f, renderOffset, &sideBoundaries);
 	sideBoundaries.emplace_back(&lsb);
 	sideBoundaries.emplace_back(&rsb);
 	collidableObjects.emplace_back(dynamic_cast<Collidable*>(lsb.getGC(ComponentType::COLLIDABLE)));
@@ -103,20 +114,21 @@ int main()
 
 	// init character
 	Character character(
+		SELF_NAME, &manager, 
 		::Shape::DIAMOND, ::Color::BLUE, Vector2f(60.f, 120.f), 
 		dynamic_cast<Renderable*>(spawnPoint.getGC(ComponentType::RENDERABLE))->getShape()->getPosition(),
 		Vector2f(250.0f, 0.0f), gameTime, &spawnPoints
 	);
-	objects.emplace_back(dynamic_cast<Renderable*>(character.getGC(ComponentType::RENDERABLE))->getShape());
+	objects.insert({ character.getId(), &character });
 
 	// init client
-	Client client(&character, &characters, &mtxObjMov);
+	Client client(&objects, &manager);
 
 	// send message to notify server this new client
 	client.sendHandler();
 
 	// update platform and other character infos from server
-	thread newThread(&Client::subscribeHandler, &client, &platforms);
+	thread newThread(&Client::subscribeHandler, &client, &gameTime);
 	newThread.detach();
 
 	// get updated game time
@@ -156,7 +168,7 @@ int main()
 		// detect character collision
 		dynamic_cast<Collidable*>(
 			character.getGC(ComponentType::COLLIDABLE)
-		)->work(collidableObjects, elapsed, renderOffset, &sideBoundaries);
+		)->work(collidableObjects, elapsed);
 
 		if (window.hasFocus())
 		{
@@ -174,18 +186,12 @@ int main()
 		window.clear(sf::Color::White);
 
 		// draw the objects needed
-		for (auto pair : characters) 
+		for (auto pair : objects) 
 		{
-			Character toDraw(
-				::Shape::DIAMOND, ::Color::BLUE, Vector2f(60.f, 120.f), pair.second + renderOffset,
-				Vector2f(250.0f, 0.0f), gameTime
-			);
-			window.draw(
-				*dynamic_cast<Renderable*>(toDraw.getGC(ComponentType::RENDERABLE))->getShape()
-			);
-		}
-		for (sf::Shape* object : objects) 
-		{
+			sf::Shape* object = dynamic_cast<Renderable*>
+				(pair.second->getGC(ComponentType::RENDERABLE))
+				->getShape();
+
 			lock_guard<mutex> guard(mtxObjMov);
 			object->move(renderOffset);
 			window.draw(*object);
@@ -292,16 +298,16 @@ void handleGameInstruction(double & thisTime)
 
 void handleWindowEvent(RenderWindow& window, Client* client) {
 	// track all the window's events that were triggered since the last iteration
-	Event event;
+	sf::Event event;
 	while (window.pollEvent(event))// returns true when there is event pending
 	{// handle events in the loop
 		switch (event.type)
 		{
-		case Event::Closed:// close requested, then close the window
+		case sf::Event::Closed:// close requested, then close the window
 			client->disconnect();
 			window.close();
 			break;
-		case Event::Resized:// catch the resize events
+		case sf::Event::Resized:// catch the resize events
 			if (isConstantScaling)
 			{// update the view to the new size of the window
 				Vector2f oldViewSize = window.getView().getSize();

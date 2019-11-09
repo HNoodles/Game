@@ -7,8 +7,7 @@ Collidable::Collidable(GameObject* gameObject, ::Collision collision, Renderable
 {
 }
 
-void Collidable::work(list<Collidable*>& objects, double elapsed,
-	Vector2f& renderOffset, vector<SideBoundary*>* sideBoundaries)
+void Collidable::work(list<Collidable*>& objects, double elapsed)
 {
 	// get four boundaries
 	vector<RectangleShape> boundary_lines = renderable->getBoundaryLines();
