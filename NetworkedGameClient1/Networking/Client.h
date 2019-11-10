@@ -21,6 +21,7 @@ private:
 	socket_t subscriber;
 	map<string, GameObject*>* objects;
 	bool connected;
+	double connectedTime;
 	mutex* mtxEvt;
 	EventManager* manager;
 
@@ -31,6 +32,8 @@ private:
 	void Split(const string& string, const std::string& separator, vector<std::string>& result);
 public:
 	Client(map<string, GameObject*>* objects, EventManager* manager);
+
+	void connect();
 
 	void sendHandler();
 

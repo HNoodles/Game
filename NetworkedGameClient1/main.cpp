@@ -24,9 +24,7 @@ void handleWindowEvent(RenderWindow& window, Client* client);
 //map<string, Texture> textures;
 map<string, GameObject*> objects;
 list<Collidable*> collidableObjects;
-//list<MovingPlatform*> platforms;
 vector<SpawnPoint*> spawnPoints;
-//list<DeathZone*> deathZones;
 vector<SideBoundary*> sideBoundaries;
 
 GameTime gameTime(1);
@@ -59,7 +57,6 @@ int main()
 		Vector2f(0.f, 0.f), gameTime, Move::HORIZONTAL
 	);
 	objects.insert({ platform.getId(), &platform });
-	//platforms.emplace_back(&platform);
 	collidableObjects.emplace_back(dynamic_cast<Collidable*>(platform.getGC(ComponentType::COLLIDABLE)));
 
 	MovingPlatform movingPlatform(
@@ -68,7 +65,6 @@ int main()
 		Vector2f(100.f, 0.f), gameTime, Move::HORIZONTAL, 600.f, 200.f
 	);
 	objects.insert({ movingPlatform.getId(), &movingPlatform });
-	//platforms.emplace_back(&movingPlatform);
 	collidableObjects.emplace_back(dynamic_cast<Collidable*>(movingPlatform.getGC(ComponentType::COLLIDABLE)));
 
 	MovingPlatform verticalPlatform(
@@ -77,7 +73,6 @@ int main()
 		Vector2f(0.f, 50.f), gameTime, Move::VERTICAL, 200.f, 50.f
 	);
 	objects.insert({ verticalPlatform.getId(), &verticalPlatform });
-	//platforms.emplace_back(&verticalPlatform);
 	collidableObjects.emplace_back(dynamic_cast<Collidable*>(verticalPlatform.getGC(ComponentType::COLLIDABLE)));
 
 	// init spawn points
@@ -93,10 +88,6 @@ int main()
 		::Shape::RECTANGLE, Vector2f((float)wholeSize.x, 1.f), Vector2f(0.f, 0.f));
 	DeathZone bottom("DZ4", &manager, 
 		::Shape::RECTANGLE, Vector2f((float)wholeSize.x, 1.f), Vector2f(0.f, (float)wholeSize.y));
-	/*deathZones.emplace_back(&left);
-	deathZones.emplace_back(&right);
-	deathZones.emplace_back(&up);
-	deathZones.emplace_back(&bottom);*/
 	collidableObjects.emplace_back(dynamic_cast<Collidable*>(left.getGC(ComponentType::COLLIDABLE)));
 	collidableObjects.emplace_back(dynamic_cast<Collidable*>(right.getGC(ComponentType::COLLIDABLE)));
 	collidableObjects.emplace_back(dynamic_cast<Collidable*>(up.getGC(ComponentType::COLLIDABLE)));
@@ -125,7 +116,7 @@ int main()
 	Client client(&objects, &manager);
 
 	// send message to notify server this new client
-	client.sendHandler();
+	client.connect();
 
 	// update platform and other character infos from server
 	thread newThread(&Client::subscribeHandler, &client, &gameTime);

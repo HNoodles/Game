@@ -34,7 +34,7 @@ public:
 
 	double getRequestGVT()
 	{
-		//mtxQueue.lock();
+		mtxQueue.lock();
 		auto queue = queues.find(SELF_NAME)->second;
 		double GVT;
 
@@ -46,7 +46,7 @@ public:
 		{
 			GVT = queue.top()->getExecuteTime();
 		}
-		//mtxQueue.unlock();
+		mtxQueue.unlock();
 
 		return GVT;
 	}
@@ -96,7 +96,7 @@ public:
 		mtxQueue.unlock();
 
 		// store the event for publishing if is object movement event
-		if (e->getType() == ::Event_t::OBJ_MOVEMENT)
+		if (e->getType() == ::Event_t::OBJ_MOVEMENT && client_name == SELF_NAME)
 		{
 			mtxEvt.lock();
 			objMovements.push_back(*(EObjMovement*)e);

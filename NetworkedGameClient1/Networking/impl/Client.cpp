@@ -2,7 +2,7 @@
 
 Client::Client(map<string, GameObject*>* objects, EventManager* manager)
 	: context(1), sender(context, ZMQ_REQ), subscriber(context, ZMQ_SUB), 
-	objects(objects), connected(true), manager(manager), mtxEvt(manager->getMtxEvt())
+	objects(objects), connected(true), connectedTime(0), manager(manager), mtxEvt(manager->getMtxEvt())
 {
 	sender.connect("tcp://localhost:5555");
 	cout << "Connecting to server on port 5555..." << endl;
@@ -10,6 +10,18 @@ Client::Client(map<string, GameObject*>* objects, EventManager* manager)
 	subscriber.connect("tcp://localhost:5556");
 	subscriber.setsockopt(ZMQ_SUBSCRIBE, "GVT", strlen("GVT"));
 	cout << "Subscribing to server on port 5556..." << endl;
+}
+
+void Client::connect()
+{
+	// send self name to server to connect
+	s_send(sender, SELF_NAME);
+
+	// receive and set connected time
+	string response = s_recv(sender);
+	connectedTime = atof(response.c_str());
+
+	cout << "Connected to server" << endl;
 }
 
 void Client::sendHandler()
@@ -54,7 +66,7 @@ void Client::subscribeHandler(GameTime* gameTime)
 		// first line is GVT
 		vector<string> infos;
 		Split(lines[0], " ", infos);
-		manager->setGVT(atof(infos[1].c_str()));
+		manager->setGVT(atof(infos[1].c_str()) - connectedTime);
 		lines.erase(lines.begin());
 
 		for (const string& line : lines)
@@ -102,7 +114,7 @@ void Client::subscribeHandler(GameTime* gameTime)
 			// insert new Event anyway
 			manager->insertEvent(
 				new EObjMovement(
-					atof(infos[2].c_str()),
+					atof(infos[2].c_str()) - connectedTime, // add time bias
 					objects->find(infos[3])->second,// character
 					atof(infos[4].c_str()),
 					atof(infos[5].c_str())

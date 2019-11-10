@@ -14,6 +14,7 @@ EventManager::~EventManager()
 		auto queue = pair.second;
 		while (!queue.empty())
 		{
+			delete queue.top();
 			queue.pop();
 		}
 	}
@@ -21,10 +22,10 @@ EventManager::~EventManager()
 
 void EventManager::executeEvents()
 {
-	for (auto pair : queues)
+	for (auto& pair : queues)
 	{ // go through each queue
-		//mtxQueue.lock();
-		auto queue = pair.second;
+		mtxQueue.lock();
+		auto& queue = pair.second;
 
 		// handle events on top of queue if execution time <= GVT
 		while (!queue.empty() && queue.top()->getExecuteTime() <= GVT)
@@ -38,14 +39,12 @@ void EventManager::executeEvents()
 			handler.onEvent(e);
 			if (isObjMov)
 				mtxObjMov->unlock();
+			// delete pointer
+			delete e;
 			// pop it from the queue
 			queue.pop();
 		}
-
-		// replace the queue in the map with new queue
-		queues[pair.first] = queue;
-
-		//mtxQueue.unlock();
+		mtxQueue.unlock();
 	}	
 }
 

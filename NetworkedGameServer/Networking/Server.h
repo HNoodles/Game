@@ -25,6 +25,7 @@ private:
 	socket_t receiver;
 	socket_t publisher;
 	map<string, Character*> characters;
+	map<string, double> connectTimes;
 	EventManager* manager;
 	list<string> disconnecting;
 	mutex mtxDisc, *mtxEvt;
@@ -34,6 +35,8 @@ private:
 	void s_send(socket_t& socket, const string& string);
 
 	void Split(const string& string, const std::string& separator, vector<std::string>& result);
+
+	void connectHandler(const string& name);
 
 	void disconnectHandler(const string& name);
 public:

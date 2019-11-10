@@ -26,9 +26,19 @@ void Server::receiverHandler(GameTime* gameTime)
 
 		//cout << client_string << endl;
 
-		// check if disconnecting message: name D
+		// check if special cases 
 		vector<string> result;
 		Split(client_string, " ", result);
+
+		// connecting message: name
+		if (result.size() == 1)
+		{
+			connectHandler(result[0]);
+			// go to next loop
+			continue;
+		}
+
+		// disconnecting message: name D
 		if (result.size() == 2)
 		{
 			disconnectHandler(result[0]);
@@ -42,7 +52,7 @@ void Server::receiverHandler(GameTime* gameTime)
 
 		// name GVT double
 		Split(lines[0], " ", result);
-		manager->insertGVT((const char* const)result[0][0], atof(result[2].c_str()));
+		manager->insertGVT((const char* const)result[0][0], atof(result[2].c_str()) + connectTimes[result[0]]);
 		lines.erase(lines.begin()); // remove first line
 
 		// SELF_NAME E executeTime ObjID(client_name) X_val Y_val
@@ -74,14 +84,12 @@ void Server::receiverHandler(GameTime* gameTime)
 						Vector2f(250.0f, 0.0f), local
 					)
 				});
-
-				cout << "New client " + result[0] << endl;
 			}
 			
 			// insert new Event anyway
 			manager->insertEvent(
 				new EObjMovement(
-					atof(result[2].c_str()),
+					atof(result[2].c_str()) + connectTimes[result[0]], // add bias time
 					characters.find(result[3])->second,// character
 					atof(result[4].c_str()),
 					atof(result[5].c_str())
@@ -130,7 +138,21 @@ void Server::publisherHandler()
 	manager->executeEvents();
 
 	// sleep for 16ms to avoid too frequent publish
-	Sleep(16);
+	//Sleep(16);
+}
+
+void Server::connectHandler(const string& name)
+{
+	// get current time
+	double connectTime = manager->getCurrentTime();
+
+	// store connect time
+	connectTimes.insert({ name, connectTime });
+
+	// send connect time back
+	s_send(receiver, to_string(connectTime));
+
+	cout << "New client " + name << endl;
 }
 
 void Server::disconnectHandler(const string& name)
@@ -141,6 +163,8 @@ void Server::disconnectHandler(const string& name)
 	// remove the character pointer in characters
 	delete characters.find(name)->second;
 	characters.erase(name);
+	// remove the connect time
+	connectTimes.erase(name);
 
 	// store the disconnected client in the list
 	mtxDisc.lock();
@@ -181,3 +205,4 @@ void Server::Split(const string& string, const std::string& separator, vector<st
 		start = index + strlen(separator.c_str());
 	}
 }
+

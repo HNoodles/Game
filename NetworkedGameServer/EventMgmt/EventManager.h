@@ -37,7 +37,7 @@ public:
 
 	double getRequestGVT()
 	{
-		//mtxQueue.lock();
+		mtxQueue.lock();
 		auto queue = queues.find(SELF_NAME)->second;
 		double GVT;
 		
@@ -49,7 +49,7 @@ public:
 		{
 			GVT = queue.top()->getExecuteTime();
 		}
-		//mtxQueue.unlock();
+		mtxQueue.unlock();
 		
 		return GVT;
 	}
@@ -82,7 +82,7 @@ public:
 
 	void insertEvent(::Event* e, const char* const client_name = SELF_NAME)
 	{
-		//mtxQueue.lock();
+		mtxQueue.lock();
 		// locate the pair
 		auto pair = queues.find(client_name);
 		
@@ -96,7 +96,7 @@ public:
 			addQueue(client_name);
 			queues.find(client_name)->second.push(e);
 		}
-		//mtxQueue.unlock();
+		mtxQueue.unlock();
 
 		// store the event for publishing if is object movement event
 		if (e->getType() == ::Event_t::OBJ_MOVEMENT)
