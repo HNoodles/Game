@@ -20,7 +20,7 @@ private:
 	> queues;
 	map <const char* const, double> GVTs;
 	list<EObjMovement> objMovements;
-	mutex mtxEvt;
+	mutex mtxEvt, mtxQueue;
 public:
 	EventManager(Timeline& gameTime);
 
@@ -35,19 +35,23 @@ public:
 		return GVT;
 	}
 
-	double getRequestGVT() const
+	double getRequestGVT()
 	{
-		auto& queue = queues.find(SELF_NAME)->second;
+		//mtxQueue.lock();
+		auto queue = queues.find(SELF_NAME)->second;
+		double GVT;
 		
 		if (queue.empty()) // empty queue
 		{
-			return gameTime.getTime();
+			GVT = gameTime.getTime();
 		}
 		else
 		{
-			cout << "upda " << &queues.find(SELF_NAME)->second << " " << queue.top()->getExecuteTime() << endl;
-			return queue.top()->getExecuteTime();
+			GVT = queue.top()->getExecuteTime();
 		}
+		//mtxQueue.unlock();
+		
+		return GVT;
 	}
 
 	void setGVT(double GVT)
@@ -78,6 +82,7 @@ public:
 
 	void insertEvent(::Event* e, const char* const client_name = SELF_NAME)
 	{
+		//mtxQueue.lock();
 		// locate the pair
 		auto pair = queues.find(client_name);
 		
@@ -91,6 +96,7 @@ public:
 			addQueue(client_name);
 			queues.find(client_name)->second.push(e);
 		}
+		//mtxQueue.unlock();
 
 		// store the event for publishing if is object movement event
 		if (e->getType() == ::Event_t::OBJ_MOVEMENT)

@@ -14,7 +14,6 @@ EventManager::~EventManager()
 		auto queue = pair.second;
 		while (!queue.empty())
 		{
-			delete queue.top();
 			queue.pop();
 		}
 	}
@@ -24,7 +23,8 @@ void EventManager::executeEvents()
 {
 	for (auto pair : queues)
 	{ // go through each queue
-		auto& queue = pair.second;
+		//mtxQueue.lock();
+		auto queue = pair.second;
 
 		// handle events on top of queue if execution time <= GVT
 		while (!queue.empty() && queue.top()->getExecuteTime() <= GVT)
@@ -37,8 +37,10 @@ void EventManager::executeEvents()
 			queue.pop();
 		}
 
-		if (!queue.empty())
-			cout << "exe " << &pair.second << " " << queue.top()->getExecuteTime() << " " << GVT << endl;
+		// replace the queue in the map with new queue
+		queues[pair.first] = queue;
+
+		//mtxQueue.unlock();
 	}	
 }
 

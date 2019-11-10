@@ -106,6 +106,12 @@ void EventHandler::onObjMovement(EObjMovement e)
 	// move the object toward movement
 	dynamic_cast<Renderable*>(object->getGC(ComponentType::RENDERABLE))
 		->getShape()->setPosition(movement);
+
+	// if is moving platform, set heading positive
+	if (object->getId().find("MP") == 0)
+	{
+		dynamic_cast<MovingPlatform*>(object)->setHeadingPositive(e.getPositive());
+	}
 }
 
 void EventHandler::onUserInput(EUserInput e)
