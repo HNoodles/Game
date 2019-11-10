@@ -3,6 +3,10 @@
 #include <mutex>
 #include "EventHandler.h"
 
+#include <iostream>
+
+using namespace std;
+
 const char* const SELF_NAME = "A";
 
 class EventManager
@@ -34,7 +38,7 @@ public:
 
 	double getRequestGVT()
 	{
-		mtxQueue.lock();
+		//mtxQueue.lock();
 		auto queue = queues.find(SELF_NAME)->second;
 		double GVT;
 
@@ -46,7 +50,7 @@ public:
 		{
 			GVT = queue.top()->getExecuteTime();
 		}
-		mtxQueue.unlock();
+		//mtxQueue.unlock();
 
 		return GVT;
 	}
@@ -79,21 +83,21 @@ public:
 
 	void insertEvent(::Event* e, const char* const client_name = SELF_NAME)
 	{
-		mtxQueue.lock();
-		// locate the pair
-		auto pair = queues.find(client_name);
+		//mtxQueue.lock();
+		// locate the queue
+		int count = queues.count(client_name);
 
 		// insert the event
-		if (pair != queues.end())
+		if (count == 1)
 		{
-			pair->second.push(e);
+			queues[client_name].push(e);
 		}
 		else
 		{
 			addQueue(client_name);
-			queues.find(client_name)->second.push(e);
+			queues[client_name].push(e);
 		}
-		mtxQueue.unlock();
+		//mtxQueue.unlock();
 
 		// store the event for publishing if is object movement event
 		if (e->getType() == ::Event_t::OBJ_MOVEMENT && client_name == SELF_NAME)

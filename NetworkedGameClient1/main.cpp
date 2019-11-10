@@ -167,6 +167,9 @@ int main()
 			character.handleKeyInput();
 		}
 
+		// set character out velocity
+		character.setOutVelocity(elapsed);
+
 		// update character position 
 		charMove->work(elapsed);
 

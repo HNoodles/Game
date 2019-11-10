@@ -83,18 +83,18 @@ public:
 	void insertEvent(::Event* e, const char* const client_name = SELF_NAME)
 	{
 		mtxQueue.lock();
-		// locate the pair
-		auto pair = queues.find(client_name);
-		
+		// locate the queue
+		int count = queues.count(client_name);
+
 		// insert the event
-		if (pair != queues.end())
+		if (count == 1)
 		{
-			pair->second.push(e);
+			queues[client_name].push(e);
 		}
 		else
 		{
 			addQueue(client_name);
-			queues.find(client_name)->second.push(e);
+			queues[client_name].push(e);
 		}
 		mtxQueue.unlock();
 

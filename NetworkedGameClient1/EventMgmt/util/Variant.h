@@ -36,7 +36,6 @@ public:
 			return &var.bool_val;
 		default:
 			return nullptr;
-			break;
 		}
 	}
 };
