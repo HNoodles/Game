@@ -61,7 +61,7 @@ public:
 
 	void insertGVT(const char* const client_name, double GVT)
 	{
-		GVTs.insert({ client_name, GVT });
+		GVTs[client_name] = GVT;
 	}
 
 	void removeGVT(const char* const client_name)

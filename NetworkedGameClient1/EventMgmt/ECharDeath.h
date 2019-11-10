@@ -9,7 +9,7 @@ public:
 
 	Character* getCharacter()
 	{
-		return (Character*)getArg(Content_t::CHARACTER_PTR).getVal(Variant_t::OBJ_PTR);
+		return *(Character**)getArg(Content_t::CHARACTER_PTR).getVal(Variant_t::OBJ_PTR);
 	}
 };
 

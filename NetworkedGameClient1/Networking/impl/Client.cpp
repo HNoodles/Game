@@ -8,7 +8,7 @@ Client::Client(map<string, GameObject*>* objects, EventManager* manager)
 	cout << "Connecting to server on port 5555..." << endl;
 
 	subscriber.connect("tcp://localhost:5556");
-	subscriber.setsockopt(ZMQ_SUBSCRIBE, "P", strlen("P"));
+	subscriber.setsockopt(ZMQ_SUBSCRIBE, "GVT", strlen("GVT"));
 	cout << "Subscribing to server on port 5556..." << endl;
 }
 
@@ -32,7 +32,7 @@ void Client::sendHandler()
 	newObjMovements->clear();
 	mtxEvt->unlock();
 
-	cout << message << endl;
+	//cout << message << endl;
 
 	// send message and receive response
 	s_send(sender, message);
@@ -49,6 +49,8 @@ void Client::subscribeHandler(GameTime* gameTime)
 		vector<string> lines;
 		Split(message, "\n", lines);
 
+		cout << message << endl;
+
 		// first line is GVT
 		vector<string> infos;
 		Split(lines[0], " ", infos);
@@ -57,11 +59,15 @@ void Client::subscribeHandler(GameTime* gameTime)
 
 		for (const string& line : lines)
 		{
+			// skip empty lines
+			if (line == "")
+				continue;
+
 			// split into parts of information
 			vector<string> infos;
 			Split(line, " ", infos);
 
-			if (infos[0] == "C") // C name D, client disconnected
+			if (infos[0] == "C" && infos[2] == "D") // C name D, client disconnected
 			{
 				manager->removeQueue((const char*)infos[1][0]);
 				manager->removeGVT((const char*)infos[1][0]);
@@ -70,6 +76,9 @@ void Client::subscribeHandler(GameTime* gameTime)
 			}
 
 			// SELF_NAME E executeTime ObjID X_val Y_val
+			if (infos[3] == SELF_NAME) // skips events of self
+				continue;
+			
 			// new object if is new object (newly connected client)
 			auto iter = objects->find(infos[3]);
 			// store client into map

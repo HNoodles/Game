@@ -32,7 +32,7 @@ Character::Character(string id, EventManager* manager,
 void Character::handleKeyInput()
 {
 	Vector2f velocity = dynamic_cast<Movable*>(this->getGC(ComponentType::MOVABLE))->getVelocity();
-	Keyboard::Key keyPressed;
+	Keyboard::Key keyPressed = Keyboard::BackSpace;
 
 	// calculate total velocity
 	if (Keyboard::isKeyPressed(Keyboard::Left) || Keyboard::isKeyPressed(Keyboard::A))
@@ -49,8 +49,9 @@ void Character::handleKeyInput()
 		keyPressed = Keyboard::W;
 	}
 
-	// generate event
-	getEM()->insertEvent(new EUserInput(getEM()->getCurrentTime(), this, &keyPressed));
+	// generate event if there is any
+	if (keyPressed != Keyboard::BackSpace)
+		getEM()->insertEvent(new EUserInput(getEM()->getCurrentTime(), this, &keyPressed));
 }
 
 void Character::setOutVelocity(double elapsed)

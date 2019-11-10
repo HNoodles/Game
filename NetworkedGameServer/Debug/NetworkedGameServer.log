@@ -1,4 +1,19 @@
-﻿  EventHandler.cpp
+﻿  Collidable.cpp
+  Movable.cpp
+  ECharCollision.cpp
+  ECharDeath.cpp
+  ECharSpawn.cpp
+  EObjMovement.cpp
+  EUserInput.cpp
+  EventHandler.cpp
+  EventManager.cpp
+  Variant.cpp
+  Server.cpp
+  Character.cpp
+  DeathZone.cpp
+  MovingPlatform.cpp
+  SideBoundary.cpp
+  SpawnPoint.cpp
   main.cpp
   正在生成代码...
   NetworkedGameServer.vcxproj -> D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework4\Debug\NetworkedGameServer.exe

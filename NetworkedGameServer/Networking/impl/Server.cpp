@@ -24,6 +24,8 @@ void Server::receiverHandler(GameTime* gameTime)
 		// listen from clients
 		string client_string = s_recv(receiver); 
 
+		//cout << client_string << endl;
+
 		// check if disconnecting message: name D
 		vector<string> result;
 		Split(client_string, " ", result);
@@ -46,6 +48,10 @@ void Server::receiverHandler(GameTime* gameTime)
 		// SELF_NAME E executeTime ObjID(client_name) X_val Y_val
 		for (string line : lines)
 		{
+			// skip empty lines
+			if (line == "")
+				continue;
+
 			Split(line, " ", result);
 
 			// we only care about character infos, whose ObjID has length of 1

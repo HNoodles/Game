@@ -34,7 +34,7 @@ public:
 
 	double getRequestGVT()
 	{
-		mtxQueue.lock();
+		//mtxQueue.lock();
 		auto queue = queues.find(SELF_NAME)->second;
 		double GVT;
 
@@ -46,7 +46,7 @@ public:
 		{
 			GVT = queue.top()->getExecuteTime();
 		}
-		mtxQueue.unlock();
+		//mtxQueue.unlock();
 
 		return GVT;
 	}
@@ -58,7 +58,7 @@ public:
 
 	void insertGVT(const char* const client_name, double GVT)
 	{
-		GVTs.insert({ client_name, GVT });
+		GVTs[client_name] = GVT;
 	}
 
 	void removeGVT(const char* const client_name)

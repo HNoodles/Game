@@ -49,8 +49,9 @@ void Character::handleKeyInput()
 		keyPressed = Keyboard::W;
 	}
 
-	// generate event
-	getEM()->insertEvent(new EUserInput(getEM()->getCurrentTime(), this, &keyPressed));
+	// generate event if there is any
+	if (keyPressed != Keyboard::BackSpace)
+		getEM()->insertEvent(new EUserInput(getEM()->getCurrentTime(), this, &keyPressed));
 }
 
 void Character::setOutVelocity(double elapsed)
