@@ -66,7 +66,7 @@ void Character::setOutVelocity(double elapsed)
 		* bottom = boundary_ptrs[3];
 
 	// clear out velocity to normal
-	outVelocity.x = 0;
+	//outVelocity.x = 0;
 
 	if (left != nullptr)
 	{// left collision!

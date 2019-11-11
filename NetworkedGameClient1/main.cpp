@@ -162,6 +162,13 @@ int main()
 			character.getGC(ComponentType::COLLIDABLE)
 		)->work(collidableObjects, elapsed);
 
+		// update GVT and execute events
+		manager.updateGVT();
+		manager.executeEvents();
+
+		// set character out velocity
+		character.setOutVelocity(elapsed);
+
 		if (window.hasFocus())
 		{
 			// move character
@@ -171,9 +178,6 @@ int main()
 		// update GVT and execute events
 		manager.updateGVT();
 		manager.executeEvents();
-	
-		// set character out velocity
-		character.setOutVelocity(elapsed);
 
 		// update character position 
 		charMove->work(elapsed);

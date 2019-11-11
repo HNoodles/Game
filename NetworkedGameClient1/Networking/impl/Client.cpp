@@ -62,7 +62,7 @@ void Client::subscribeHandler(GameTime* gameTime)
 		vector<string> lines;
 		Split(message, "\n", lines);
 
-		cout << message << endl;
+		//cout << message << endl;
 
 		// first line is GVT
 		vector<string> infos;

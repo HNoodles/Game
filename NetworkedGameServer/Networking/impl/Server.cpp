@@ -130,7 +130,7 @@ void Server::publisherHandler()
 	newObjMovements->clear();
 	mtxEvt->unlock();
 
-	cout << message << endl;
+	//cout << message << endl;
 
 	// send message
 	s_send(publisher, message);
