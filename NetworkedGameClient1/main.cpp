@@ -168,6 +168,10 @@ int main()
 			character.handleKeyInput();
 		}
 
+		// update GVT and execute events
+		manager.updateGVT();
+		manager.executeEvents();
+	
 		// set character out velocity
 		character.setOutVelocity(elapsed);
 

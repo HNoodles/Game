@@ -113,6 +113,7 @@ void Client::subscribeHandler(GameTime* gameTime)
 			}
 
 			// insert new Event anyway
+			mtxQueue->lock();
 			manager->insertEvent(
 				new EObjMovement(
 					atof(infos[2].c_str()) - connectedTime, // add time bias
@@ -122,11 +123,12 @@ void Client::subscribeHandler(GameTime* gameTime)
 				),
 				(const char* const)infos[0][0]
 			);
+			mtxQueue->unlock();
 		}
 
 		// update GVT and execute events
-		manager->updateGVT();
 		mtxQueue->lock();
+		manager->updateGVT();
 		manager->executeEvents();
 		mtxQueue->unlock();
 	}
