@@ -2,10 +2,10 @@
 
 #include <SFML/Graphics.hpp>
 #include <stdarg.h>
-#include <iostream>
+//#include <iostream>
 
 using namespace sf;
-using namespace std;
+//using namespace std;
 
 class GameObject;
 

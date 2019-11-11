@@ -1,17 +1,18 @@
 #pragma once
 #include <map>
 #include "../Components/GenericComponent.h"
+#include "../EventMgmt/EventManager.h"
 
 using namespace std;
 
 class GameObject
 {
 private:
+	string id;
 	map<ComponentType, GenericComponent*> gcs;
+	EventManager* manager;
 public:
-	GameObject() {};
-
-	GameObject(map<ComponentType, GenericComponent*> gcs) { this->gcs = gcs; }
+	GameObject(string id, EventManager* manager) : id(id), manager(manager) {};
 
 	virtual ~GameObject()
 	{
@@ -30,5 +31,15 @@ public:
 	void addGC(ComponentType type, GenericComponent* component)
 	{
 		gcs.insert({ type, component });
+	}
+
+	string getId() const
+	{
+		return id;
+	}
+
+	EventManager* getEM() const
+	{
+		return manager;
 	}
 };

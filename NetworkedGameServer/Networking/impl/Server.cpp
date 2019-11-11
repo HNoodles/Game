@@ -134,9 +134,6 @@ void Server::publisherHandler()
 
 	// send message
 	s_send(publisher, message);
-
-	// sleep for 16ms to avoid too frequent publish
-	//Sleep(16);
 }
 
 void Server::connectHandler(const string& name)
@@ -156,10 +153,12 @@ void Server::connectHandler(const string& name)
 void Server::disconnectHandler(const string& name)
 {
 	// remove the queue of the client, remove GVT of the client
+	manager->getMtxQueue()->lock();
 	manager->removeQueue((const char* const)name[0]);
 	manager->removeGVT((const char* const)name[0]);
+	manager->getMtxQueue()->unlock();
 	// remove the character pointer in characters
-	delete characters.find(name)->second;
+	delete characters[name];
 	characters.erase(name);
 	// remove the connect time
 	connectTimes.erase(name);

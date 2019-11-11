@@ -1,7 +1,10 @@
 #include "../SideBoundary.h"
 
-SideBoundary::SideBoundary(::Direction direction, Vector2u windowSize, float padding)
-	: GameObject(), direction(direction), windowSize(windowSize), padding(padding)
+SideBoundary::SideBoundary(string id, EventManager* manager, 
+	::Direction direction, Vector2u windowSize, float padding,
+	Vector2f& renderOffset, vector<SideBoundary*>* sideBoundaries)
+	: GameObject(id, manager), direction(direction), windowSize(windowSize), padding(padding), 
+	renderOffset(renderOffset), sideBoundaries(sideBoundaries)
 {
 	// set offset
 	switch (direction)
@@ -52,7 +55,7 @@ SideBoundary::SideBoundary(::Direction direction, Vector2u windowSize, float pad
 	this->addGC(
 		ComponentType::COLLIDABLE,
 		new Collidable(
-			this, 
+			this,
 			Collision::SIDEBOUNDARY,
 			dynamic_cast<Renderable*>(this->getGC(ComponentType::RENDERABLE)),
 			nullptr

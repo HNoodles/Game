@@ -53,7 +53,7 @@ void Client::sendHandler()
 
 void Client::subscribeHandler(GameTime* gameTime)
 {
-	while (true)
+	while (connected)
 	{
 		string message = s_recv(subscriber);
 
@@ -81,8 +81,17 @@ void Client::subscribeHandler(GameTime* gameTime)
 
 			if (infos[0] == "C" && infos[2] == "D") // C name D, client disconnected
 			{
+				if (infos[1] == SELF_NAME) // skip self disconnect message
+				{
+					continue;
+				}
+				// remove relative things in manager
+				manager->getMtxQueue()->lock();
 				manager->removeQueue((const char*)infos[1][0]);
 				manager->removeGVT((const char*)infos[1][0]);
+				manager->getMtxQueue()->unlock();
+				// remove character pointer
+				delete (*objects)[infos[1]];
 				objects->erase(infos[1]);
 				continue;
 			}
@@ -92,9 +101,8 @@ void Client::subscribeHandler(GameTime* gameTime)
 				continue;
 			
 			// new object if is new object (newly connected client)
-			auto iter = objects->find(infos[3]);
 			// store client into map
-			if (iter == objects->end()) // new client, generate object
+			if (infos[0] != "S" && objects->count(infos[3]) == 0) // new client, generate object
 			{
 				LocalTime local(1, *gameTime);
 

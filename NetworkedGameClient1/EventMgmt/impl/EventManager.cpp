@@ -1,23 +1,25 @@
 #include "../EventManager.h"
 
 EventManager::EventManager(Timeline& gameTime, mutex* mtxObjMov)
-	: gameTime(gameTime), handler(gameTime, this), GVT(gameTime.getTime()), mtxObjMov(mtxObjMov)
+	: gameTime(gameTime), handler(gameTime, this), GVT(gameTime.getTime()), mtxObjMov(mtxObjMov), connected(true)
 {
 	addQueue(SELF_NAME);
 }
 
 EventManager::~EventManager()
 {
+	mtxQueue.lock();
 	// delete all stored event pointers
-	for (auto pair : queues)
+	for (auto& pair : queues)
 	{
-		auto queue = pair.second;
+		auto& queue = pair.second;
 		while (!queue.empty())
 		{
 			delete queue.top();
 			queue.pop();
 		}
 	}
+	mtxQueue.unlock();
 }
 
 void EventManager::executeEvents()
@@ -55,6 +57,12 @@ void EventManager::keepExecutingEvents()
 	while (true)
 	{
 		mtxQueue.lock();
+
+		if (!connected)
+		{
+			mtxQueue.unlock();
+			break;
+		}
 
 		executeEvents();
 

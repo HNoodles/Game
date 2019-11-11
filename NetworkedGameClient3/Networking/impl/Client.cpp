@@ -1,94 +1,130 @@
 #include "../Client.h"
 
-Client::Client(Character* thisChar, map<string, Vector2f>* characters, mutex* lock)
+Client::Client(map<string, GameObject*>* objects, EventManager* manager)
 	: context(1), sender(context, ZMQ_REQ), subscriber(context, ZMQ_SUB), 
-	thisChar(thisChar), characters(characters), connected(true), lock(lock)
+	objects(objects), connected(true), connectedTime(0), manager(manager)
 {
 	sender.connect("tcp://localhost:5555");
 	cout << "Connecting to server on port 5555..." << endl;
 
 	subscriber.connect("tcp://localhost:5556");
-	subscriber.setsockopt(ZMQ_SUBSCRIBE, "P", strlen("P"));
+	subscriber.setsockopt(ZMQ_SUBSCRIBE, "GVT", strlen("GVT"));
 	cout << "Subscribing to server on port 5556..." << endl;
+}
+
+void Client::connect()
+{
+	// send self name to server to connect
+	s_send(sender, SELF_NAME);
+
+	// receive and set connected time
+	string response = s_recv(sender);
+	connectedTime = atof(response.c_str());
+
+	cout << "Connected to server" << endl;
 }
 
 void Client::sendHandler()
 {
 	if (!connected) // don't send if disconnected
 		return;
+	
+	// first, name GVT double 
+	string message = SELF_NAME + (string)" GVT " + to_string(manager->getRequestGVT()) + "\n";
 
-	// generate message accordingly
-	string message = ClientMessage(CLIENT_NAME, thisChar);
+	// generate events string, SELF_NAME E executeTime ObjID X_val Y_val
+	list<EObjMovement>* newObjMovements = manager->getObjMovements();
+	manager->getMtxEvt()->lock();
+	for (EObjMovement e : *newObjMovements)
+	{
+		// only send this character movement event
+		if (e.getObject()->getId() == SELF_NAME)
+			message += SELF_NAME + (string)" " + e.toString();
+	}
+	newObjMovements->clear();
+	manager->getMtxEvt()->unlock();
+
+	//cout << message << endl;
 
 	// send message and receive response
 	s_send(sender, message);
 	string response = s_recv(sender);
 }
 
-void Client::subscribeHandler(list<MovingPlatform*>* platforms)
+void Client::subscribeHandler(GameTime* gameTime)
 {
 	while (true)
 	{
 		string message = s_recv(subscriber);
 
-		// prepare iterator
-		auto iterP = platforms->begin();
-
 		// split into lines
 		vector<string> lines;
 		Split(message, "\n", lines);
 
+		//cout << message << endl;
+
+		// first line is GVT
+		vector<string> infos;
+		Split(lines[0], " ", infos);
+		manager->setGVT(atof(infos[1].c_str()) - connectedTime);
+		lines.erase(lines.begin());
+
 		for (const string& line : lines)
 		{
+			// skip empty lines
+			if (line == "")
+				continue;
+
 			// split into parts of information
 			vector<string> infos;
 			Split(line, " ", infos);
 
-			// analyze infos and relocate objects
-			if (infos[0] == "P") // platform info, P 5.0 5.0\n
+			if (infos[0] == "C" && infos[2] == "D") // C name D, client disconnected
 			{
-				// get position info
-				Vector2f pos((float)atof(infos[1].c_str()), (float)atof(infos[2].c_str()));
-
-				lock->lock();
-				// set position
-				dynamic_cast<Renderable*>((*iterP)->getGC(ComponentType::RENDERABLE))->getShape()->setPosition(pos);
-				// set head positive
-				(*iterP)->setHeadingPositive(infos[3] == "1");
-				lock->unlock();
-
-				// move to next iterP
-				iterP++;
+				manager->removeQueue((const char*)infos[1][0]);
+				manager->removeGVT((const char*)infos[1][0]);
+				objects->erase(infos[1]);
+				continue;
 			}
-			else if (infos[0] == "C") // client info, C NAME 5.0 5.0 1.234\n
+
+			// SELF_NAME E executeTime ObjID X_val Y_val Positive
+			if (infos[3] == SELF_NAME) // skips events of self
+				continue;
+			
+			// new object if is new object (newly connected client)
+			auto iter = objects->find(infos[3]);
+			// store client into map
+			if (iter == objects->end()) // new client, generate object
 			{
-				if (infos[2] == "D") // C name D, client disconnected
-				{
-					// delete stored character pair
-					characters->erase(infos[1]);
-					continue;
-				}
+				LocalTime local(1, *gameTime);
 
-				// get position info
-				Vector2f pos((float)atof(infos[2].c_str()), (float)atof(infos[3].c_str()));
-				
-				if (infos[1] == CLIENT_NAME) // this client, update pos and time
-				{
-					// get game time
-					GameTime time(1, atof(infos[4].c_str()));
+				objects->insert({
+					infos[3],
+					new Character(
+						infos[3], manager,
+						::Shape::DIAMOND, ::Color::BLUE, Vector2f(60.f, 120.f),
+						Vector2f((float)atof(infos[4].c_str()), (float)atof(infos[5].c_str())), // pos
+						Vector2f(250.0f, 0.0f), local
+					)
+				});
 
-					dynamic_cast<Renderable*>(thisChar->getGC(ComponentType::RENDERABLE))
-						->getShape()->setPosition(pos);
-					dynamic_cast<Movable*>(thisChar->getGC(ComponentType::MOVABLE))
-						->setTimeline(time);
-				}
-				else // other client, only update pos
-				{
-					(*characters)[infos[1]] = pos;
-				}
+				cout << "New client " + infos[0] << endl;
 			}
+
+			// insert new Event anyway
+			manager->getMtxQueue()->lock();
+			manager->insertEvent(
+				new EObjMovement(
+					atof(infos[2].c_str()) - connectedTime, // add time bias
+					objects->find(infos[3])->second,// character
+					atof(infos[4].c_str()),
+					atof(infos[5].c_str()), 
+					infos[6] == "1"
+				),
+				(const char* const)infos[0][0]
+			);
+			manager->getMtxQueue()->unlock();
 		}
-
 	}
 }
 
@@ -98,7 +134,7 @@ void Client::disconnect()
 	connected = false;
 
 	// generate message accordingly
-	string message = (string)CLIENT_NAME + " D";
+	string message = (string)SELF_NAME + " D";
 
 	// send message and receive response
 	s_send(sender, message);
@@ -132,12 +168,4 @@ void Client::Split(const string& string, const std::string& separator, vector<st
 		result.emplace_back(string.substr(start, index - start));
 		start = index + strlen(separator.c_str());
 	}
-}
-
-string Client::ClientMessage(const string& name, Character* character)
-{
-	// A 5.0 5.0\n
-	Vector2f pos = dynamic_cast<Renderable*>(character->getGC(ComponentType::RENDERABLE))
-		->getShape()->getPosition();
-	return name + " " + to_string(pos.x) + " " + to_string(pos.y) + "\n";
 }

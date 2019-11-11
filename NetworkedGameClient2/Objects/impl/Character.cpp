@@ -1,8 +1,13 @@
 #include "../Character.h"
+#include "../SideBoundary.h"
 
-Character::Character(::Shape shape, ::Color color, Vector2f size, Vector2f pos, Vector2f velocity, Timeline& timeline, vector<Renderable*>* spawnPoints)
-	: GameObject(), outVelocity(0.f, 0.f), 
-	boundary_ptrs({ nullptr, nullptr, nullptr, nullptr }), spawnPoints(spawnPoints), hitBoundary(false)
+Character::Character(string id, EventManager* manager, 
+	::Shape shape, ::Color color, Vector2f size, Vector2f pos,
+	Vector2f velocity, Timeline& timeline, vector<SpawnPoint*>* spawnPoints,
+	Vector2f* renderOffset, vector<SideBoundary*>* sideBoundaries)
+	: GameObject(id, manager), outVelocity(0.f, 0.f), 
+	boundary_ptrs({ nullptr, nullptr, nullptr, nullptr }), spawnPoints(spawnPoints), 
+	hitBoundary(false), renderOffset(renderOffset), sideBoundaries(sideBoundaries)
 {
 	this->addGC(
 		ComponentType::RENDERABLE, 
@@ -30,21 +35,26 @@ Character::Character(::Shape shape, ::Color color, Vector2f size, Vector2f pos, 
 void Character::handleKeyInput()
 {
 	Vector2f velocity = dynamic_cast<Movable*>(this->getGC(ComponentType::MOVABLE))->getVelocity();
+	Keyboard::Key keyPressed = Keyboard::BackSpace;
 
 	// calculate total velocity
 	if (Keyboard::isKeyPressed(Keyboard::Left) || Keyboard::isKeyPressed(Keyboard::A))
 	{// left
-		outVelocity -= velocity;
+		keyPressed = Keyboard::A;
 	}
 	if (Keyboard::isKeyPressed(Keyboard::Right) || Keyboard::isKeyPressed(Keyboard::D))
 	{// right
-		outVelocity += velocity;
+		keyPressed = Keyboard::D;
 	}
 	if ((Keyboard::isKeyPressed(Keyboard::Up) || Keyboard::isKeyPressed(Keyboard::W))
 		&& boundary_ptrs[3] != nullptr) // character should be on a platform to jump
 	{// jump
-		outVelocity.y = -300.f;
+		keyPressed = Keyboard::W;
 	}
+
+	// generate event if there is any
+	if (keyPressed != Keyboard::BackSpace)
+		getEM()->insertEvent(new EUserInput(getEM()->getCurrentTime(), this, keyPressed));
 }
 
 void Character::setOutVelocity(double elapsed)
@@ -59,7 +69,7 @@ void Character::setOutVelocity(double elapsed)
 		* bottom = boundary_ptrs[3];
 
 	// clear out velocity to normal
-	outVelocity.x = 0;
+	//outVelocity.x = 0;
 
 	if (left != nullptr)
 	{// left collision!
@@ -101,12 +111,13 @@ void Character::setOutVelocity(double elapsed)
 
 void Character::checkHitBoundary(vector<SideBoundary*>* sideBoundaries)
 {
+	FloatRect cbound = dynamic_cast<Renderable*>(getGC(ComponentType::RENDERABLE))
+		->getShape()->getGlobalBounds();
+
 	hitBoundary = false;
 	for (SideBoundary* sideBoundary : *sideBoundaries)
 	{
 		// get bound of boundary
-		FloatRect cbound = dynamic_cast<Renderable*>(getGC(ComponentType::RENDERABLE))
-			->getShape()->getGlobalBounds();
 		FloatRect bound = dynamic_cast<Renderable*>(sideBoundary->getGC(ComponentType::RENDERABLE))
 			->getShape()->getGlobalBounds();
 		if (cbound.intersects(bound))

@@ -3,9 +3,12 @@
 #include <string>
 #include <iostream>
 #include <mutex>
+
+#include "../EventMgmt/EventManager.h"
+#include "../Times/LocalTime.h"
 #include "../Objects/Character.h"
 
-constexpr auto CLIENT_NAME = "B";
+extern const char* const SELF_NAME;
 
 using namespace std;
 using namespace zmq;
@@ -16,25 +19,24 @@ private:
 	context_t context;
 	socket_t sender;
 	socket_t subscriber;
-	map<string, Vector2f>* characters;
-	Character* thisChar;
+	map<string, GameObject*>* objects;
 	bool connected;
-	mutex* lock;
+	double connectedTime;
+	EventManager* manager;
 
 	string s_recv(socket_t& socket);
 
 	void s_send(socket_t& socket, const string& string);
 
 	void Split(const string& string, const std::string& separator, vector<std::string>& result);
-
-	string ClientMessage(const string& name, Character* character);
-
 public:
-	Client(Character* thisChar, map<string, Vector2f>* characters, mutex* lock);
+	Client(map<string, GameObject*>* objects, EventManager* manager);
+
+	void connect();
 
 	void sendHandler();
 
-	void subscribeHandler(list<MovingPlatform*>* platforms);
+	void subscribeHandler(GameTime* gameTime);
 
 	void disconnect();
 };

@@ -57,6 +57,7 @@ int main()
 		{
 			dynamic_cast<Movable*>(moving->getMovable())->work(elapsed);
 		}
+		manager.executeEvents();
 		manager.getMtxQueue()->unlock();
 
 		// refresh time
@@ -64,6 +65,9 @@ int main()
 
 		// publish messages
 		server.publisherHandler();
+
+		// sleep for 16ms to avoid too frequent publish
+		Sleep(16);
 	}
 
 	return 0;

@@ -3,22 +3,25 @@
 #include "GameObject.h"
 #include "../Components/Collidable.h"
 #include "MovingPlatform.h"
-#include "SideBoundary.h"
 
 class Character : public GameObject
 {
 private:
 	Vector2f outVelocity;
 	vector<Collidable*> boundary_ptrs;
-	vector<Renderable*>* spawnPoints;
+	vector<SpawnPoint*>* spawnPoints;
 
 	bool hitBoundary;
+	Vector2f* renderOffset;
+	vector<SideBoundary*>* sideBoundaries;
 
 	const Vector2f gravity = Vector2f(0.f, 500.f);
 public:
 	Character(
-		::Shape shape, ::Color color, Vector2f size, Vector2f pos, 
-		Vector2f velocity, Timeline& timeline, vector<Renderable*>* spawnPoints = nullptr
+		string id, EventManager* manager, 
+		::Shape shape, ::Color color, Vector2f size, Vector2f pos,
+		Vector2f velocity, Timeline& timeline, vector<SpawnPoint*>* spawnPoints = nullptr, 
+		Vector2f* renderOffset = nullptr, vector<SideBoundary*>* sideBoundaries = nullptr
 	);
 
 	void handleKeyInput();
@@ -32,19 +35,14 @@ public:
 		return &boundary_ptrs;
 	}
 
-	vector<Renderable*>* getSpawnPoints()
+	vector<SpawnPoint*>* getSpawnPoints()
 	{
 		return spawnPoints;
 	}
 
-	Vector2f getOutVelocity() const
+	Vector2f& getOutVelocity()
 	{
 		return outVelocity;
-	}
-
-	void setOutVelocity(Vector2f outVelocity)
-	{
-		this->outVelocity = outVelocity;
 	}
 
 	bool getHitBoundary() const
@@ -55,5 +53,15 @@ public:
 	void setHitBoundary(bool hitBoundary)
 	{
 		this->hitBoundary = hitBoundary;
+	}
+
+	Vector2f* getRenderOffset()
+	{
+		return renderOffset;
+	}
+
+	vector<SideBoundary*>* getSideBoundaries()
+	{
+		return sideBoundaries;
 	}
 };

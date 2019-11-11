@@ -21,15 +21,29 @@ void Movable::hMove(double elapsed)
 		|| (!headingPositive && pos.x <= negBound))
 	{// heading right, not reaching bound
 	// heading left, reached bound
-		platform->setHeadingPositive(true);
-		s->move(dis);
+		gameObject->getEM()->insertEvent(
+			new EObjMovement(
+				gameObject->getEM()->getCurrentTime(), 
+				gameObject, 
+				pos.x + dis.x, 
+				pos.y + dis.y, 
+				true
+			)
+		);
 	}
 	else if ((headingPositive && pos.x > posBound)
 		|| (!headingPositive && pos.x > negBound))
 	{// heading right, reached bound
 	// heading left, not reaching bound
-		platform->setHeadingPositive(false);
-		s->move(-dis);
+		gameObject->getEM()->insertEvent(
+			new EObjMovement(
+				gameObject->getEM()->getCurrentTime(), 
+				gameObject, 
+				pos.x - dis.x, 
+				pos.y - dis.y, 
+				false
+			)
+		);
 	}
 }
 
@@ -53,15 +67,29 @@ void Movable::vMove(double elapsed)
 		|| (!headingPositive && pos.y <= negBound))
 	{// heading down, not reaching bound
 	// heading up, reached bound
-		platform->setHeadingPositive(true);
-		s->move(dis);
+		gameObject->getEM()->insertEvent(
+			new EObjMovement(
+				gameObject->getEM()->getCurrentTime(),
+				gameObject,
+				pos.x + dis.x,
+				pos.y + dis.y,
+				true
+			)
+		);
 	}
 	else if ((headingPositive && pos.y > posBound)
 		|| (!headingPositive && pos.y > negBound))
 	{// heading down, reached bound
 	// heading up, not reaching bound
-		platform->setHeadingPositive(false);
-		s->move(-dis);
+		gameObject->getEM()->insertEvent(
+			new EObjMovement(
+				gameObject->getEM()->getCurrentTime(),
+				gameObject,
+				pos.x - dis.x,
+				pos.y - dis.y,
+				false
+			)
+		);
 	}
 }
 
@@ -72,7 +100,16 @@ void Movable::iMove(double elapsed)
 	// calculate total displacement
 	Vector2f dis = Vector2f((float)(outVelocity.x * elapsed), (float)(outVelocity.y * elapsed));
 
-	renderable->getShape()->move(dis);
+	Vector2f pos = renderable->getShape()->getPosition();
+
+	gameObject->getEM()->insertEvent(
+		new EObjMovement(
+			gameObject->getEM()->getCurrentTime(), 
+			gameObject, 
+			pos.x + dis.x,
+			pos.y + dis.y
+		)
+	);
 }
 
 Movable::Movable(GameObject* gameObject, Renderable* renderable,

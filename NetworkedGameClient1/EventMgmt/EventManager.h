@@ -23,6 +23,8 @@ private:
 	list<EObjMovement> objMovements;
 	mutex mtxEvt, mtxQueue, *mtxObjMov;
 
+	bool connected;
+
 	void updateGVT();
 public:
 	EventManager(Timeline& gameTime, mutex* mtxObjMov);
@@ -124,6 +126,11 @@ public:
 	mutex* getMtxQueue()
 	{
 		return &mtxQueue;
+	}
+
+	void setConnected(bool connected)
+	{
+		this->connected = connected;
 	}
 };
 
