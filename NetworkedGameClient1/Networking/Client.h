@@ -22,7 +22,7 @@ private:
 	map<string, GameObject*>* objects;
 	bool connected;
 	double connectedTime;
-	mutex* mtxEvt;
+	mutex* mtxEvt, *mtxQueue;
 	EventManager* manager;
 
 	string s_recv(socket_t& socket);
@@ -31,7 +31,7 @@ private:
 
 	void Split(const string& string, const std::string& separator, vector<std::string>& result);
 public:
-	Client(map<string, GameObject*>* objects, EventManager* manager);
+	Client(map<string, GameObject*>* objects, EventManager* manager, mutex* mtxQueue);
 
 	void connect();
 

@@ -1,8 +1,9 @@
 #include "../Client.h"
 
-Client::Client(map<string, GameObject*>* objects, EventManager* manager)
+Client::Client(map<string, GameObject*>* objects, EventManager* manager, mutex* mtxQueue)
 	: context(1), sender(context, ZMQ_REQ), subscriber(context, ZMQ_SUB), 
-	objects(objects), connected(true), connectedTime(0), manager(manager), mtxEvt(manager->getMtxEvt())
+	objects(objects), connected(true), connectedTime(0), manager(manager), 
+	mtxEvt(manager->getMtxEvt()), mtxQueue(mtxQueue)
 {
 	sender.connect("tcp://localhost:5555");
 	cout << "Connecting to server on port 5555..." << endl;
@@ -125,7 +126,9 @@ void Client::subscribeHandler(GameTime* gameTime)
 
 		// update GVT and execute events
 		manager->updateGVT();
+		mtxQueue->lock();
 		manager->executeEvents();
+		mtxQueue->unlock();
 	}
 }
 

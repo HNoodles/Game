@@ -22,10 +22,8 @@ EventManager::~EventManager()
 
 void EventManager::executeEvents()
 {
-	list<const ::Event*> eventsToDelete;
 	for (auto& pair : queues)
 	{ // go through each queue
-		//mtxQueue.lock();
 		auto& queue = pair.second;
 
 		// handle events on top of queue if execution time <= GVT
@@ -40,34 +38,14 @@ void EventManager::executeEvents()
 			handler.onEvent(e);
 			if (isObjMov)
 				mtxObjMov->unlock();
-			// delete pointer
-			
-			if (e != queue.top())
-			{
-				queue.push(new ECharDeath(gameTime.getTime(), nullptr));
-				cout << "wrong!!!!!!" << endl;
-				cout << to_string(e->getExecuteTime()) << endl;
-				cout << to_string(queue.top()->getExecuteTime()) << endl;
-				continue;
-			}
-			
-			//delete e;
-			/*if (!eventsToDelete.empty() && e != eventsToDelete.back())
-			{*/
-			eventsToDelete.emplace_back(e);
-			/*}*/
 
+			// delete pointer
+			delete e;
 
 			// pop it from the queue
 			queue.pop();
 		}
-		//mtxQueue.unlock();
 	}
-	for (const ::Event* e : eventsToDelete)
-	{
-		delete e;
-	}
-	eventsToDelete.clear();
 }
 
 void EventManager::updateGVT()

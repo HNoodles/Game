@@ -87,6 +87,7 @@ void Server::receiverHandler(GameTime* gameTime)
 			}
 			
 			// insert new Event anyway
+			mtxQueue.lock();
 			manager->insertEvent(
 				new EObjMovement(
 					atof(result[2].c_str()) + connectTimes[result[0]], // add bias time
@@ -96,6 +97,7 @@ void Server::receiverHandler(GameTime* gameTime)
 				), 
 				(const char* const)result[0][0]
 			);
+			mtxQueue.unlock();
 		}
 		
 		// send a response to fulfill a come and go
@@ -135,7 +137,9 @@ void Server::publisherHandler()
 
 	// update GVT and execute events
 	manager->updateGVT();
+	mtxQueue.lock();
 	manager->executeEvents();
+	mtxQueue.unlock();
 
 	// sleep for 16ms to avoid too frequent publish
 	//Sleep(16);

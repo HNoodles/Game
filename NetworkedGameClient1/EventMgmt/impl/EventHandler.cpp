@@ -94,8 +94,8 @@ void EventHandler::onCharSpawn(ECharSpawn e)
 		->getShape()->getPosition();
 
 	// set character's position to it
-	dynamic_cast<Renderable*>(character->getGC(ComponentType::RENDERABLE))
-		->getShape()->setPosition(point);
+	manager->insertEvent(new EObjMovement(gameTime.getTime(), character, point.x, point.y));
+
 	// refresh out velocity
 	character->getOutVelocity() = Vector2f(0.f, 0.f);
 }

@@ -24,11 +24,10 @@ void EventManager::executeEvents()
 {
 	for (auto& pair : queues)
 	{ // go through each queue
-		mtxQueue.lock();
 		auto& queue = pair.second;
 
 		// handle events on top of queue if execution time <= GVT
-		while (!queue.empty() && queue.top()->getExecuteTime() <= GVT)
+		while (!queue.empty() && queue.top()->getExecuteTime() <= GVT + 0.016)
 		{
 			const ::Event* e = queue.top();
 
@@ -39,7 +38,6 @@ void EventManager::executeEvents()
 			// pop it from the queue
 			queue.pop();
 		}
-		mtxQueue.unlock();
 	}	
 }
 

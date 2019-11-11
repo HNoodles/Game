@@ -36,7 +36,7 @@ Vector2u wholeSize(1600, 600); // whole view size
 
 Vector2f renderOffset(0.f, 0.f);
 
-mutex mtxObjMov;
+mutex mtxObjMov, mtxQueue;
 
 int main()
 {
@@ -113,7 +113,7 @@ int main()
 	objects.insert({ character.getId(), &character });
 
 	// init client
-	Client client(&objects, &manager);
+	Client client(&objects, &manager, &mtxQueue);
 
 	// send message to notify server this new client
 	client.connect();
@@ -124,9 +124,9 @@ int main()
 
 	// get updated game time
 	Movable* charMove = dynamic_cast<Movable*>(character.getGC(ComponentType::MOVABLE));
-	gameTime = *dynamic_cast<GameTime*>(
+	/*gameTime = *dynamic_cast<GameTime*>(
 		&(charMove->getTimeline())
-	);
+	);*/
 
 	// timer
 	double elapsed, thisTime, lastTime = gameTime.getTime();
@@ -134,10 +134,10 @@ int main()
 	// run the program as long as the window is open
 	while (window.isOpen())
 	{
-		// get updated game time
-		gameTime = *dynamic_cast<GameTime*>(
-			&(charMove->getTimeline())
-		);
+		//// get updated game time
+		//gameTime = *dynamic_cast<GameTime*>(
+		//	&(charMove->getTimeline())
+		//);
 
 		// get time tic elapsed for this iteration
 		thisTime = gameTime.getTime();
@@ -157,6 +157,7 @@ int main()
 		}
 
 		// detect character collision
+		mtxQueue.lock();
 		dynamic_cast<Collidable*>(
 			character.getGC(ComponentType::COLLIDABLE)
 		)->work(collidableObjects, elapsed);
@@ -172,6 +173,7 @@ int main()
 
 		// update character position 
 		charMove->work(elapsed);
+		mtxQueue.unlock();
 
 		// send message to notify server the update of this client
 		client.sendHandler();

@@ -17,11 +17,11 @@ private:
 	EventHandler handler;
 	map <
 		const char* const, // client name
-		priority_queue<::Event*, vector<::Event*>, greater<::Event*>>
+		priority_queue<::Event*, vector<::Event*>, cmp>
 	> queues;
 	map <const char* const, double> GVTs;
 	list<EObjMovement> objMovements;
-	mutex mtxEvt, mtxQueue, *mtxObjMov;
+	mutex mtxEvt, *mtxObjMov;
 public:
 	EventManager(Timeline& gameTime, mutex* mtxObjMov);
 
@@ -38,7 +38,6 @@ public:
 
 	double getRequestGVT()
 	{
-		//mtxQueue.lock();
 		auto queue = queues.find(SELF_NAME)->second;
 		double GVT;
 
@@ -50,7 +49,6 @@ public:
 		{
 			GVT = queue.top()->getExecuteTime();
 		}
-		//mtxQueue.unlock();
 
 		return GVT;
 	}
@@ -72,7 +70,7 @@ public:
 
 	void addQueue(const char* const client_name)
 	{
-		priority_queue<::Event*, vector<::Event*>, greater<::Event*>> newQueue;
+		priority_queue<::Event*, vector<::Event*>, cmp> newQueue;
 		queues.insert({ client_name, newQueue });
 	}
 
@@ -83,7 +81,6 @@ public:
 
 	void insertEvent(::Event* e, const char* const client_name = SELF_NAME)
 	{
-		//mtxQueue.lock();
 		// locate the queue
 		int count = queues.count(client_name);
 
@@ -97,7 +94,6 @@ public:
 			addQueue(client_name);
 			queues[client_name].push(e);
 		}
-		//mtxQueue.unlock();
 
 		// store the event for publishing if is object movement event
 		if (e->getType() == ::Event_t::OBJ_MOVEMENT && client_name == SELF_NAME)

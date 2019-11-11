@@ -41,9 +41,12 @@ public:
 	{
 		return executeTime;
 	}
-
-	bool operator<(const Event& rv) const;
-
-	bool operator>(const Event& rv) const;
 };
 
+struct cmp
+{
+	bool operator()(::Event* lv, ::Event* rv)
+	{
+		return lv->getExecuteTime() > rv->getExecuteTime();
+	}
+};

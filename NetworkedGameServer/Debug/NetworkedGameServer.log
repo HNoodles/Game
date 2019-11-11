@@ -1,11 +1,6 @@
 ﻿  Collidable.cpp
   Movable.cpp
-  ECharCollision.cpp
-  ECharDeath.cpp
-  ECharSpawn.cpp
   EObjMovement.cpp
-  EUserInput.cpp
-  Event.cpp
   EventHandler.cpp
   EventManager.cpp
   Variant.cpp
