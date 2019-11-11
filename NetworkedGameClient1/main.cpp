@@ -108,7 +108,7 @@ int main()
 		SELF_NAME, &manager, 
 		::Shape::DIAMOND, ::Color::BLUE, Vector2f(60.f, 120.f), 
 		dynamic_cast<Renderable*>(spawnPoint.getGC(ComponentType::RENDERABLE))->getShape()->getPosition(),
-		Vector2f(250.0f, 0.0f), gameTime, &spawnPoints
+		Vector2f(250.0f, 0.0f), gameTime, &spawnPoints, &renderOffset, &sideBoundaries
 	);
 	objects.insert({ character.getId(), &character });
 
@@ -124,9 +124,6 @@ int main()
 
 	// get updated game time
 	Movable* charMove = dynamic_cast<Movable*>(character.getGC(ComponentType::MOVABLE));
-	/*gameTime = *dynamic_cast<GameTime*>(
-		&(charMove->getTimeline())
-	);*/
 
 	// timer
 	double elapsed, thisTime, lastTime = gameTime.getTime();
@@ -134,11 +131,6 @@ int main()
 	// run the program as long as the window is open
 	while (window.isOpen())
 	{
-		//// get updated game time
-		//gameTime = *dynamic_cast<GameTime*>(
-		//	&(charMove->getTimeline())
-		//);
-
 		// get time tic elapsed for this iteration
 		thisTime = gameTime.getTime();
 		elapsed = thisTime - lastTime;
@@ -178,6 +170,9 @@ int main()
 		// update GVT and execute events
 		manager.updateGVT();
 		manager.executeEvents();
+
+		// check if character has left the side boundary
+		character.checkHitBoundary(&sideBoundaries);
 
 		// update character position 
 		charMove->work(elapsed);

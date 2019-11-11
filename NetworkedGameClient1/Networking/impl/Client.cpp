@@ -88,7 +88,7 @@ void Client::subscribeHandler(GameTime* gameTime)
 				continue;
 			}
 
-			// SELF_NAME E executeTime ObjID X_val Y_val
+			// SELF_NAME E executeTime ObjID X_val Y_val Positive
 			if (infos[3] == SELF_NAME) // skips events of self
 				continue;
 			
@@ -119,7 +119,8 @@ void Client::subscribeHandler(GameTime* gameTime)
 					atof(infos[2].c_str()) - connectedTime, // add time bias
 					objects->find(infos[3])->second,// character
 					atof(infos[4].c_str()),
-					atof(infos[5].c_str())
+					atof(infos[5].c_str()), 
+					infos[6] == "1"
 				),
 				(const char* const)infos[0][0]
 			);

@@ -38,6 +38,6 @@ void Collidable::work(list<Collidable*>& objects, double elapsed)
 		}
 	}
 
-	// set out velocity
-	character->setOutVelocity(elapsed);
+	// reset out velocity x
+	character->getOutVelocity().x = 0.f;
 }

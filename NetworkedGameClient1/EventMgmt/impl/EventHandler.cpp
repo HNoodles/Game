@@ -19,7 +19,13 @@ void EventHandler::onCharCollision(ECharCollision e)
 		deathZoneWork(character);
 		break;
 	case Collision::SIDEBOUNDARY:
-		sideBoundaryWork((SideBoundary*)object);
+		// only respond to first time collision 
+		// when character collides with a side boundary
+		if (!character->getHitBoundary())
+		{
+			character->setHitBoundary(true);
+			sideBoundaryWork((SideBoundary*)object);
+		}
 		break;
 	default:
 		break;
@@ -82,6 +88,17 @@ void EventHandler::onCharDeath(ECharDeath e)
 	manager->insertEvent(
 		new ECharSpawn(gameTime.getTime(), character, (*spawnPoints)[index])
 	);
+
+	// set render offset back to default
+	Vector2f* renderOffset = character->getRenderOffset();
+	Vector2f offset = *renderOffset - Vector2f(0.f, 0.f);
+	*renderOffset = Vector2f(0.f, 0.f);
+
+	// update the position of all the sideBoundaries
+	for (SideBoundary* boundary : *character->getSideBoundaries())
+	{
+		boundary->updatePos(-offset);
+	}
 }
 
 void EventHandler::onCharSpawn(ECharSpawn e)
