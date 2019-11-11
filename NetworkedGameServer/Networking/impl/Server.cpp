@@ -1,7 +1,7 @@
 #include "../Server.h"
 
 Server::Server(EventManager* manager)
-	: context(1), receiver(context, ZMQ_REP), publisher(context, ZMQ_PUB), manager(manager), mtxEvt(manager->getMtxEvt())
+	: context(1), receiver(context, ZMQ_REP), publisher(context, ZMQ_PUB), manager(manager)
 {
 	receiver.bind("tcp://*:5555");
 	cout << "Receiver started, listening for clients on port 5555..." << endl;
@@ -87,7 +87,7 @@ void Server::receiverHandler(GameTime* gameTime)
 			}
 			
 			// insert new Event anyway
-			mtxQueue.lock();
+			manager->getMtxQueue()->lock();
 			manager->insertEvent(
 				new EObjMovement(
 					atof(result[2].c_str()) + connectTimes[result[0]], // add bias time
@@ -97,7 +97,7 @@ void Server::receiverHandler(GameTime* gameTime)
 				), 
 				(const char* const)result[0][0]
 			);
-			mtxQueue.unlock();
+			manager->getMtxQueue()->unlock();
 		}
 		
 		// send a response to fulfill a come and go
@@ -122,24 +122,18 @@ void Server::publisherHandler()
 
 	// generate events string, SELF_NAME E executeTime ObjID X_val Y_val
 	list<EObjMovement>* newObjMovements = manager->getObjMovements();
-	mtxEvt->lock();
+	manager->getMtxEvt()->lock();
 	for (EObjMovement e : *newObjMovements)
 	{
 		message += SELF_NAME + (string)" " + e.toString();
 	}
 	newObjMovements->clear();
-	mtxEvt->unlock();
+	manager->getMtxEvt()->unlock();
 
 	//cout << message << endl;
 
 	// send message
 	s_send(publisher, message);
-
-	// update GVT and execute events
-	manager->updateGVT();
-	mtxQueue.lock();
-	manager->executeEvents();
-	mtxQueue.unlock();
 
 	// sleep for 16ms to avoid too frequent publish
 	//Sleep(16);

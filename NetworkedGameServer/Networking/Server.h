@@ -28,7 +28,7 @@ private:
 	map<string, double> connectTimes;
 	EventManager* manager;
 	list<string> disconnecting;
-	mutex mtxDisc, *mtxEvt, mtxQueue;
+	mutex mtxDisc;
 
 	string s_recv(socket_t& socket);
 

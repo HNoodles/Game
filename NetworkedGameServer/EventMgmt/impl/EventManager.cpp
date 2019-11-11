@@ -22,6 +22,8 @@ EventManager::~EventManager()
 
 void EventManager::executeEvents()
 {
+	updateGVT();
+
 	for (auto& pair : queues)
 	{ // go through each queue
 		auto& queue = pair.second;
@@ -39,6 +41,18 @@ void EventManager::executeEvents()
 			queue.pop();
 		}
 	}	
+}
+
+void EventManager::keepExecutingEvents()
+{
+	while (true)
+	{
+		mtxQueue.lock();
+
+		executeEvents();
+
+		mtxQueue.unlock();
+	}
 }
 
 void EventManager::updateGVT()

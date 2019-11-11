@@ -5,7 +5,7 @@
 class EUserInput : public ::Event
 {
 public:
-	EUserInput(double executeTime, Character* character, Keyboard::Key* input);
+	EUserInput(double executeTime, Character* character, Keyboard::Key input);
 
 	Character* getCharacter()
 	{

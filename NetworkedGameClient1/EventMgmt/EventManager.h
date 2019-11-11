@@ -21,7 +21,9 @@ private:
 	> queues;
 	map <const char* const, double> GVTs;
 	list<EObjMovement> objMovements;
-	mutex mtxEvt, *mtxObjMov;
+	mutex mtxEvt, mtxQueue, *mtxObjMov;
+
+	void updateGVT();
 public:
 	EventManager(Timeline& gameTime, mutex* mtxObjMov);
 
@@ -29,7 +31,7 @@ public:
 
 	void executeEvents();
 
-	void updateGVT();
+	void keepExecutingEvents();
 
 	double getGVT() const
 	{
@@ -117,6 +119,11 @@ public:
 	mutex* getMtxEvt()
 	{
 		return &mtxEvt;
+	}
+
+	mutex* getMtxQueue()
+	{
+		return &mtxQueue;
 	}
 };
 

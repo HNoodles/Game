@@ -1,9 +1,8 @@
 #include "../Client.h"
 
-Client::Client(map<string, GameObject*>* objects, EventManager* manager, mutex* mtxQueue)
+Client::Client(map<string, GameObject*>* objects, EventManager* manager)
 	: context(1), sender(context, ZMQ_REQ), subscriber(context, ZMQ_SUB), 
-	objects(objects), connected(true), connectedTime(0), manager(manager), 
-	mtxEvt(manager->getMtxEvt()), mtxQueue(mtxQueue)
+	objects(objects), connected(true), connectedTime(0), manager(manager)
 {
 	sender.connect("tcp://localhost:5555");
 	cout << "Connecting to server on port 5555..." << endl;
@@ -35,7 +34,7 @@ void Client::sendHandler()
 
 	// generate events string, SELF_NAME E executeTime ObjID X_val Y_val
 	list<EObjMovement>* newObjMovements = manager->getObjMovements();
-	mtxEvt->lock();
+	manager->getMtxEvt()->lock();
 	for (EObjMovement e : *newObjMovements)
 	{
 		// only send this character movement event
@@ -43,7 +42,7 @@ void Client::sendHandler()
 			message += SELF_NAME + (string)" " + e.toString();
 	}
 	newObjMovements->clear();
-	mtxEvt->unlock();
+	manager->getMtxEvt()->unlock();
 
 	//cout << message << endl;
 
@@ -113,7 +112,7 @@ void Client::subscribeHandler(GameTime* gameTime)
 			}
 
 			// insert new Event anyway
-			mtxQueue->lock();
+			manager->getMtxQueue()->lock();
 			manager->insertEvent(
 				new EObjMovement(
 					atof(infos[2].c_str()) - connectedTime, // add time bias
@@ -124,14 +123,8 @@ void Client::subscribeHandler(GameTime* gameTime)
 				),
 				(const char* const)infos[0][0]
 			);
-			mtxQueue->unlock();
+			manager->getMtxQueue()->unlock();
 		}
-
-		// update GVT and execute events
-		mtxQueue->lock();
-		manager->updateGVT();
-		manager->executeEvents();
-		mtxQueue->unlock();
 	}
 }
 

@@ -36,7 +36,7 @@ Vector2u wholeSize(1600, 600); // whole view size
 
 Vector2f renderOffset(0.f, 0.f);
 
-mutex mtxObjMov, mtxQueue;
+mutex mtxObjMov;
 
 int main()
 {
@@ -49,6 +49,8 @@ int main()
 
 	// init event manager
 	EventManager manager(gameTime, &mtxObjMov);
+	thread exeEvent(&EventManager::keepExecutingEvents, &manager);
+	exeEvent.detach();
 
 	// init platforms
 	MovingPlatform platform(
@@ -113,7 +115,7 @@ int main()
 	objects.insert({ character.getId(), &character });
 
 	// init client
-	Client client(&objects, &manager, &mtxQueue);
+	Client client(&objects, &manager);
 
 	// send message to notify server this new client
 	client.connect();
@@ -149,13 +151,12 @@ int main()
 		}
 
 		// detect character collision
-		mtxQueue.lock();
+		manager.getMtxQueue()->lock();
 		dynamic_cast<Collidable*>(
 			character.getGC(ComponentType::COLLIDABLE)
 		)->work(collidableObjects, elapsed);
 
 		// update GVT and execute events
-		manager.updateGVT();
 		manager.executeEvents();
 
 		// set character out velocity
@@ -168,7 +169,6 @@ int main()
 		}
 
 		// update GVT and execute events
-		manager.updateGVT();
 		manager.executeEvents();
 
 		// check if character has left the side boundary
@@ -176,7 +176,7 @@ int main()
 
 		// update character position 
 		charMove->work(elapsed);
-		mtxQueue.unlock();
+		manager.getMtxQueue()->unlock();
 
 		// send message to notify server the update of this client
 		client.sendHandler();

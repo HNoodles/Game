@@ -15,6 +15,8 @@ int main()
 {
 	// init event manager
 	EventManager manager(gameTime);
+	thread exeEvent(&EventManager::keepExecutingEvents, &manager);
+	exeEvent.detach();
 
 	// init server
 	Server server(&manager);
@@ -50,10 +52,12 @@ int main()
 		elapsed = thisTime - lastTime;
 
 		// move all moving platforms
+		manager.getMtxQueue()->lock();
 		for (Collidable* moving : collidableObjects)
 		{
 			dynamic_cast<Movable*>(moving->getMovable())->work(elapsed);
 		}
+		manager.getMtxQueue()->unlock();
 
 		// refresh time
 		lastTime = thisTime;
