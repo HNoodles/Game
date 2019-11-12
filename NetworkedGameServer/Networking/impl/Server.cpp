@@ -24,7 +24,7 @@ void Server::receiverHandler(GameTime* gameTime)
 		// listen from clients
 		string client_string = s_recv(receiver); 
 
-		cout << client_string << endl;
+		//cout << client_string << endl;
 
 		// check if special cases 
 		vector<string> result;
@@ -52,7 +52,7 @@ void Server::receiverHandler(GameTime* gameTime)
 
 		// name GVT double
 		Split(lines[0], " ", result);
-		manager->insertGVT((const char* const)result[0][0], atof(result[2].c_str()) + connectTimes[result[0]]);
+		manager->insertGVT((const char* const)result[0][0], atof(result[2].c_str()));
 		lines.erase(lines.begin()); // remove first line
 
 		// SELF_NAME E executeTime ObjID(client_name) X_val Y_val
@@ -117,7 +117,7 @@ void Server::publisherHandler()
 		message += "C " + name + " D\n";
 	}
 	// empty the list afterwards
-	disconnecting.empty();
+	disconnecting.clear();
 	mtxDisc.unlock();
 
 	// generate events string, SELF_NAME E executeTime ObjID X_val Y_val

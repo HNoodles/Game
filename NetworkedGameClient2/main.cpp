@@ -185,6 +185,7 @@ int main()
 		window.clear(sf::Color::White);
 
 		// draw the objects needed
+		manager.getMtxQueue()->lock();
 		for (auto pair : objects) 
 		{
 			sf::Shape* object = dynamic_cast<Renderable*>
@@ -196,6 +197,7 @@ int main()
 			window.draw(*object);
 			object->move(-renderOffset);
 		}
+		manager.getMtxQueue()->unlock();
 
 		// end of the current frame, show the window
 		window.display();

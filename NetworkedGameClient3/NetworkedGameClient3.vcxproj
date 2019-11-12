@@ -139,6 +139,16 @@
     <ClCompile Include="Components\impl\Collidable.cpp" />
     <ClCompile Include="Components\impl\Movable.cpp" />
     <ClCompile Include="Components\impl\Renderable.cpp" />
+    <ClCompile Include="EventMgmt\impl\ECharCollision.cpp" />
+    <ClCompile Include="EventMgmt\impl\ECharDeath.cpp" />
+    <ClCompile Include="EventMgmt\impl\ECharSpawn.cpp" />
+    <ClCompile Include="EventMgmt\impl\EObjMovement.cpp" />
+    <ClCompile Include="EventMgmt\impl\EUserInput.cpp" />
+    <ClCompile Include="EventMgmt\impl\Event.cpp" />
+    <ClCompile Include="EventMgmt\impl\EventHandler.cpp" />
+    <ClCompile Include="EventMgmt\impl\EventManager.cpp" />
+    <ClCompile Include="EventMgmt\util\Variant.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="Networking\impl\Client.cpp" />
     <ClCompile Include="Objects\impl\Character.cpp" />
     <ClCompile Include="Objects\impl\DeathZone.cpp" />
@@ -147,22 +157,30 @@
     <ClCompile Include="Objects\impl\SpawnPoint.cpp" />
     <ClCompile Include="Times\LocalTime.cpp" />
     <ClCompile Include="Times\GameTime.cpp" />
-    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Components\Collidable.h" />
     <ClInclude Include="Components\GenericComponent.h" />
     <ClInclude Include="Components\Movable.h" />
     <ClInclude Include="Components\Renderable.h" />
+    <ClInclude Include="EventMgmt\ECharCollision.h" />
+    <ClInclude Include="EventMgmt\ECharDeath.h" />
+    <ClInclude Include="EventMgmt\ECharSpawn.h" />
+    <ClInclude Include="EventMgmt\EObjMovement.h" />
+    <ClInclude Include="EventMgmt\EUserInput.h" />
+    <ClInclude Include="EventMgmt\Event.h" />
+    <ClInclude Include="EventMgmt\EventHandler.h" />
+    <ClInclude Include="EventMgmt\EventManager.h" />
+    <ClInclude Include="EventMgmt\util\Variant.h" />
     <ClInclude Include="Networking\Client.h" />
+    <ClInclude Include="Objects\Character.h" />
     <ClInclude Include="Objects\DeathZone.h" />
     <ClInclude Include="Objects\GameObject.h" />
+    <ClInclude Include="Objects\MovingPlatform.h" />
     <ClInclude Include="Objects\SideBoundary.h" />
     <ClInclude Include="Objects\SpawnPoint.h" />
     <ClInclude Include="Times\LocalTime.h" />
     <ClInclude Include="Times\GameTime.h" />
-    <ClInclude Include="Objects\MovingPlatform.h" />
-    <ClInclude Include="Objects\Character.h" />
     <ClInclude Include="Times\Timeline.h" />
   </ItemGroup>
   <ItemGroup>

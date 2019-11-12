@@ -62,7 +62,7 @@ void Client::subscribeHandler(GameTime* gameTime)
 		vector<string> lines;
 		Split(message, "\n", lines);
 
-		cout << message << endl;
+		//cout << message << endl;
 
 		// first line is GVT
 		vector<string> infos;
@@ -90,10 +90,12 @@ void Client::subscribeHandler(GameTime* gameTime)
 				manager->getMtxQueue()->lock();
 				manager->removeQueue((const char*)infos[1][0]);
 				manager->removeGVT((const char*)infos[1][0]);
-				manager->getMtxQueue()->unlock();
 				// remove character pointer
 				delete (*objects)[infos[1]];
 				objects->erase(infos[1]);
+				manager->getMtxQueue()->unlock();
+
+				cout << "Client " << infos[1] << " disconnected" << endl;
 				continue;
 			}
 
@@ -117,7 +119,7 @@ void Client::subscribeHandler(GameTime* gameTime)
 					)
 				});
 
-				cout << "New client " + infos[0] << endl;
+				cout << "New client " + infos[3] << endl;
 			}
 
 			// insert new Event anyway

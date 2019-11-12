@@ -7,7 +7,7 @@
 
 using namespace std;
 
-const char* const SELF_NAME = "A";
+const char* const SELF_NAME = "D";
 
 class EventManager
 {
@@ -22,6 +22,8 @@ private:
 	map <const char* const, double> GVTs;
 	list<EObjMovement> objMovements;
 	mutex mtxEvt, mtxQueue, *mtxObjMov;
+
+	bool connected;
 
 	void updateGVT();
 public:
@@ -124,6 +126,11 @@ public:
 	mutex* getMtxQueue()
 	{
 		return &mtxQueue;
+	}
+
+	void setConnected(bool connected)
+	{
+		this->connected = connected;
 	}
 };
 

@@ -18,7 +18,7 @@ void handleScalingOption(RenderWindow& window);
 void handleGameInstruction(double & thisTime);
 //void loadTextureFromFile(Texture& texture, string file_name);
 //void loadTextures();
-void handleWindowEvent(RenderWindow& window, Client* client);
+void handleWindowEvent(RenderWindow& window, Client* client, EventManager* manager);
 
 // define objects
 //map<string, Texture> textures;
@@ -141,7 +141,7 @@ int main()
 		if (window.hasFocus())
 		{
 			// deal with events
-			handleWindowEvent(window, &client);
+			handleWindowEvent(window, &client, &manager);
 
 			// handle scaling option
 			handleScalingOption(window);
@@ -185,6 +185,7 @@ int main()
 		window.clear(sf::Color::White);
 
 		// draw the objects needed
+		manager.getMtxQueue()->lock();
 		for (auto pair : objects) 
 		{
 			sf::Shape* object = dynamic_cast<Renderable*>
@@ -196,6 +197,7 @@ int main()
 			window.draw(*object);
 			object->move(-renderOffset);
 		}
+		manager.getMtxQueue()->unlock();
 
 		// end of the current frame, show the window
 		window.display();
@@ -295,7 +297,7 @@ void handleGameInstruction(double & thisTime)
 //	textures.insert(pair<string, Texture>("hero", hero));
 //}
 
-void handleWindowEvent(RenderWindow& window, Client* client) {
+void handleWindowEvent(RenderWindow& window, Client* client, EventManager* manager) {
 	// track all the window's events that were triggered since the last iteration
 	sf::Event event;
 	while (window.pollEvent(event))// returns true when there is event pending
@@ -304,6 +306,7 @@ void handleWindowEvent(RenderWindow& window, Client* client) {
 		{
 		case sf::Event::Closed:// close requested, then close the window
 			client->disconnect();
+			manager->setConnected(false);
 			window.close();
 			break;
 		case sf::Event::Resized:// catch the resize events

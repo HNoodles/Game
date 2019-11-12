@@ -1,18 +1,5 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(452,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (NetworkedGameClient.vcxproj, NetworkedGameClient2.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-  Collidable.cpp
-  Movable.cpp
-  Renderable.cpp
   Client.cpp
-  Character.cpp
-  DeathZone.cpp
-  MovingPlatform.cpp
-  SideBoundary.cpp
-  SpawnPoint.cpp
-  LocalTime.cpp
-  GameTime.cpp
   main.cpp
-  正在编译...
   正在生成代码...
   NetworkedGameClient4.vcxproj -> D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework4\Debug\NetworkedGameClient4.exe
-D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework4\NetworkedGameClient4\Components\impl\Collidable.cpp(118): warning C26812: 枚举类型“sf::PrimitiveType”未设定范围。相比于 "enum"，首选 "enum class" (Enum.3)。
-D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework4\NetworkedGameClient4\Components\impl\Renderable.cpp(49): warning C26812: 枚举类型“sf::PrimitiveType”未设定范围。相比于 "enum"，首选 "enum class" (Enum.3)。
