@@ -148,6 +148,7 @@
     <ClCompile Include="EventMgmt\impl\EventHandler.cpp" />
     <ClCompile Include="EventMgmt\impl\EventManager.cpp" />
     <ClCompile Include="EventMgmt\util\Variant.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="Networking\impl\Client.cpp" />
     <ClCompile Include="Objects\impl\Character.cpp" />
     <ClCompile Include="Objects\impl\DeathZone.cpp" />
@@ -156,7 +157,6 @@
     <ClCompile Include="Objects\impl\SpawnPoint.cpp" />
     <ClCompile Include="Times\LocalTime.cpp" />
     <ClCompile Include="Times\GameTime.cpp" />
-    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Components\Collidable.h" />

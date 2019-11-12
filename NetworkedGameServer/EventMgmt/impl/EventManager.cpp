@@ -29,7 +29,7 @@ void EventManager::executeEvents()
 		auto& queue = pair.second;
 
 		// handle events on top of queue if execution time <= GVT
-		while (!queue.empty() && queue.top()->getExecuteTime() <= GVT + 0.016)
+		while (!queue.empty() && queue.top()->getExecuteTime() <= GVT)
 		{
 			const ::Event* e = queue.top();
 

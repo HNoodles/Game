@@ -36,7 +36,7 @@ private:
 
 	void Split(const string& string, const std::string& separator, vector<std::string>& result);
 
-	void connectHandler(const string& name);
+	void connectHandler(const string& name, double time);
 
 	void disconnectHandler(const string& name);
 public:

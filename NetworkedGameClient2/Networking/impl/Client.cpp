@@ -14,8 +14,9 @@ Client::Client(map<string, GameObject*>* objects, EventManager* manager)
 
 void Client::connect()
 {
-	// send self name to server to connect
-	s_send(sender, SELF_NAME);
+	// try to connect to server
+	// SELF_NAME time
+	s_send(sender, SELF_NAME + (string)" " + to_string(manager->getCurrentTime()));
 
 	// receive and set connected time
 	string response = s_recv(sender);
@@ -30,7 +31,7 @@ void Client::sendHandler()
 		return;
 	
 	// first, name GVT double 
-	string message = SELF_NAME + (string)" GVT " + to_string(manager->getRequestGVT()) + "\n";
+	string message = SELF_NAME + (string)" GVT " + to_string(manager->getRequestGVT() + connectedTime) + "\n";
 
 	// generate events string, SELF_NAME E executeTime ObjID X_val Y_val
 	list<EObjMovement>* newObjMovements = manager->getObjMovements();
@@ -53,7 +54,7 @@ void Client::sendHandler()
 
 void Client::subscribeHandler(GameTime* gameTime)
 {
-	while (true)
+	while (connected)
 	{
 		string message = s_recv(subscriber);
 
@@ -61,7 +62,7 @@ void Client::subscribeHandler(GameTime* gameTime)
 		vector<string> lines;
 		Split(message, "\n", lines);
 
-		//cout << message << endl;
+		cout << message << endl;
 
 		// first line is GVT
 		vector<string> infos;
@@ -81,6 +82,10 @@ void Client::subscribeHandler(GameTime* gameTime)
 
 			if (infos[0] == "C" && infos[2] == "D") // C name D, client disconnected
 			{
+				if (infos[1] == SELF_NAME) // skip self disconnect message
+				{
+					continue;
+				}
 				// remove relative things in manager
 				manager->getMtxQueue()->lock();
 				manager->removeQueue((const char*)infos[1][0]);
@@ -98,7 +103,7 @@ void Client::subscribeHandler(GameTime* gameTime)
 			
 			// new object if is new object (newly connected client)
 			// store client into map
-			if (infos[3] != "S" && objects->count(infos[3])) // new client, generate object
+			if (objects->count(infos[3]) == 0) // new client, generate object
 			{
 				LocalTime local(1, *gameTime);
 

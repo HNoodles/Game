@@ -24,24 +24,24 @@ void Server::receiverHandler(GameTime* gameTime)
 		// listen from clients
 		string client_string = s_recv(receiver); 
 
-		//cout << client_string << endl;
+		cout << client_string << endl;
 
 		// check if special cases 
 		vector<string> result;
 		Split(client_string, " ", result);
 
-		// connecting message: name
-		if (result.size() == 1)
+		// disconnecting message: name D
+		if (result.size() == 2 && result[1] == "D")
 		{
-			connectHandler(result[0]);
+			disconnectHandler(result[0]);
 			// go to next loop
 			continue;
 		}
 
-		// disconnecting message: name D
-		if (result.size() == 2)
+		// connecting message: name time
+		if (result.size() == 2 && result[1] != "D")
 		{
-			disconnectHandler(result[0]);
+			connectHandler(result[0], atof(result[1].c_str()));
 			// go to next loop
 			continue;
 		}
@@ -136,16 +136,16 @@ void Server::publisherHandler()
 	s_send(publisher, message);
 }
 
-void Server::connectHandler(const string& name)
+void Server::connectHandler(const string& name, double time)
 {
 	// get current time
 	double connectTime = manager->getCurrentTime();
 
 	// store connect time
-	connectTimes.insert({ name, connectTime });
+	connectTimes.insert({ name, connectTime - time });
 
 	// send connect time back
-	s_send(receiver, to_string(connectTime));
+	s_send(receiver, to_string(connectTimes[name]));
 
 	cout << "New client " + name << endl;
 }
