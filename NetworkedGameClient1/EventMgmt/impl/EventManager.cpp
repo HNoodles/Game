@@ -29,6 +29,7 @@ void EventManager::executeEvents()
 	{ // go through each queue
 		auto& queue = pair.second;
 
+		bool isEndRec = false;
 		bool isEndPlay = false;
 		// handle events on top of queue if execution time <= GVT
 		while (!queue.empty() && queue.top()->getExecuteTime() <= GVT)
@@ -36,7 +37,7 @@ void EventManager::executeEvents()
 			const ::Event* e = queue.top();
 
 			// handle event
-			bool isEndRec = e->getType() == Event_t::END_REC;
+			isEndRec = e->getType() == Event_t::END_REC;
 			isEndPlay = e->getType() == Event_t::END_PLAY;
 			bool isObjMov = e->getType() == Event_t::OBJ_MOVEMENT;
 			if (isObjMov)
@@ -48,20 +49,21 @@ void EventManager::executeEvents()
 			// queue will be empty after handling end rec event
 			// thus, avoid deleting and poping
 			if (isEndRec)
-				continue;
+				break;
 
 			// delete pointer
 			delete e;
 
-			// queue will be removed after handling end play event
+			// queues will be removed after handling end play event
 			if (isEndPlay)
 				break;
 
 			// pop it from the queue
 			queue.pop();
 		}
-		// queue will be removed after handling end play event
-		if (isEndPlay)
+		// new queue will be added after handling end rec event
+		// queues will be removed after handling end play event
+		if (isEndRec || isEndPlay)
 			break;
 	}
 }

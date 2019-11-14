@@ -102,12 +102,17 @@ void Movable::iMove(double elapsed)
 
 	Vector2f pos = renderable->getShape()->getPosition();
 
+	Vector2f offset = *((Character*)gameObject)->getRenderOffset();
+
 	gameObject->getEM()->insertEvent(
 		new EObjMovement(
 			gameObject->getEM()->getCurrentTime(), 
 			gameObject, 
 			pos.x + dis.x,
-			pos.y + dis.y
+			pos.y + dis.y, 
+			false, 
+			offset.x, 
+			offset.y
 		)
 	);
 }

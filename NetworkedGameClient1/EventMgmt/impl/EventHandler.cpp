@@ -131,6 +131,13 @@ void EventHandler::onObjMovement(EObjMovement e)
 	{
 		dynamic_cast<MovingPlatform*>(object)->setHeadingPositive(e.getPositive());
 	}
+
+	// if is character set render offset
+	if (object->getId() == SELF_NAME)
+	{
+		*((Character*)object)->getRenderOffset() = 
+			Vector2f((float)e.getOffsetX(), (float)e.getOffsetY());
+	}
 }
 
 void EventHandler::onUserInput(EUserInput e)
