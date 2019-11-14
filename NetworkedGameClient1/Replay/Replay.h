@@ -37,6 +37,8 @@ public:
 		records.push(new EObjMovement(*e));
 	}
 
+	void resetPlaySpeed(double speed);
+
 	GameTime& getReplayTime()
 	{
 		return replayTime;
@@ -45,6 +47,11 @@ public:
 	double getStartTime()
 	{
 		return startTime;
+	}
+
+	void setStartTime(double startTime)
+	{
+		this->startTime = startTime;
 	}
 
 	bool getIsRecording()

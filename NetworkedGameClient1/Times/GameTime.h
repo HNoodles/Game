@@ -10,6 +10,8 @@ public:
 
 	//GameTime(double step_size, double time);
 
+	void resetStepSize(double new_step_size);
+
 	void setPaused(bool p) override;
 
 	double getTime() override;

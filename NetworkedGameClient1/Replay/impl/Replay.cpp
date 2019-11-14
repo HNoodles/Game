@@ -51,7 +51,17 @@ void Replay::endPlaying()
 	// clear recorded events for this recording
 	while (!records.empty())
 	{
+		delete records.top();
 		records.pop();
 	}
 	isPlaying = false;
+}
+
+void Replay::resetPlaySpeed(double speed)
+{
+	double newStepSize = 1 / speed;
+	
+	lock_guard<mutex> guard(*manager->getMtxQueue());
+
+	replayTime.resetStepSize(newStepSize);
 }

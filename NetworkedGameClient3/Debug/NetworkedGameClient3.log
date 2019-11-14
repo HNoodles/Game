@@ -9,21 +9,19 @@
   EObjMovement.cpp
   EStartREC.cpp
   EUserInput.cpp
-  Event.cpp
   EventHandler.cpp
   EventManager.cpp
   Variant.cpp
-  main.cpp
   Client.cpp
   Character.cpp
   DeathZone.cpp
   MovingPlatform.cpp
   SideBoundary.cpp
-  正在生成代码...
-  正在编译...
   SpawnPoint.cpp
   Replay.cpp
+  正在生成代码...
+  正在编译...
   GameTime.cpp
-  LocalTime.cpp
+  main.cpp
   正在生成代码...
   NetworkedGameClient3.vcxproj -> D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework4\Debug\NetworkedGameClient3.exe

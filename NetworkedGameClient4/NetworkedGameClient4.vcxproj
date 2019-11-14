@@ -184,9 +184,9 @@
     <ClInclude Include="Objects\GameObject.h" />
     <ClInclude Include="Objects\SideBoundary.h" />
     <ClInclude Include="Objects\SpawnPoint.h" />
-    <ClInclude Include="Replay\Replay.h" />
     <ClInclude Include="Objects\MovingPlatform.h" />
     <ClInclude Include="Objects\Character.h" />
+    <ClInclude Include="Replay\Replay.h" />
     <ClInclude Include="Times\GameTime.h" />
     <ClInclude Include="Times\LocalTime.h" />
     <ClInclude Include="Times\Timeline.h" />

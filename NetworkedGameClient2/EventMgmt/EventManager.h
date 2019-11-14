@@ -62,6 +62,8 @@ public:
 		if (queue.empty()) // empty queue
 		{
 			GVT = gameTime->getTime();
+			if (replaying) // add time bias when recording
+				GVT += replay->getStartTime();
 		}
 		else
 		{

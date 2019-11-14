@@ -8,7 +8,7 @@
 
 using namespace std;
 
-const char* const SELF_NAME = "B";
+const char* const SELF_NAME = "C";
 
 class EventManager
 {
@@ -62,6 +62,8 @@ public:
 		if (queue.empty()) // empty queue
 		{
 			GVT = gameTime->getTime();
+			if (replaying) // add time bias when recording
+				GVT += replay->getStartTime();
 		}
 		else
 		{

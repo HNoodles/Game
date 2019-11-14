@@ -47,16 +47,14 @@ void EventManager::executeEvents()
 				mtxObjMov->unlock();
 
 			// queue will be empty after handling end rec event
-			// thus, avoid deleting and poping
-			if (isEndRec)
-				break;
-
-			// delete pointer
-			delete e;
-
 			// queues will be removed after handling end play event
-			if (isEndPlay)
+			// thus, avoid deleting and poping
+			if (isEndRec || isEndPlay)
 				break;
+
+			// delete pointer if not replaying
+			if (!replaying)
+				delete e;
 
 			// pop it from the queue
 			queue.pop();

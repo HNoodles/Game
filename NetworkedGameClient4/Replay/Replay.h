@@ -14,6 +14,7 @@ class Replay
 private:
 	Timeline* gameTime;
 	GameTime replayTime;
+	double startTime;
 	bool isRecording, isPlaying;
 	priority_queue<::Event*, vector<::Event*>, cmp> records;
 	EventManager* manager;
@@ -36,9 +37,21 @@ public:
 		records.push(new EObjMovement(*e));
 	}
 
+	void resetPlaySpeed(double speed);
+
 	GameTime& getReplayTime()
 	{
 		return replayTime;
+	}
+
+	double getStartTime()
+	{
+		return startTime;
+	}
+
+	void setStartTime(double startTime)
+	{
+		this->startTime = startTime;
 	}
 
 	bool getIsRecording()

@@ -19,7 +19,7 @@ void handleGameInstruction(double& thisTime, EventManager* manager, Replay* repl
 //void loadTextureFromFile(Texture& texture, string file_name);
 //void loadTextures();
 void handleWindowEvent(RenderWindow& window, Client* client);
-void handleReplayInstruction(Replay* replay);
+void handleReplayInstruction(Replay* replay, mutex* mtxQueue);
 
 // define objects
 //map<string, Texture> textures;
@@ -152,7 +152,7 @@ int main()
 		{
 			if (window.hasFocus())
 			{
-				handleReplayInstruction(&replay);
+				handleReplayInstruction(&replay, manager.getMtxQueue());
 			}
 
 			// clear the window with the chosen color
@@ -378,18 +378,18 @@ void handleWindowEvent(RenderWindow& window, Client* client) {
 	}
 }
 
-void handleReplayInstruction(Replay* replay)
+void handleReplayInstruction(Replay* replay, mutex* mtxQueue)
 {
 	if (Keyboard::isKeyPressed(Keyboard::N))
 	{// normal speed
-		replay->getReplayTime().setStepSize(1);
+		replay->resetPlaySpeed(1);
 	}
 	if (Keyboard::isKeyPressed(Keyboard::F))
 	{// fast speed
-		replay->getReplayTime().setStepSize(0.5);
+		replay->resetPlaySpeed(2);
 	}
 	if (Keyboard::isKeyPressed(Keyboard::S))
 	{// slow speed
-		replay->getReplayTime().setStepSize(2);
+		replay->resetPlaySpeed(0.5);
 	}
 }

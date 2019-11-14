@@ -150,6 +150,8 @@ void Client::disconnect(bool forReplay)
 		replaying = true;
 		// this will clear all events in manager queues and GVTs
 		manager->setReplay(true);
+
+		cout << "Disconnected for replay" << endl;
 	}
 	else // truly disconnected
 	{
