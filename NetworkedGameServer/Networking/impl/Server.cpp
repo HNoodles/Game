@@ -157,6 +157,7 @@ void Server::disconnectHandler(const string& name)
 	manager->removeQueue((const char* const)name[0]);
 	manager->removeGVT((const char* const)name[0]);
 	list<EObjMovement>* objMovements = manager->getObjMovements();
+	manager->getMtxEvt()->lock();
 	for (auto iter = objMovements->begin(); iter != objMovements->end(); )
 	{
 		// nothing in list
@@ -174,6 +175,7 @@ void Server::disconnectHandler(const string& name)
 			iter++;
 		}
 	}
+	manager->getMtxEvt()->unlock();
 	manager->getMtxQueue()->unlock();
 	// remove the character pointer in characters
 	delete characters[name];

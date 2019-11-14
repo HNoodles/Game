@@ -1,15 +1,10 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(452,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (NetworkedGameClient.vcxproj).  This can lead to incorrect clean and rebuild behavior.
   Collidable.cpp
   Movable.cpp
-  ECharCollision.cpp
-  ECharDeath.cpp
-  ECharSpawn.cpp
   EEndPlaying.cpp
   EEndREC.cpp
   EObjMovement.cpp
   EStartREC.cpp
-  EUserInput.cpp
-  Event.cpp
   EventHandler.cpp
   EventManager.cpp
   Variant.cpp
@@ -19,8 +14,6 @@
   MovingPlatform.cpp
   SideBoundary.cpp
   SpawnPoint.cpp
-  正在生成代码...
-  正在编译...
   Replay.cpp
   main.cpp
   正在生成代码...

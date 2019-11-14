@@ -14,6 +14,7 @@ class Replay
 private:
 	Timeline* gameTime;
 	GameTime replayTime;
+	double startTime;
 	bool isRecording, isPlaying;
 	priority_queue<::Event*, vector<::Event*>, cmp> records;
 	EventManager* manager;
@@ -39,6 +40,11 @@ public:
 	GameTime& getReplayTime()
 	{
 		return replayTime;
+	}
+
+	double getStartTime()
+	{
+		return startTime;
 	}
 
 	bool getIsRecording()
