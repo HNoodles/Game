@@ -122,11 +122,15 @@ public:
 		}
 
 		// store the event for publishing if is object movement event
-		if (e->getType() == ::Event_t::OBJ_MOVEMENT && client_name == SELF_NAME)
+		if (e->getType() == ::Event_t::OBJ_MOVEMENT)
 		{
-			mtxEvt.lock();
-			objMovements.push_back(*(EObjMovement*)e);
-			mtxEvt.unlock();
+			// only store self movement events for networking
+			if (client_name == SELF_NAME)
+			{
+				mtxEvt.lock();
+				objMovements.push_back(*(EObjMovement*)e);
+				mtxEvt.unlock();
+			}
 
 			// store the event for replaying if is recording
 			if (replay->getIsRecording())

@@ -17,7 +17,7 @@ Replay::~Replay()
 
 void Replay::startRecording()
 {
-	replayTime = GameTime(1);
+	replayTime = GameTime(*(GameTime*)gameTime);
 	replayTime.setPaused(true);
 	isRecording = true;// manager will begin to record EObjMovement events now
 }
@@ -49,7 +49,6 @@ void Replay::endPlaying()
 	// clear recorded events for this recording
 	while (!records.empty())
 	{
-		delete records.top();
 		records.pop();
 	}
 	isPlaying = false;

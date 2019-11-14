@@ -29,6 +29,7 @@ void EventManager::executeEvents()
 	{ // go through each queue
 		auto& queue = pair.second;
 
+		bool isEndPlay = false;
 		// handle events on top of queue if execution time <= GVT
 		while (!queue.empty() && queue.top()->getExecuteTime() <= GVT)
 		{
@@ -36,6 +37,7 @@ void EventManager::executeEvents()
 
 			// handle event
 			bool isEndRec = e->getType() == Event_t::END_REC;
+			isEndPlay = e->getType() == Event_t::END_PLAY;
 			bool isObjMov = e->getType() == Event_t::OBJ_MOVEMENT;
 			if (isObjMov)
 				mtxObjMov->lock();
@@ -51,9 +53,16 @@ void EventManager::executeEvents()
 			// delete pointer
 			delete e;
 
+			// queue will be removed after handling end play event
+			if (isEndPlay)
+				break;
+
 			// pop it from the queue
 			queue.pop();
 		}
+		// queue will be removed after handling end play event
+		if (isEndPlay)
+			break;
 	}
 }
 
