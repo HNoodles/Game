@@ -15,10 +15,11 @@ using namespace sf;
 
 void initWindow(Window& window);
 void handleScalingOption(RenderWindow& window);
-void handleGameInstruction(double & thisTime);
+void handleGameInstruction(double& thisTime, EventManager* manager, Replay* replay);
 //void loadTextureFromFile(Texture& texture, string file_name);
 //void loadTextures();
-void handleWindowEvent(RenderWindow& window, Client* client, EventManager* manager);
+void handleWindowEvent(RenderWindow& window, Client* client);
+void handleReplayInstruction(Replay* replay);
 
 // define objects
 //map<string, Texture> textures;
@@ -47,10 +48,16 @@ int main()
 	//// load textures
 	//loadTextures();
 
+	// init replay system
+	Replay replay(&gameTime);
+
 	// init event manager
-	EventManager manager(gameTime, &mtxObjMov);
+	EventManager manager(&gameTime, &mtxObjMov, &replay);
 	thread exeEvent(&EventManager::keepExecutingEvents, &manager);
 	exeEvent.detach();
+
+	// set EM for replay
+	replay.setEM(&manager);
 
 	// init platforms
 	MovingPlatform platform(
@@ -115,7 +122,10 @@ int main()
 	objects.insert({ character.getId(), &character });
 
 	// init client
-	Client client(&objects, &manager);
+	Client client(&objects, &manager, &replay);
+
+	// set client for replay
+	replay.setClient(&client);
 
 	// send message to notify server this new client
 	client.connect();
@@ -137,17 +147,50 @@ int main()
 		thisTime = gameTime.getTime();
 		elapsed = thisTime - lastTime;
 
+		// skip the iteration if is replaying
+		if (replay.getIsPlaying())
+		{
+			if (window.hasFocus())
+			{
+				handleReplayInstruction(&replay);
+			}
+
+			// clear the window with the chosen color
+			window.clear(sf::Color::White);
+
+			// draw the objects needed
+			manager.getMtxQueue()->lock();
+			for (auto pair : objects)
+			{
+				sf::Shape* object = dynamic_cast<Renderable*>
+					(pair.second->getGC(ComponentType::RENDERABLE))
+					->getShape();
+
+				lock_guard<mutex> guard(mtxObjMov);
+				object->move(renderOffset);
+				window.draw(*object);
+				object->move(-renderOffset);
+			}
+			manager.getMtxQueue()->unlock();
+
+			// end of the current frame, show the window
+			window.display();
+
+			lastTime = thisTime;
+			continue;
+		}
+
 		// only handle key events when window is focused
 		if (window.hasFocus())
 		{
 			// deal with events
-			handleWindowEvent(window, &client, &manager);
+			handleWindowEvent(window, &client);
 
 			// handle scaling option
 			handleScalingOption(window);
 
 			// handle game instruction
-			handleGameInstruction(thisTime);
+			handleGameInstruction(thisTime, &manager, &replay);
 		}
 
 		// detect character collision
@@ -250,7 +293,7 @@ void handleScalingOption(RenderWindow& window)
 	}
 }
 
-void handleGameInstruction(double & thisTime)
+void handleGameInstruction(double & thisTime, EventManager* manager, Replay* replay)
 {
 	if (Keyboard::isKeyPressed(Keyboard::P))
 	{// switch paused status
@@ -276,6 +319,15 @@ void handleGameInstruction(double & thisTime)
 		gameTime.setStepSize(0.5);
 		thisTime = gameTime.getTime();
 	}
+
+	if (Keyboard::isKeyPressed(Keyboard::R))
+	{// start recording
+		manager->insertEvent(new EStartREC(gameTime.getTime(), replay));
+	}
+	if (Keyboard::isKeyPressed(Keyboard::E))
+	{// end recording
+		manager->insertEvent(new EEndREC(gameTime.getTime(), replay));
+	}
 }
 
 //void loadTextureFromFile(Texture& texture, std::string file_name)
@@ -297,7 +349,7 @@ void handleGameInstruction(double & thisTime)
 //	textures.insert(pair<string, Texture>("hero", hero));
 //}
 
-void handleWindowEvent(RenderWindow& window, Client* client, EventManager* manager) {
+void handleWindowEvent(RenderWindow& window, Client* client) {
 	// track all the window's events that were triggered since the last iteration
 	sf::Event event;
 	while (window.pollEvent(event))// returns true when there is event pending
@@ -306,7 +358,6 @@ void handleWindowEvent(RenderWindow& window, Client* client, EventManager* manag
 		{
 		case sf::Event::Closed:// close requested, then close the window
 			client->disconnect();
-			manager->setConnected(false);
 			window.close();
 			break;
 		case sf::Event::Resized:// catch the resize events
@@ -324,5 +375,21 @@ void handleWindowEvent(RenderWindow& window, Client* client, EventManager* manag
 			}
 			break;
 		}
+	}
+}
+
+void handleReplayInstruction(Replay* replay)
+{
+	if (Keyboard::isKeyPressed(Keyboard::N))
+	{// normal speed
+		replay->getReplayTime().setStepSize(1);
+	}
+	if (Keyboard::isKeyPressed(Keyboard::F))
+	{// fast speed
+		replay->getReplayTime().setStepSize(0.5);
+	}
+	if (Keyboard::isKeyPressed(Keyboard::S))
+	{// slow speed
+		replay->getReplayTime().setStepSize(2);
 	}
 }

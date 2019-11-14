@@ -1,6 +1,6 @@
-#include "LocalTime.h"
+#include "../LocalTime.h"
 
-LocalTime::LocalTime(double step_size, Timeline& anchor) : step_size(step_size), anchor(anchor)
+LocalTime::LocalTime(double step_size, Timeline& anchor) : Timeline(step_size), anchor(anchor)
 {
 }
 
@@ -16,11 +16,6 @@ void LocalTime::setPaused(bool p)
 	}
 
 	paused = p;
-}
-
-void LocalTime::setStepSize(double step_size)
-{
-	this->step_size = step_size * 1e9;
 }
 
 double LocalTime::getTime()

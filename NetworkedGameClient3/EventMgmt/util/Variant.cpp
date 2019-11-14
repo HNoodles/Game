@@ -1,4 +1,5 @@
 #include "../../Objects/GameObject.h"
+#include "../../Replay/Replay.h"
 
 Variant::Variant(Variant_t type, void* value) : type(type), var()
 {
@@ -15,6 +16,9 @@ Variant::Variant(Variant_t type, void* value) : type(type), var()
 		break;
 	case Variant_t::BOOL:
 		var.bool_val = *(bool*)value;
+		break;
+	case Variant_t::REPLAY_PTR:
+		var.replay_ptr = *(Replay**)value;
 		break;
 	default:
 		break;

@@ -60,7 +60,7 @@ void EventHandler::platformWork(Character* character, MovingPlatform* platform)
 void EventHandler::deathZoneWork(Character* character)
 {
 	// generate a character death event in manager
-	manager->insertEvent(new ECharDeath(gameTime.getTime(), character));
+	manager->insertEvent(new ECharDeath(gameTime->getTime(), character));
 }
 
 void EventHandler::sideBoundaryWork(SideBoundary* boundary)
@@ -86,7 +86,7 @@ void EventHandler::onCharDeath(ECharDeath e)
 	
 	// generate a character respawn event in manager
 	manager->insertEvent(
-		new ECharSpawn(gameTime.getTime(), character, (*spawnPoints)[index])
+		new ECharSpawn(gameTime->getTime(), character, (*spawnPoints)[index])
 	);
 
 	// set render offset back to default
@@ -111,7 +111,7 @@ void EventHandler::onCharSpawn(ECharSpawn e)
 		->getShape()->getPosition();
 
 	// set character's position to it
-	manager->insertEvent(new EObjMovement(gameTime.getTime(), character, point.x, point.y));
+	manager->insertEvent(new EObjMovement(gameTime->getTime(), character, point.x, point.y));
 
 	// refresh out velocity
 	character->getOutVelocity() = Vector2f(0.f, 0.f);
@@ -130,6 +130,13 @@ void EventHandler::onObjMovement(EObjMovement e)
 	if (object->getId().find("MP") == 0)
 	{
 		dynamic_cast<MovingPlatform*>(object)->setHeadingPositive(e.getPositive());
+	}
+
+	// if is character set render offset
+	if (object->getId() == SELF_NAME)
+	{
+		*((Character*)object)->getRenderOffset() = 
+			Vector2f((float)e.getOffsetX(), (float)e.getOffsetY());
 	}
 }
 
@@ -158,7 +165,29 @@ void EventHandler::onUserInput(EUserInput e)
 	}
 }
 
-EventHandler::EventHandler(Timeline& gameTime, EventManager* manager)
+void EventHandler::onStartREC(EStartREC e)
+{
+	Replay* replay = e.getReplay();
+
+	replay->startRecording();
+}
+
+void EventHandler::onEndREC(EEndREC e)
+{
+	Replay* replay = e.getReplay();
+
+	replay->endRecording();
+	replay->startPlaying();
+}
+
+void EventHandler::onEndPlaying(EEndPlaying e)
+{
+	Replay* replay = e.getReplay();
+
+	replay->endPlaying();
+}
+
+EventHandler::EventHandler(Timeline* gameTime, EventManager* manager)
 	: gameTime(gameTime), manager(manager)
 {
 }
@@ -181,6 +210,15 @@ void EventHandler::onEvent(const ::Event* e)
 		break;
 	case Event_t::OBJ_MOVEMENT:
 		onObjMovement(*(EObjMovement*)e);
+		break;
+	case Event_t::START_REC:
+		onStartREC(*(EStartREC*)e);
+		break;
+	case Event_t::END_REC:
+		onEndREC(*(EEndREC*)e);
+		break;
+	case Event_t::END_PLAY:
+		onEndPlaying(*(EEndPlaying*)e);
 		break;
 	default:
 		break;

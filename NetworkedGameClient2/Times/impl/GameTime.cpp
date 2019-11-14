@@ -1,13 +1,13 @@
-#include "GameTime.h"
+#include "../GameTime.h"
 
-GameTime::GameTime(double step_size) : step_size(step_size * 1e9), start_time(getNowRealTime())
+GameTime::GameTime(double step_size) : Timeline(step_size), start_time(getNowRealTime())
 {
 }
 
-GameTime::GameTime(double step_size, double time) : step_size(step_size * 1e9)
-{
-	start_time = getNowRealTime() - duration<int>((int)(time * step_size));
-}
+//GameTime::GameTime(double step_size, double time) : Timeline(step_size)
+//{
+//	start_time = getNowRealTime() - duration<int>((int)(time * step_size));
+//}
 
 void GameTime::setPaused(bool p) 
 {
@@ -23,11 +23,6 @@ void GameTime::setPaused(bool p)
 	}
 
 	paused = p;
-}
-
-void GameTime::setStepSize(double step_size)
-{
-	this->step_size = step_size * 1e9;
 }
 
 double GameTime::getTime()

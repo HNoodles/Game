@@ -2,17 +2,18 @@
 #include <queue>
 #include <mutex>
 #include "EventHandler.h"
+#include "../Replay/Replay.h"
 
 #include <iostream>
 
 using namespace std;
 
-const char* const SELF_NAME = "D";
+const char* const SELF_NAME = "B";
 
 class EventManager
 {
 private:
-	Timeline& gameTime;
+	Timeline* gameTime;
 	double GVT;
 	EventHandler handler;
 	map <
@@ -23,17 +24,30 @@ private:
 	list<EObjMovement> objMovements;
 	mutex mtxEvt, mtxQueue, *mtxObjMov;
 
-	bool connected;
+	bool connected, replaying;
+	Replay* replay;
 
 	void updateGVT();
+
+	void clearEvents();
+
+	void clearGVTs()
+	{
+		GVTs.clear();
+	}
 public:
-	EventManager(Timeline& gameTime, mutex* mtxObjMov);
+	EventManager(Timeline* gameTime, mutex* mtxObjMov, Replay* replay);
 
 	~EventManager();
 
 	void executeEvents();
 
 	void keepExecutingEvents();
+
+	void setTimeline(Timeline* timeline)
+	{
+		gameTime = timeline;
+	}
 
 	double getGVT() const
 	{
@@ -47,7 +61,7 @@ public:
 
 		if (queue.empty()) // empty queue
 		{
-			GVT = gameTime.getTime();
+			GVT = gameTime->getTime();
 		}
 		else
 		{
@@ -72,10 +86,18 @@ public:
 		GVTs.erase(client_name);
 	}
 
-	void addQueue(const char* const client_name)
+	void addQueue(const char* const client_name, 
+		priority_queue<::Event*, vector<::Event*>, cmp>* newQueue = nullptr)
 	{
-		priority_queue<::Event*, vector<::Event*>, cmp> newQueue;
-		queues.insert({ client_name, newQueue });
+		if (newQueue != nullptr) // provided a new queue
+		{
+			queues.insert({ client_name, *newQueue });
+		}
+		else // didn't provide a new queue
+		{
+			priority_queue<::Event*, vector<::Event*>, cmp> newQueue;
+			queues.insert({ client_name, newQueue });
+		}
 	}
 
 	void removeQueue(const char* const client_name)
@@ -100,11 +122,21 @@ public:
 		}
 
 		// store the event for publishing if is object movement event
-		if (e->getType() == ::Event_t::OBJ_MOVEMENT && client_name == SELF_NAME)
+		if (e->getType() == ::Event_t::OBJ_MOVEMENT)
 		{
-			mtxEvt.lock();
-			objMovements.push_back(*(EObjMovement*)e);
-			mtxEvt.unlock();
+			// only store self movement events for networking
+			if (client_name == SELF_NAME)
+			{
+				mtxEvt.lock();
+				objMovements.push_back(*(EObjMovement*)e);
+				mtxEvt.unlock();
+			}
+
+			// store the event for replaying if is recording
+			if (replay->getIsRecording())
+			{
+				replay->pushEvent((EObjMovement*)e);
+			}
 		}
 	}
 
@@ -115,7 +147,7 @@ public:
 
 	double getCurrentTime() const
 	{
-		return gameTime.getTime();
+		return gameTime->getTime();
 	}
 
 	mutex* getMtxEvt()
@@ -131,6 +163,26 @@ public:
 	void setConnected(bool connected)
 	{
 		this->connected = connected;
+
+		if (!connected) // disconnected
+		{
+			clearEvents();
+		}
+	}
+
+	void setReplay(bool isReplay)
+	{
+		replaying = isReplay;
+
+		if (isReplay) // prepare for replay
+		{
+			clearEvents();
+			clearGVTs();
+		}
+		else // finish replay
+		{
+			removeQueue("R");
+		}
 	}
 };
 

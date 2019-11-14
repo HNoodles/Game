@@ -4,13 +4,16 @@
 #include "ECharSpawn.h"
 #include "EObjMovement.h"
 #include "EUserInput.h"
+#include "EStartREC.h"
+#include "EEndREC.h"
+#include "EEndPlaying.h"
 
 class EventManager;
 
 class EventHandler
 {
 private:
-	Timeline& gameTime;
+	Timeline* gameTime;
 	EventManager* manager;
 
 	void onCharCollision(ECharCollision e);
@@ -28,8 +31,14 @@ private:
 	void onObjMovement(EObjMovement e);
 
 	void onUserInput(EUserInput e);
+
+	void onStartREC(EStartREC e);
+
+	void onEndREC(EEndREC e);
+
+	void onEndPlaying(EEndPlaying e);
 public:
-	EventHandler(Timeline& gameTime, EventManager* manager);
+	EventHandler(Timeline* gameTime, EventManager* manager);
 
 	void onEvent(const ::Event* e);
 };
