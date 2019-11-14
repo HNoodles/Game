@@ -49,10 +49,10 @@ int main()
 	//loadTextures();
 
 	// init replay system
-	Replay replay(gameTime);
+	Replay replay(&gameTime);
 
 	// init event manager
-	EventManager manager(gameTime, &mtxObjMov, &replay);
+	EventManager manager(&gameTime, &mtxObjMov, &replay);
 	thread exeEvent(&EventManager::keepExecutingEvents, &manager);
 	exeEvent.detach();
 

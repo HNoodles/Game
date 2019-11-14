@@ -60,7 +60,7 @@ void EventHandler::platformWork(Character* character, MovingPlatform* platform)
 void EventHandler::deathZoneWork(Character* character)
 {
 	// generate a character death event in manager
-	manager->insertEvent(new ECharDeath(gameTime.getTime(), character));
+	manager->insertEvent(new ECharDeath(gameTime->getTime(), character));
 }
 
 void EventHandler::sideBoundaryWork(SideBoundary* boundary)
@@ -86,7 +86,7 @@ void EventHandler::onCharDeath(ECharDeath e)
 	
 	// generate a character respawn event in manager
 	manager->insertEvent(
-		new ECharSpawn(gameTime.getTime(), character, (*spawnPoints)[index])
+		new ECharSpawn(gameTime->getTime(), character, (*spawnPoints)[index])
 	);
 
 	// set render offset back to default
@@ -111,7 +111,7 @@ void EventHandler::onCharSpawn(ECharSpawn e)
 		->getShape()->getPosition();
 
 	// set character's position to it
-	manager->insertEvent(new EObjMovement(gameTime.getTime(), character, point.x, point.y));
+	manager->insertEvent(new EObjMovement(gameTime->getTime(), character, point.x, point.y));
 
 	// refresh out velocity
 	character->getOutVelocity() = Vector2f(0.f, 0.f);
@@ -180,7 +180,7 @@ void EventHandler::onEndPlaying(EEndPlaying e)
 	replay->endPlaying();
 }
 
-EventHandler::EventHandler(Timeline& gameTime, EventManager* manager)
+EventHandler::EventHandler(Timeline* gameTime, EventManager* manager)
 	: gameTime(gameTime), manager(manager)
 {
 }

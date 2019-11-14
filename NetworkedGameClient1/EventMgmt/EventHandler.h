@@ -13,7 +13,7 @@ class EventManager;
 class EventHandler
 {
 private:
-	Timeline& gameTime;
+	Timeline* gameTime;
 	EventManager* manager;
 
 	void onCharCollision(ECharCollision e);
@@ -38,7 +38,7 @@ private:
 
 	void onEndPlaying(EEndPlaying e);
 public:
-	EventHandler(Timeline& gameTime, EventManager* manager);
+	EventHandler(Timeline* gameTime, EventManager* manager);
 
 	void onEvent(const ::Event* e);
 };

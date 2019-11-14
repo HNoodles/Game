@@ -1,7 +1,7 @@
 #include "../../EventMgmt/EventManager.h"
 #include "../../Networking/Client.h"
 
-Replay::Replay(Timeline& gameTime, EventManager* manager, Client* client) :
+Replay::Replay(Timeline* gameTime, EventManager* manager, Client* client) :
 	gameTime(gameTime), replayTime(1), isRecording(false), isPlaying(false), manager(manager), client(client)
 {
 }
@@ -24,7 +24,7 @@ void Replay::startRecording()
 
 void Replay::endRecording()
 {
-	records.push(new EEndPlaying(gameTime.getTime(), this));
+	records.push(new EEndPlaying(gameTime->getTime(), this));
 	isRecording = false;
 }
 
@@ -32,7 +32,7 @@ void Replay::startPlaying()
 {
 	isPlaying = true;
 
-	manager->setTimeline(replayTime);
+	manager->setTimeline(&replayTime);
 	client->disconnect(true);// this will also clear events in manager queues and GVTs
 	manager->addQueue("R", &records);
 

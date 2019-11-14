@@ -159,6 +159,11 @@ void Server::disconnectHandler(const string& name)
 	list<EObjMovement>* objMovements = manager->getObjMovements();
 	for (auto iter = objMovements->begin(); iter != objMovements->end(); )
 	{
+		// nothing in list
+		if (iter == objMovements->end())
+		{
+			break;
+		}
 		// remove movements of disconnected character
 		if (iter->getObject()->getId() == name[0])
 		{

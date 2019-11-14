@@ -13,7 +13,7 @@ const char* const SELF_NAME = "A";
 class EventManager
 {
 private:
-	Timeline& gameTime;
+	Timeline* gameTime;
 	double GVT;
 	EventHandler handler;
 	map <
@@ -36,7 +36,7 @@ private:
 		GVTs.clear();
 	}
 public:
-	EventManager(Timeline& gameTime, mutex* mtxObjMov, Replay* replay);
+	EventManager(Timeline* gameTime, mutex* mtxObjMov, Replay* replay);
 
 	~EventManager();
 
@@ -44,7 +44,7 @@ public:
 
 	void keepExecutingEvents();
 
-	void setTimeline(Timeline& timeline)
+	void setTimeline(Timeline* timeline)
 	{
 		gameTime = timeline;
 	}
@@ -61,7 +61,7 @@ public:
 
 		if (queue.empty()) // empty queue
 		{
-			GVT = gameTime.getTime();
+			GVT = gameTime->getTime();
 		}
 		else
 		{
@@ -143,7 +143,7 @@ public:
 
 	double getCurrentTime() const
 	{
-		return gameTime.getTime();
+		return gameTime->getTime();
 	}
 
 	mutex* getMtxEvt()

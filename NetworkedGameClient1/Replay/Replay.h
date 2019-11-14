@@ -12,14 +12,14 @@ class Client;
 class Replay
 {
 private:
-	Timeline& gameTime;
+	Timeline* gameTime;
 	GameTime replayTime;
 	bool isRecording, isPlaying;
 	priority_queue<::Event*, vector<::Event*>, cmp> records;
 	EventManager* manager;
 	Client* client;
 public:
-	Replay(Timeline& gameTime, EventManager* manager = nullptr, Client* client = nullptr);
+	Replay(Timeline* gameTime, EventManager* manager = nullptr, Client* client = nullptr);
 
 	~Replay();
 

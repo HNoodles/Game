@@ -1,7 +1,7 @@
 #include "../EventManager.h"
 
-EventManager::EventManager(Timeline& gameTime, mutex* mtxObjMov, Replay* replay)
-	: gameTime(gameTime), handler(gameTime, this), GVT(gameTime.getTime()), 
+EventManager::EventManager(Timeline* gameTime, mutex* mtxObjMov, Replay* replay)
+	: gameTime(gameTime), handler(gameTime, this), GVT(gameTime->getTime()), 
 	mtxObjMov(mtxObjMov), connected(true), replaying(false), replay(replay)
 {
 	addQueue(SELF_NAME);
@@ -62,10 +62,6 @@ void EventManager::keepExecutingEvents()
 	while (connected)
 	{
 		lock_guard<mutex> guard(mtxQueue);
-
-		if (replaying)
-			continue;
-
 		executeEvents();
 	}
 }
