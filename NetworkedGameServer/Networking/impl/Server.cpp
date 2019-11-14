@@ -156,6 +156,19 @@ void Server::disconnectHandler(const string& name)
 	manager->getMtxQueue()->lock();
 	manager->removeQueue((const char* const)name[0]);
 	manager->removeGVT((const char* const)name[0]);
+	list<EObjMovement>* objMovements = manager->getObjMovements();
+	for (auto iter = objMovements->begin(); iter != objMovements->end(); )
+	{
+		// remove movements of disconnected character
+		if (iter->getObject()->getId() == name[0])
+		{
+			objMovements->erase(iter++);
+		}
+		else
+		{
+			iter++;
+		}
+	}
 	manager->getMtxQueue()->unlock();
 	// remove the character pointer in characters
 	delete characters[name];

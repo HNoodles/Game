@@ -1,8 +1,8 @@
 #include "../Client.h"
 
-Client::Client(map<string, GameObject*>* objects, EventManager* manager)
+Client::Client(map<string, GameObject*>* objects, EventManager* manager, Replay* replay)
 	: context(1), sender(context, ZMQ_REQ), subscriber(context, ZMQ_SUB), 
-	objects(objects), connected(true), connectedTime(0), manager(manager)
+	objects(objects), connected(false), replaying(false), connectedTime(0), manager(manager), replay(replay)
 {
 	sender.connect("tcp://localhost:5555");
 	cout << "Connecting to server on port 5555..." << endl;
@@ -22,12 +22,15 @@ void Client::connect()
 	string response = s_recv(sender);
 	connectedTime = atof(response.c_str());
 
+	connected = true;
+	replaying = false;
+
 	cout << "Connected to server" << endl;
 }
 
 void Client::sendHandler()
 {
-	if (!connected) // don't send if disconnected
+	if (!connected || replaying) // don't send if disconnected or replaying
 		return;
 	
 	// first, name GVT double 
@@ -58,6 +61,9 @@ void Client::subscribeHandler(GameTime* gameTime)
 	{
 		string message = s_recv(subscriber);
 
+		if (replaying) // skip processing if replaying
+			continue;
+
 		// split into lines
 		vector<string> lines;
 		Split(message, "\n", lines);
@@ -87,13 +93,12 @@ void Client::subscribeHandler(GameTime* gameTime)
 					continue;
 				}
 				// remove relative things in manager
-				manager->getMtxQueue()->lock();
+				lock_guard<mutex> guard(*manager->getMtxQueue());
 				manager->removeQueue((const char*)infos[1][0]);
 				manager->removeGVT((const char*)infos[1][0]);
 				// remove character pointer
 				delete (*objects)[infos[1]];
 				objects->erase(infos[1]);
-				manager->getMtxQueue()->unlock();
 
 				cout << "Client " << infos[1] << " disconnected" << endl;
 				continue;
@@ -123,7 +128,7 @@ void Client::subscribeHandler(GameTime* gameTime)
 			}
 
 			// insert new Event anyway
-			manager->getMtxQueue()->lock();
+			lock_guard<mutex> guard(*manager->getMtxQueue());
 			manager->insertEvent(
 				new EObjMovement(
 					atof(infos[2].c_str()) - connectedTime, // add time bias
@@ -134,15 +139,27 @@ void Client::subscribeHandler(GameTime* gameTime)
 				),
 				(const char* const)infos[0][0]
 			);
-			manager->getMtxQueue()->unlock();
 		}
 	}
 }
 
-void Client::disconnect()
+void Client::disconnect(bool forReplay)
 {
-	// prevent from sending messages out
-	connected = false;
+	if (forReplay) // temporarily disconnect for replay
+	{
+		replaying = true;
+		// this will clear all events in manager queues and GVTs
+		manager->setReplay(true);
+	}
+	else // truly disconnected
+	{
+		// prevent from sending messages out and receiving messages
+		connected = false;
+		// set manager to disconnected
+		// this will clear all events in manager queues
+		lock_guard<mutex> guard(*manager->getMtxQueue());
+		manager->setConnected(false);
+	}
 
 	// generate message accordingly
 	string message = (string)SELF_NAME + " D";

@@ -2,6 +2,7 @@
 #include <queue>
 #include <mutex>
 #include "EventHandler.h"
+#include "../Replay/Replay.h"
 
 #include <iostream>
 
@@ -23,17 +24,30 @@ private:
 	list<EObjMovement> objMovements;
 	mutex mtxEvt, mtxQueue, *mtxObjMov;
 
-	bool connected;
+	bool connected, replaying;
+	Replay* replay;
 
 	void updateGVT();
+
+	void clearEvents();
+
+	void clearGVTs()
+	{
+		GVTs.clear();
+	}
 public:
-	EventManager(Timeline& gameTime, mutex* mtxObjMov);
+	EventManager(Timeline& gameTime, mutex* mtxObjMov, Replay* replay);
 
 	~EventManager();
 
 	void executeEvents();
 
 	void keepExecutingEvents();
+
+	void setTimeline(Timeline& timeline)
+	{
+		gameTime = timeline;
+	}
 
 	double getGVT() const
 	{
@@ -72,10 +86,18 @@ public:
 		GVTs.erase(client_name);
 	}
 
-	void addQueue(const char* const client_name)
+	void addQueue(const char* const client_name, 
+		priority_queue<::Event*, vector<::Event*>, cmp>* newQueue = nullptr)
 	{
-		priority_queue<::Event*, vector<::Event*>, cmp> newQueue;
-		queues.insert({ client_name, newQueue });
+		if (newQueue != nullptr) // provided a new queue
+		{
+			queues.insert({ client_name, *newQueue });
+		}
+		else // didn't provide a new queue
+		{
+			priority_queue<::Event*, vector<::Event*>, cmp> newQueue;
+			queues.insert({ client_name, newQueue });
+		}
 	}
 
 	void removeQueue(const char* const client_name)
@@ -105,6 +127,12 @@ public:
 			mtxEvt.lock();
 			objMovements.push_back(*(EObjMovement*)e);
 			mtxEvt.unlock();
+
+			// store the event for replaying if is recording
+			if (replay->getIsRecording())
+			{
+				replay->pushEvent((EObjMovement*)e);
+			}
 		}
 	}
 
@@ -131,6 +159,26 @@ public:
 	void setConnected(bool connected)
 	{
 		this->connected = connected;
+
+		if (!connected) // disconnected
+		{
+			clearEvents();
+		}
+	}
+
+	void setReplay(bool isReplay)
+	{
+		replaying = isReplay;
+
+		if (isReplay) // prepare for replay
+		{
+			clearEvents();
+			clearGVTs();
+		}
+		else // finish replay
+		{
+			removeQueue("R");
+		}
 	}
 };
 

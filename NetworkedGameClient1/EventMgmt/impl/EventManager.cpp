@@ -1,14 +1,14 @@
 #include "../EventManager.h"
 
-EventManager::EventManager(Timeline& gameTime, mutex* mtxObjMov)
-	: gameTime(gameTime), handler(gameTime, this), GVT(gameTime.getTime()), mtxObjMov(mtxObjMov), connected(true)
+EventManager::EventManager(Timeline& gameTime, mutex* mtxObjMov, Replay* replay)
+	: gameTime(gameTime), handler(gameTime, this), GVT(gameTime.getTime()), 
+	mtxObjMov(mtxObjMov), connected(true), replaying(false), replay(replay)
 {
 	addQueue(SELF_NAME);
 }
 
 EventManager::~EventManager()
 {
-	mtxQueue.lock();
 	// delete all stored event pointers
 	for (auto& pair : queues)
 	{
@@ -19,7 +19,6 @@ EventManager::~EventManager()
 			queue.pop();
 		}
 	}
-	mtxQueue.unlock();
 }
 
 void EventManager::executeEvents()
@@ -36,12 +35,18 @@ void EventManager::executeEvents()
 			const ::Event* e = queue.top();
 
 			// handle event
+			bool isEndRec = e->getType() == Event_t::END_REC;
 			bool isObjMov = e->getType() == Event_t::OBJ_MOVEMENT;
 			if (isObjMov)
 				mtxObjMov->lock();
 			handler.onEvent(e);
 			if (isObjMov)
 				mtxObjMov->unlock();
+
+			// queue will be empty after handling end rec event
+			// thus, avoid deleting and poping
+			if (isEndRec)
+				continue;
 
 			// delete pointer
 			delete e;
@@ -54,19 +59,14 @@ void EventManager::executeEvents()
 
 void EventManager::keepExecutingEvents()
 {
-	while (true)
+	while (connected)
 	{
-		mtxQueue.lock();
+		lock_guard<mutex> guard(mtxQueue);
 
-		if (!connected)
-		{
-			mtxQueue.unlock();
-			break;
-		}
+		if (replaying)
+			continue;
 
 		executeEvents();
-
-		mtxQueue.unlock();
 	}
 }
 
@@ -82,4 +82,18 @@ void EventManager::updateGVT()
 	}
 
 	GVT = temp;
+}
+
+void EventManager::clearEvents()
+{
+	// delete all stored event pointers
+	for (auto& pair : queues)
+	{
+		auto& queue = pair.second;
+		while (!queue.empty())
+		{
+			delete queue.top();
+			queue.pop();
+		}
+	}
 }

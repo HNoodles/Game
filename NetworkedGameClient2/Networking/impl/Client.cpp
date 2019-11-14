@@ -54,9 +54,14 @@ void Client::sendHandler()
 
 void Client::subscribeHandler(GameTime* gameTime)
 {
-	while (connected)
+	while (true)
 	{
 		string message = s_recv(subscriber);
+
+		if (!connected)
+		{
+			continue;
+		}
 
 		// split into lines
 		vector<string> lines;

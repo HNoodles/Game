@@ -4,6 +4,9 @@
 #include "ECharSpawn.h"
 #include "EObjMovement.h"
 #include "EUserInput.h"
+#include "EStartREC.h"
+#include "EEndREC.h"
+#include "EEndPlaying.h"
 
 class EventManager;
 
@@ -28,6 +31,12 @@ private:
 	void onObjMovement(EObjMovement e);
 
 	void onUserInput(EUserInput e);
+
+	void onStartREC(EStartREC e);
+
+	void onEndREC(EEndREC e);
+
+	void onEndPlaying(EEndPlaying e);
 public:
 	EventHandler(Timeline& gameTime, EventManager* manager);
 

@@ -139,6 +139,9 @@
     <ClCompile Include="Components\impl\Collidable.cpp" />
     <ClCompile Include="Components\impl\Movable.cpp" />
     <ClCompile Include="Components\impl\Renderable.cpp" />
+    <ClCompile Include="EventMgmt\impl\EEndPlaying.cpp" />
+    <ClCompile Include="EventMgmt\impl\EEndREC.cpp" />
+    <ClCompile Include="EventMgmt\impl\EStartREC.cpp" />
     <ClCompile Include="EventMgmt\impl\ECharCollision.cpp" />
     <ClCompile Include="EventMgmt\impl\ECharDeath.cpp" />
     <ClCompile Include="EventMgmt\impl\ECharSpawn.cpp" />
@@ -154,8 +157,9 @@
     <ClCompile Include="Objects\impl\MovingPlatform.cpp" />
     <ClCompile Include="Objects\impl\SideBoundary.cpp" />
     <ClCompile Include="Objects\impl\SpawnPoint.cpp" />
-    <ClCompile Include="Times\LocalTime.cpp" />
-    <ClCompile Include="Times\GameTime.cpp" />
+    <ClCompile Include="Replay\impl\Replay.cpp" />
+    <ClCompile Include="Times\impl\LocalTime.cpp" />
+    <ClCompile Include="Times\impl\GameTime.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -163,6 +167,9 @@
     <ClInclude Include="Components\GenericComponent.h" />
     <ClInclude Include="Components\Movable.h" />
     <ClInclude Include="Components\Renderable.h" />
+    <ClInclude Include="EventMgmt\EEndPlaying.h" />
+    <ClInclude Include="EventMgmt\EEndREC.h" />
+    <ClInclude Include="EventMgmt\EStartREC.h" />
     <ClInclude Include="EventMgmt\ECharCollision.h" />
     <ClInclude Include="EventMgmt\ECharDeath.h" />
     <ClInclude Include="EventMgmt\ECharSpawn.h" />
@@ -177,6 +184,7 @@
     <ClInclude Include="Objects\GameObject.h" />
     <ClInclude Include="Objects\SideBoundary.h" />
     <ClInclude Include="Objects\SpawnPoint.h" />
+    <ClInclude Include="Replay\Replay.h" />
     <ClInclude Include="Times\LocalTime.h" />
     <ClInclude Include="Times\GameTime.h" />
     <ClInclude Include="Objects\MovingPlatform.h" />

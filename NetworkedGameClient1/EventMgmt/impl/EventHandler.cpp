@@ -158,6 +158,28 @@ void EventHandler::onUserInput(EUserInput e)
 	}
 }
 
+void EventHandler::onStartREC(EStartREC e)
+{
+	Replay* replay = e.getReplay();
+
+	replay->startRecording();
+}
+
+void EventHandler::onEndREC(EEndREC e)
+{
+	Replay* replay = e.getReplay();
+
+	replay->endRecording();
+	replay->startPlaying();
+}
+
+void EventHandler::onEndPlaying(EEndPlaying e)
+{
+	Replay* replay = e.getReplay();
+
+	replay->endPlaying();
+}
+
 EventHandler::EventHandler(Timeline& gameTime, EventManager* manager)
 	: gameTime(gameTime), manager(manager)
 {
@@ -181,6 +203,15 @@ void EventHandler::onEvent(const ::Event* e)
 		break;
 	case Event_t::OBJ_MOVEMENT:
 		onObjMovement(*(EObjMovement*)e);
+		break;
+	case Event_t::START_REC:
+		onStartREC(*(EStartREC*)e);
+		break;
+	case Event_t::END_REC:
+		onEndREC(*(EEndREC*)e);
+		break;
+	case Event_t::END_PLAY:
+		onEndPlaying(*(EEndPlaying*)e);
 		break;
 	default:
 		break;
