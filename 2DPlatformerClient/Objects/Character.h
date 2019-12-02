@@ -60,6 +60,12 @@ public:
 		return renderOffset;
 	}
 
+	void setRenderOffset(Vector2f offset)
+	{
+		renderOffset->x = offset.x;
+		renderOffset->y = offset.y;
+	}
+
 	vector<SideBoundary*>* getSideBoundaries()
 	{
 		return sideBoundaries;
