@@ -1,7 +1,7 @@
 #include "../Bullet.h"
 
-Bullet::Bullet(string id, EventManager* manager, Vector2f pos, Timeline& timeline) : 
-	GameObject(id, manager)
+Bullet::Bullet(string id, EventManager* manager, Vector2f pos, Timeline& timeline, bool heading) :
+	GameObject(id, manager), heading(heading)
 {
 	this->addGC(
 		ComponentType::RENDERABLE,
