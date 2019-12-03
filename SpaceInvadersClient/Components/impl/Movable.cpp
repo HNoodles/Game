@@ -4,10 +4,23 @@
 
 void Movable::cMove(double elapsed)
 {
-	vector<bool> heading = dynamic_cast<Invader*>(gameObject)->getMatrix()->getHeading();
-
 	// calculate displacement
 	Vector2f dis = Vector2f((float)(velocity.x * elapsed), (float)(velocity.y * elapsed));
+
+	vector<bool> heading = dynamic_cast<Invader*>(gameObject)->getMatrix()->getHeading();
+	if (heading[1])
+	{// go down
+		dis.x = 0;
+	}
+	else if (heading[0])
+	{// go right
+		dis.y = 0;
+	}
+	else
+	{// go left
+		dis.x = -dis.x;
+		dis.y = 0;
+	}
 
 	Vector2f pos = renderable->getShape()->getPosition();
 

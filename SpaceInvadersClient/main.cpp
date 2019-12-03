@@ -45,8 +45,8 @@ int main()
 	spawnPoints.emplace_back(&spawnPoint);
 
 	// init invaders
-	InvaderMatrix invaders(&manager, 2, 5, 
-		Vector2f(100.f, 10.f), Vector2f(100.f, 60.f), 600.f, 
+	InvaderMatrix invaders(&manager, 2, 10, 
+		Vector2f(100.f, 10.f), Vector2f(300.f, 100.f), 600.f, 
 		Vector2f(50.f, 20.f), gameTime
 	);
 
@@ -55,7 +55,7 @@ int main()
 		SELF_NAME, &manager, 
 		::Shape::DIAMOND, ::Color::BLUE, Vector2f(30.f, 60.f), 
 		dynamic_cast<Renderable*>(spawnPoint.getGC(ComponentType::RENDERABLE))->getShape()->getPosition(),
-		Vector2f(250.0f, 0.0f), gameTime, &spawnPoints
+		Vector2f(100.0f, 0.0f), gameTime, &spawnPoints
 	);
 	objects.insert({ character.getId(), &character });
 
@@ -128,7 +128,7 @@ int main()
 		manager.executeEvents();
 
 		// update character position
-		charMove->work(elapsed);
+		character.move(elapsed);
 		// move invaders
 		invaders.move(elapsed);
 		manager.getMtxQueue()->unlock();
@@ -142,7 +142,7 @@ int main()
 		// draw the objects needed
 		manager.getMtxQueue()->lock();
 		list<Renderable*> iRenders = invaders.getRList();
-		list<Renderable*> cRenders = invaders.getRList();
+		list<Renderable*> cRenders = character.getRList();
 		// refresh
 		renders.clear();
 		renders.insert(renders.end(), iRenders.begin(), iRenders.end());

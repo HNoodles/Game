@@ -13,7 +13,7 @@ private:
 	int roundCount;
 	vector<bool> heading;// left or right, down or not
 
-	const double MOVE_STEP = 2.0f, TIME_STEP = 0.5f;
+	const double MOVE_STEP = 2.0f, TIME_STEP = 1.0f;
 
 	list<Bullet*> bullets;
 	const int MAX_FIRE_NUM = 3;// max 3 bullets at a time

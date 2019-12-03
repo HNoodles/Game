@@ -5,7 +5,7 @@ Bullet::Bullet(string id, EventManager* manager, Vector2f pos, Timeline& timelin
 {
 	this->addGC(
 		ComponentType::RENDERABLE,
-		new Renderable(this, ::Shape::DIAMOND, ::Color::RED, Vector2f(1.f, 2.f), pos)
+		new Renderable(this, ::Shape::DIAMOND, ::Color::RED, Vector2f(5.f, 10.f), pos)
 	);
 	this->addGC(
 		ComponentType::MOVABLE,

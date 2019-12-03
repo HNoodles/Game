@@ -110,3 +110,15 @@ void Character::fire()
 		new Bullet(getId() + to_string(bulletCount), getEM(), bulletPos, timeline, false)
 	);
 }
+
+void Character::move(double elapsed)
+{
+	// move character
+	dynamic_cast<Movable*>(getGC(ComponentType::MOVABLE))->work(elapsed);
+
+	// move bullets
+	for (Bullet* bullet : bullets)
+	{
+		dynamic_cast<Movable*>(bullet->getGC(ComponentType::MOVABLE))->work(elapsed);
+	}
+}

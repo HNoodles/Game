@@ -27,6 +27,8 @@ public:
 
 	void fire();
 
+	void move(double elapsed);
+
 	Vector2f& getOutVelocity()
 	{
 		return outVelocity;

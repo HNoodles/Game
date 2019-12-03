@@ -90,6 +90,12 @@ InvaderMatrix::~InvaderMatrix()
 
 void InvaderMatrix::move(double elapsed)
 {
+	// move old bullets first
+	for (Bullet* bullet : bullets)
+	{
+		dynamic_cast<Movable*>(bullet->getGC(ComponentType::MOVABLE))->work(elapsed);
+	}
+
 	timeCount += elapsed;
 
 	// only move when time count >= time step
