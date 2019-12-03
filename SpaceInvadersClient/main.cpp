@@ -46,7 +46,7 @@ int main()
 
 	// init invaders
 	InvaderMatrix invaders(&manager, 2, 10, 
-		Vector2f(10.f, 10.f), Vector2f(300.f, 100.f), 780.f, 
+		Vector2f(10.f, 10.f), Vector2f(300.f, 100.f), 700.f, 
 		Vector2f(50.f, 50.f), gameTime
 	);
 

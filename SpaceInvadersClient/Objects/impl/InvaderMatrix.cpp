@@ -44,7 +44,7 @@ void InvaderMatrix::setHeading()
 	bool hitRight = getRightPos() >= rightBound;
 
 	if (!heading[1] && // last time not going down
-		(heading[0] && hitRight) || (!heading[0] && hitLeft)) // moving right hit right, or moving left hit left
+		((heading[0] && hitRight) || (!heading[0] && hitLeft))) // moving right hit right, or moving left hit left
 	{// go down
 		heading[1] = true;
 	}
