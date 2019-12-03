@@ -1,14 +1,11 @@
 #pragma once
-#include "ECharCollision.h"
 #include "ECharDeath.h"
+#include "EInvaDeath.h"
 #include "ECharSpawn.h"
 #include "EObjMovement.h"
 #include "EUserInput.h"
-#include "EStartREC.h"
-#include "EEndREC.h"
-#include "EEndPlaying.h"
 
-#include "../Scripting/ScriptingManager.h"
+//#include "../Scripting/ScriptingManager.h"
 
 class EventManager;
 
@@ -17,7 +14,7 @@ class EventHandler
 private:
 	Timeline* gameTime;
 	EventManager* manager;
-	ScriptingManager s_manager;
+	//ScriptingManager s_manager;
 
 	void onCharCollision(ECharCollision e);
 

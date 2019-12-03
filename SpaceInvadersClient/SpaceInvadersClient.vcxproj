@@ -135,12 +135,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="EventMgmt\impl\EInvaDeath.cpp" />
     <ClCompile Include="Objects\impl\InvaderMatrix.cpp" />
     <ClCompile Include="Objects\impl\Bullet.cpp" />
     <ClCompile Include="Components\impl\Collidable.cpp" />
     <ClCompile Include="Components\impl\Movable.cpp" />
     <ClCompile Include="Components\impl\Renderable.cpp" />
-    <ClCompile Include="EventMgmt\impl\ECharCollision.cpp" />
     <ClCompile Include="EventMgmt\impl\ECharDeath.cpp" />
     <ClCompile Include="EventMgmt\impl\ECharSpawn.cpp" />
     <ClCompile Include="EventMgmt\impl\EObjMovement.cpp" />
@@ -158,13 +158,13 @@
     <ClCompile Include="Times\impl\LocalTime.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="EventMgmt\EInvaDeath.h" />
     <ClInclude Include="Objects\InvaderMatrix.h" />
     <ClInclude Include="Objects\Bullet.h" />
     <ClInclude Include="Components\Collidable.h" />
     <ClInclude Include="Components\GenericComponent.h" />
     <ClInclude Include="Components\Movable.h" />
     <ClInclude Include="Components\Renderable.h" />
-    <ClInclude Include="EventMgmt\ECharCollision.h" />
     <ClInclude Include="EventMgmt\ECharDeath.h" />
     <ClInclude Include="EventMgmt\ECharSpawn.h" />
     <ClInclude Include="EventMgmt\EObjMovement.h" />

@@ -1,23 +1,14 @@
 #include "../../Objects/Character.h"
-#include "../../Objects/SpawnPoint.h"
+#include "../../Objects/Invader.h"
 
 Collidable::Collidable(GameObject* gameObject, ::Collision collision, Renderable* renderable, Movable* movable)
 	: GenericComponent(gameObject), collision(collision), renderable(renderable), movable(movable)
 {
 }
 
-void Collidable::work(list<Collidable*>& objects, double elapsed)
+void Collidable::work(list<Collidable*>& objects, double elapsed) // only character and invader would call this func
 {
-	// get four boundaries
-	vector<RectangleShape> boundary_lines = renderable->getBoundaryLines();
-
-	Character* character = dynamic_cast<Character*>(gameObject);
-
-	// reset all bdry ptrs to null
-	vector<Collidable*>* boundary_ptrs = character->getBoundaryPtrs();
-	for (size_t i = 0; i < boundary_ptrs->size(); i++) {
-		boundary_ptrs->at(i) = nullptr;
-	}
+	bool isCharacter = gameObject->getId().find(SELF_NAME) == 0;
 
 	for (Collidable* object : objects)
 	{
@@ -26,14 +17,25 @@ void Collidable::work(list<Collidable*>& objects, double elapsed)
 		FloatRect bound = object->renderable->getShape()->getGlobalBounds();
 
 		if (cbound.intersects(bound)) {// collision happens
-			// generate character collision event in event manager
-			gameObject->getEM()->insertEvent(
-				new ECharCollision(
-					gameObject->getEM()->getCurrentTime(), 
-					character, 
-					object->getGameObject()
-				)
-			);
+			if (isCharacter)
+			{// collides with bullet or invader, die
+				// generate character death event in event manager
+				gameObject->getEM()->insertEvent(
+					new ECharDeath(
+						gameObject->getEM()->getCurrentTime(),
+						dynamic_cast<Character*>(gameObject)
+					)
+				);
+			}
+			else // is invader
+			{// collides with bullet, die
+				gameObject->getEM()->insertEvent(
+					new EInvaDeath(
+						gameObject->getEM()->getCurrentTime(),
+						dynamic_cast<Invader*>(gameObject)
+					)
+				);
+			}
 		}
 	}
 }

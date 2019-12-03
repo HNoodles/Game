@@ -10,7 +10,6 @@ private:
 	Vector2f outVelocity;
 
 	list<Bullet*> bullets;
-	vector<Collidable*> boundary_ptrs;
 	vector<SpawnPoint*>* spawnPoints;
 
 	const int MAX_BULLETS = 2;
@@ -31,11 +30,6 @@ public:
 	Vector2f& getOutVelocity()
 	{
 		return outVelocity;
-	}
-
-	vector<Collidable*>* getBoundaryPtrs()
-	{
-		return &boundary_ptrs;
 	}
 
 	vector<SpawnPoint*>* getSpawnPoints()
