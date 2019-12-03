@@ -16,7 +16,7 @@ private:
 	const double MOVE_STEP = 2.0f, TIME_STEP = 1.0f;
 
 	list<Bullet*> bullets;
-	const int MAX_FIRE_NUM = 3;// max 3 bullets at a time
+	const int MAX_FIRE_NUM = 2;// max 3 bullets at a time
 
 	float getLeftPos();
 	

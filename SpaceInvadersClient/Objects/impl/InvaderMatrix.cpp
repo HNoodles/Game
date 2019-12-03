@@ -2,14 +2,40 @@
 
 float InvaderMatrix::getLeftPos()
 {
-	return dynamic_cast<Renderable*>(invaders[0][0]->getGC(ComponentType::RENDERABLE))
-		->getShape()->getPosition().x;
+	// pick first element of every row, find out the least pos x
+	float posx = 1000.f;
+	for (vector<Invader*> row : invaders)
+	{
+		if (row.size() > 0)
+		{
+			float newPos = dynamic_cast<Renderable*>((*row.begin())->getGC(ComponentType::RENDERABLE))
+				->getShape()->getPosition().x;
+			if (newPos < posx)
+			{
+				posx = newPos;
+			}
+		}
+	}
+	return posx;
 }
 
 float InvaderMatrix::getRightPos()
 {
-	Renderable* renderable = dynamic_cast<Renderable*>(invaders[0][invaders[0].size() - 1]->getGC(ComponentType::RENDERABLE));
-	return renderable->getShape()->getPosition().x + renderable->getSize().x;
+	// pick last element of every row, find out the least pos x
+	float posx = -1000.f;
+	for (vector<Invader*> row : invaders)
+	{
+		if (row.size() > 0)
+		{
+			float newPos = dynamic_cast<Renderable*>((*(row.end() - 1))->getGC(ComponentType::RENDERABLE))
+				->getShape()->getPosition().x;
+			if (newPos > posx)
+			{
+				posx = newPos;
+			}
+		}
+	}
+	return posx;
 }
 
 void InvaderMatrix::setHeading()
@@ -154,29 +180,29 @@ void InvaderMatrix::fire()
 		bullets.push_back(invader->fire(roundCount));
 	}
 
-	// delete expired bullets
-	for (Bullet* bullet : bullets)
-	{
-		Vector2f pos = dynamic_cast<Renderable*>(bullet->getGC(ComponentType::RENDERABLE))
-			->getShape()->getPosition();
+	//// delete expired bullets
+	//for (Bullet* bullet : bullets)
+	//{
+	//	Vector2f pos = dynamic_cast<Renderable*>(bullet->getGC(ComponentType::RENDERABLE))
+	//		->getShape()->getPosition();
 
-		if (pos.y > 600) // out of screen
-		{
-			// delete bullet and set to null
-			delete bullet;
-			bullet = nullptr;
-		}
-	}
-	// remove all nullptrs in bullets
-	for (auto iter = bullets.begin(); iter != bullets.end(); )
-	{
-		if (*iter == nullptr)
-		{
-			bullets.erase(iter++);
-		}
-		else
-		{
-			iter++;
-		}
-	}
+	//	if (pos.y > 600) // out of screen
+	//	{
+	//		// delete bullet and set to null
+	//		delete bullet;
+	//		bullet = nullptr;
+	//	}
+	//}
+	//// remove all nullptrs in bullets
+	//for (auto iter = bullets.begin(); iter != bullets.end(); )
+	//{
+	//	if (*iter == nullptr)
+	//	{
+	//		bullets.erase(iter++);
+	//	}
+	//	else
+	//	{
+	//		iter++;
+	//	}
+	//}
 }

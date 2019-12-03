@@ -64,11 +64,11 @@ void EventHandler::onUserInput(EUserInput e)
 	// calculate total velocity
 	if (keyPressed == Keyboard::Left || keyPressed == Keyboard::A)
 	{// left
-		outVelocity -= velocity;
+		outVelocity = -velocity;
 	}
 	if (keyPressed == Keyboard::Right || keyPressed == Keyboard::D)
 	{// right
-		outVelocity += velocity;
+		outVelocity = velocity;
 	}
 	if (Keyboard::isKeyPressed(Keyboard::Space))
 	{// fire

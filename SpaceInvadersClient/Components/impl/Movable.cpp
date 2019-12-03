@@ -92,6 +92,9 @@ void Movable::work(double elapsed)
 	case Move::CLUSTER:
 		cMove(elapsed);
 		break;
+	case Move::BULLET:
+		bMove(elapsed);
+		break;
 	case Move::KEYINPUT:
 		iMove(elapsed);
 		break;

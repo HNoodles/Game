@@ -46,7 +46,7 @@ int main()
 
 	// init invaders
 	InvaderMatrix invaders(&manager, 2, 10, 
-		Vector2f(100.f, 10.f), Vector2f(300.f, 100.f), 600.f, 
+		Vector2f(10.f, 10.f), Vector2f(300.f, 100.f), 780.f, 
 		Vector2f(50.f, 20.f), gameTime
 	);
 
@@ -68,9 +68,6 @@ int main()
 	//// update platform and other character infos from server
 	//thread newThread(&Client::subscribeHandler, &client, &gameTime);
 	//newThread.detach();
-
-	// get updated game time
-	Movable* charMove = dynamic_cast<Movable*>(character.getGC(ComponentType::MOVABLE));
 
 	// timer
 	double elapsed, thisTime, lastTime = gameTime.getTime();

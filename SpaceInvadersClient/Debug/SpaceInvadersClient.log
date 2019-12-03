@@ -1,9 +1,6 @@
-﻿  Collidable.cpp
-  Movable.cpp
+﻿  Movable.cpp
   EventHandler.cpp
-  Client.cpp
-  Bullet.cpp
-  Character.cpp
+  Invader.cpp
   InvaderMatrix.cpp
   main.cpp
   正在生成代码...
