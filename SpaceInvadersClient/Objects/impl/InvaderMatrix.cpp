@@ -118,6 +118,20 @@ void InvaderMatrix::move(double elapsed)
 	fire();
 }
 
+void InvaderMatrix::kill(Invader* invader)
+{
+	// locate invader
+	string id = invader->getId();
+	int row = atoi(id.substr(0, 1).c_str());
+	int column = atoi(id.substr(1, 1).c_str());
+
+	// remove from matrix
+	invaders[row].erase[column];
+
+	// delete pointer
+	delete invader;
+}
+
 void InvaderMatrix::fire()
 {
 	// randomly select fire invaders

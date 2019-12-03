@@ -16,27 +16,15 @@ private:
 	EventManager* manager;
 	//ScriptingManager s_manager;
 
-	void onCharCollision(ECharCollision e);
-
-	void platformWork(Character* character, MovingPlatform* platform);
-
-	void deathZoneWork(Character* character);
-
-	void sideBoundaryWork(SideBoundary* boundary);
-
 	void onCharDeath(ECharDeath e);
+
+	void onInvaDeath(EInvaDeath e);
 
 	void onCharSpawn(ECharSpawn e);
 
 	void onObjMovement(EObjMovement e);
 
 	void onUserInput(EUserInput e);
-
-	void onStartREC(EStartREC e);
-
-	void onEndREC(EEndREC e);
-
-	void onEndPlaying(EEndPlaying e);
 public:
 	EventHandler(Timeline* gameTime, EventManager* manager);
 

@@ -36,6 +36,8 @@ public:
 
 	void move(double elapsed);
 
+	void kill(Invader* invader);
+
 	vector<bool> getHeading() const
 	{
 		return heading;
