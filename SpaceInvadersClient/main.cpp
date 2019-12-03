@@ -156,7 +156,13 @@ int main()
 		window.display();
 
 		lastTime = thisTime;
+
+		if (invaders.getWin()) // won
+			break;
 	}
+
+	cout << "Congratulations! You win! " << endl;
+	system("pause");
 
 	return 0;
 }

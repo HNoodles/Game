@@ -72,10 +72,21 @@ Invader* InvaderMatrix::randomlySelectOne()
 	return invaders[row][column];
 }
 
+bool InvaderMatrix::checkWin()
+{
+	int totalsize = 0;
+	for (vector<Invader*> row : invaders)
+	{
+		totalsize += row.size();
+	}
+	return totalsize == 0;
+}
+
 InvaderMatrix::InvaderMatrix(EventManager* manager, int row, int column,
 	Vector2f topleft, Vector2f range, float moveRange, 
 	Vector2f velocity, Timeline& timeline) : 
-	leftBound(topleft.x), rightBound(topleft.x + moveRange), timeCount(0), roundCount(0), heading({true, false})
+	leftBound(topleft.x), rightBound(topleft.x + moveRange), 
+	timeCount(0), roundCount(0), heading({true, false}), win(false)
 {
 	Vector2f step_size = Vector2f(range.x / column, range.y / row);
 
@@ -143,6 +154,13 @@ void InvaderMatrix::move(double elapsed)
 	// time count >= time step, move, reset time count
 	timeCount -= TIME_STEP;
 	roundCount++;
+
+	// check if is winning
+	win = checkWin();
+	if (win)
+	{
+		return;
+	}
 
 	// determine direction to move
 	setHeading();

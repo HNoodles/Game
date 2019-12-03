@@ -20,6 +20,8 @@ private:
 	list<Bullet*> expired;
 	const int MAX_FIRE_NUM = 3;// max 2 bullets at a time
 
+	bool win;
+
 	float getLeftPos();
 	
 	float getRightPos();
@@ -29,6 +31,8 @@ private:
 	void fire();
 
 	Invader* randomlySelectOne();
+
+	bool checkWin();
 public:
 	InvaderMatrix(EventManager* manager, int row, int column, 
 		Vector2f topleft, Vector2f range, float moveRange, 
@@ -97,6 +101,11 @@ public:
 		}
 
 		return list;
+	}
+
+	bool getWin() const
+	{
+		return win;
 	}
 };
 
