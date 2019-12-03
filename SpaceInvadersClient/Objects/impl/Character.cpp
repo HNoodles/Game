@@ -3,7 +3,8 @@
 Character::Character(string id, EventManager* manager, 
 	::Shape shape, ::Color color, Vector2f size, Vector2f pos,
 	Vector2f velocity, Timeline& timeline, vector<SpawnPoint*>* spawnPoints)
-	: GameObject(id, manager), boundary_ptrs({ nullptr, nullptr, nullptr, nullptr }), 
+	: GameObject(id, manager), outVelocity(0.f, 0.f), 
+	boundary_ptrs({ nullptr, nullptr, nullptr, nullptr }), 
 	spawnPoints(spawnPoints), bulletCount(0)
 {
 	this->addGC(
@@ -60,6 +61,8 @@ void Character::handleKeyInput()
 	// generate event if there is any
 	if (keyPressed != Keyboard::BackSpace)
 		getEM()->insertEvent(new EUserInput(getEM()->getCurrentTime(), this, keyPressed));
+	else // nothing pressed, reset out velocity
+		outVelocity.x = 0;
 }
 
 void Character::fire()
@@ -105,6 +108,6 @@ void Character::fire()
 	Timeline& timeline = dynamic_cast<Movable*>(getGC(ComponentType::MOVABLE))->getTimeline();
 
 	bullets.push_back(
-		new Bullet(getId() + to_string(bulletCount), getEM(), bulletPos, timeline, true)
+		new Bullet(getId() + to_string(bulletCount), getEM(), bulletPos, timeline, false)
 	);
 }

@@ -8,7 +8,7 @@ class Invader;
 class Character;
 
 enum class Move {
-	STATIC, CLUSTER, KEYINPUT
+	STATIC, CLUSTER, BULLET, KEYINPUT
 };
 
 class Movable : public GenericComponent // in charge of moving related things
@@ -20,6 +20,8 @@ private:
 	::Move move;
 
 	void cMove(double elapsed);
+
+	void bMove(double elapsed);
 
 	void iMove(double elapsed);
 public:

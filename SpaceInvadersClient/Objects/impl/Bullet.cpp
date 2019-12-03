@@ -12,7 +12,7 @@ Bullet::Bullet(string id, EventManager* manager, Vector2f pos, Timeline& timelin
 		new Movable(
 			this,
 			dynamic_cast<Renderable*>(this->getGC(ComponentType::RENDERABLE)),
-			Vector2f(0.f, 100.f), timeline, ::Move::STATIC
+			Vector2f(0.f, 100.f), timeline, ::Move::BULLET
 		)
 	);
 	this->addGC(

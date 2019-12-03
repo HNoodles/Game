@@ -7,12 +7,13 @@
 class Character : public GameObject
 {
 private:
+	Vector2f outVelocity;
+
 	list<Bullet*> bullets;
 	vector<Collidable*> boundary_ptrs;
 	vector<SpawnPoint*>* spawnPoints;
 
 	const int MAX_BULLETS = 2;
-
 	int bulletCount;
 public:
 	Character(
@@ -26,6 +27,11 @@ public:
 	void handleKeyInput();
 
 	void fire();
+
+	Vector2f& getOutVelocity()
+	{
+		return outVelocity;
+	}
 
 	vector<Collidable*>* getBoundaryPtrs()
 	{

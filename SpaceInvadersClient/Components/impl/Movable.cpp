@@ -22,6 +22,26 @@ void Movable::cMove(double elapsed)
 	);
 }
 
+void Movable::bMove(double elapsed)
+{
+	// calculate total displacement
+	Vector2f dis = Vector2f((float)(velocity.x * elapsed), (float)(velocity.y * elapsed));
+	if (dynamic_cast<Bullet*>(getGameObject())->getHeading() == false) // heading up
+		dis = -dis;
+
+	Vector2f pos = renderable->getShape()->getPosition();
+
+	gameObject->getEM()->insertEvent(
+		new EObjMovement(
+			gameObject->getEM()->getCurrentTime(),
+			gameObject,
+			pos.x + dis.x,
+			pos.y + dis.y,
+			false
+		)
+	);
+}
+
 void Movable::iMove(double elapsed)
 {
 	Vector2f outVelocity = dynamic_cast<Character*>(gameObject)->getOutVelocity();
@@ -31,17 +51,13 @@ void Movable::iMove(double elapsed)
 
 	Vector2f pos = renderable->getShape()->getPosition();
 
-	Vector2f offset = *((Character*)gameObject)->getRenderOffset();
-
 	gameObject->getEM()->insertEvent(
 		new EObjMovement(
 			gameObject->getEM()->getCurrentTime(), 
 			gameObject, 
 			pos.x + dis.x,
 			pos.y + dis.y, 
-			false, 
-			offset.x, 
-			offset.y
+			false
 		)
 	);
 }

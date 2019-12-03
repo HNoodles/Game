@@ -1,5 +1,4 @@
 #include "../../Objects/Character.h"
-#include "../../Objects/SideBoundary.h"
 #include "../../Objects/SpawnPoint.h"
 
 Collidable::Collidable(GameObject* gameObject, ::Collision collision, Renderable* renderable, Movable* movable)
@@ -37,7 +36,4 @@ void Collidable::work(list<Collidable*>& objects, double elapsed)
 			);
 		}
 	}
-
-	// reset out velocity x
-	character->getOutVelocity().x = 0.f;
 }
