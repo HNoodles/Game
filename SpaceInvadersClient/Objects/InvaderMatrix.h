@@ -40,5 +40,36 @@ public:
 	{
 		return heading;
 	}
+
+	list<Collidable*> getInvaderList()
+	{
+		list<Collidable*> list;
+
+		for (vector<Invader*> row : invaders)
+		{
+			for (Invader* invader : row)
+			{
+				list.push_back(
+					dynamic_cast<Collidable*>(invader->getGC(ComponentType::COLLIDABLE))
+				);
+			}
+		}
+
+		return list;
+	}
+
+	list<Collidable*> getBulletsList()
+	{
+		list<Collidable*> list;
+
+		for (Bullet* bullet : bullets)
+		{
+			list.push_back(
+				dynamic_cast<Collidable*>(bullet->getGC(ComponentType::COLLIDABLE))
+			);
+		}
+
+		return list;
+	}
 };
 

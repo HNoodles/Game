@@ -1,8 +1,8 @@
 #include "../EventManager.h"
 
-EventManager::EventManager(Timeline* gameTime, mutex* mtxObjMov, Replay* replay)
+EventManager::EventManager(Timeline* gameTime, mutex* mtxObjMov)
 	: gameTime(gameTime), handler(gameTime, this), GVT(gameTime->getTime()), 
-	mtxObjMov(mtxObjMov), connected(true), replaying(false), replay(replay)
+	mtxObjMov(mtxObjMov), connected(true)
 {
 	addQueue(SELF_NAME);
 }
@@ -29,16 +29,12 @@ void EventManager::executeEvents()
 	{ // go through each queue
 		auto& queue = pair.second;
 
-		bool isEndRec = false;
-		bool isEndPlay = false;
 		// handle events on top of queue if execution time <= GVT
 		while (!queue.empty() && queue.top()->getExecuteTime() <= GVT)
 		{
 			const ::Event* e = queue.top();
 
 			// handle event
-			isEndRec = e->getType() == Event_t::END_REC;
-			isEndPlay = e->getType() == Event_t::END_PLAY;
 			bool isObjMov = e->getType() == Event_t::OBJ_MOVEMENT;
 			if (isObjMov)
 				mtxObjMov->lock();
@@ -46,23 +42,11 @@ void EventManager::executeEvents()
 			if (isObjMov)
 				mtxObjMov->unlock();
 
-			// queue will be empty after handling end rec event
-			// queues will be removed after handling end play event
-			// thus, avoid deleting and poping
-			if (isEndRec || isEndPlay)
-				break;
-
-			// delete pointer if not replaying
-			if (!replaying)
-				delete e;
+			delete e;
 
 			// pop it from the queue
 			queue.pop();
 		}
-		// new queue will be added after handling end rec event
-		// queues will be removed after handling end play event
-		if (isEndRec || isEndPlay)
-			break;
 	}
 }
 

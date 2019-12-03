@@ -6,18 +6,18 @@
 #include <thread>
 #include "Networking/Client.h"
 #include "Objects/SpawnPoint.h"
+#include "Objects/InvaderMatrix.h"
 
 using namespace std;
 using namespace sf;
 
 void initWindow(Window& window);
 void handleScalingOption(RenderWindow& window);
-void handleGameInstruction(double& thisTime, EventManager* manager, Replay* replay);
+void handleGameInstruction(double& thisTime, EventManager* manager);
 void handleWindowEvent(RenderWindow& window, Client* client);
 
 // define objects
 map<string, GameObject*> objects;
-list<Collidable*> collidableObjects;
 vector<SpawnPoint*> spawnPoints;
 
 GameTime gameTime(1);
@@ -25,8 +25,6 @@ GameTime gameTime(1);
 // scaling switch
 bool isConstantScaling = false;
 Vector2u lastWindowSize(800, 600);// default window size
-
-Vector2f renderOffset(0.f, 0.f);
 
 mutex mtxObjMov;
 
@@ -37,35 +35,38 @@ int main()
 	initWindow(window);
 
 	// init event manager
-	EventManager manager(&gameTime, &mtxObjMov, &replay);
+	EventManager manager(&gameTime, &mtxObjMov);
 	thread exeEvent(&EventManager::keepExecutingEvents, &manager);
 	exeEvent.detach();
 
 	// init spawn points
-	SpawnPoint spawnPoint("SP1", &manager, Vector2f(400.f, 100.f));
+	SpawnPoint spawnPoint("SP1", &manager, Vector2f(400.f, 500.f));
 	spawnPoints.emplace_back(&spawnPoint);
+
+	// init invaders
+	InvaderMatrix invaders(&manager, 2, 5, 
+		Vector2f(100.f, 10.f), Vector2f(100.f, 60.f), 600.f, 
+		Vector2f(50.f, 20.f), gameTime
+	);
 
 	// init character
 	Character character(
 		SELF_NAME, &manager, 
-		::Shape::DIAMOND, ::Color::BLUE, Vector2f(60.f, 120.f), 
+		::Shape::DIAMOND, ::Color::BLUE, Vector2f(30.f, 60.f), 
 		dynamic_cast<Renderable*>(spawnPoint.getGC(ComponentType::RENDERABLE))->getShape()->getPosition(),
 		Vector2f(250.0f, 0.0f), gameTime, &spawnPoints
 	);
 	objects.insert({ character.getId(), &character });
 
-	// init client
-	Client client(&objects, &manager, &replay);
+	//// init client
+	//Client client(&objects, &manager);
 
-	// set client for replay
-	replay.setClient(&client);
+	//// send message to notify server this new client
+	//client.connect();
 
-	// send message to notify server this new client
-	client.connect();
-
-	// update platform and other character infos from server
-	thread newThread(&Client::subscribeHandler, &client, &gameTime);
-	newThread.detach();
+	//// update platform and other character infos from server
+	//thread newThread(&Client::subscribeHandler, &client, &gameTime);
+	//newThread.detach();
 
 	// get updated game time
 	Movable* charMove = dynamic_cast<Movable*>(character.getGC(ComponentType::MOVABLE));
@@ -79,83 +80,60 @@ int main()
 		// get time tic elapsed for this iteration
 		thisTime = gameTime.getTime();
 		elapsed = thisTime - lastTime;
-
-		// skip the iteration if is replaying
-		if (replay.getIsPlaying())
-		{
-			if (window.hasFocus())
-			{
-				handleReplayInstruction(&replay, manager.getMtxQueue());
-			}
-
-			// clear the window with the chosen color
-			window.clear(sf::Color::White);
-
-			// draw the objects needed
-			manager.getMtxQueue()->lock();
-			for (auto pair : objects)
-			{
-				sf::Shape* object = dynamic_cast<Renderable*>
-					(pair.second->getGC(ComponentType::RENDERABLE))
-					->getShape();
-
-				lock_guard<mutex> guard(mtxObjMov);
-				object->move(renderOffset);
-				window.draw(*object);
-				object->move(-renderOffset);
-			}
-			manager.getMtxQueue()->unlock();
-
-			// end of the current frame, show the window
-			window.display();
-
-			lastTime = thisTime;
-			continue;
-		}
-
+		
 		// only handle key events when window is focused
 		if (window.hasFocus())
 		{
-			// deal with events
-			handleWindowEvent(window, &client);
+			//// deal with events
+			//handleWindowEvent(window, &client);
 
 			// handle scaling option
 			handleScalingOption(window);
 
 			// handle game instruction
-			handleGameInstruction(thisTime, &manager, &replay);
+			handleGameInstruction(thisTime, &manager);
 		}
 
-		// detect character collision
 		manager.getMtxQueue()->lock();
+
+		// detect character collision, with invader, with invaders' bullet
+		list<Collidable*> invadersList = invaders.getInvaderList();
 		dynamic_cast<Collidable*>(
 			character.getGC(ComponentType::COLLIDABLE)
-		)->work(collidableObjects, elapsed);
+		)->work(invadersList, elapsed);
+
+		list<Collidable*> inBulletsList = invaders.getBulletsList();
+		dynamic_cast<Collidable*>(
+			character.getGC(ComponentType::COLLIDABLE)
+		)->work(inBulletsList, elapsed);
+
+		// detect invader collision, with character's bullet
+		list<Collidable*> chBulletsList = character.getBulletsList();
+		for (Collidable* invader : invadersList)
+		{
+			invader->work(chBulletsList, elapsed);
+		}
 
 		// update GVT and execute events
 		manager.executeEvents();
 
-		// set character out velocity
-		character.setOutVelocity(elapsed);
-
 		if (window.hasFocus())
 		{
-			// move character
+			// move character, fire
 			character.handleKeyInput();
 		}
 
 		// update GVT and execute events
 		manager.executeEvents();
 
-		// check if character has left the side boundary
-		character.checkHitBoundary(&sideBoundaries);
-
-		// update character position 
+		// update character position
 		charMove->work(elapsed);
+		// move invaders
+		invaders.move(elapsed);
 		manager.getMtxQueue()->unlock();
 
-		// send message to notify server the update of this client
-		client.sendHandler();
+		//// send message to notify server the update of this client
+		//client.sendHandler();
 
 		// clear the window with the chosen color
 		window.clear(sf::Color::White);
@@ -169,9 +147,7 @@ int main()
 				->getShape();
 
 			lock_guard<mutex> guard(mtxObjMov);
-			object->move(renderOffset);
 			window.draw(*object);
-			object->move(-renderOffset);
 		}
 		manager.getMtxQueue()->unlock();
 
@@ -226,7 +202,7 @@ void handleScalingOption(RenderWindow& window)
 	}
 }
 
-void handleGameInstruction(double & thisTime, EventManager* manager, Replay* replay)
+void handleGameInstruction(double & thisTime, EventManager* manager)
 {
 	if (Keyboard::isKeyPressed(Keyboard::P))
 	{// switch paused status

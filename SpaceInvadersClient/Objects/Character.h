@@ -42,4 +42,18 @@ public:
 	{
 		return spawnPoints;
 	}
+
+	list<Collidable*> getBulletsList()
+	{
+		list<Collidable*> list;
+
+		for (Bullet* bullet : bullets)
+		{
+			list.push_back(
+				dynamic_cast<Collidable*>(bullet->getGC(ComponentType::COLLIDABLE))
+			);
+		}
+
+		return list;
+	}
 };

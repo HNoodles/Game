@@ -2,7 +2,6 @@
 #include <queue>
 #include <mutex>
 #include "EventHandler.h"
-#include "../Replay/Replay.h"
 
 #include <iostream>
 
@@ -24,8 +23,7 @@ private:
 	list<EObjMovement> objMovements;
 	mutex mtxEvt, mtxQueue, *mtxObjMov;
 
-	bool connected, replaying;
-	Replay* replay;
+	bool connected;
 
 	void updateGVT();
 
@@ -36,7 +34,7 @@ private:
 		GVTs.clear();
 	}
 public:
-	EventManager(Timeline* gameTime, mutex* mtxObjMov, Replay* replay);
+	EventManager(Timeline* gameTime, mutex* mtxObjMov);
 
 	~EventManager();
 
@@ -62,8 +60,6 @@ public:
 		if (queue.empty()) // empty queue
 		{
 			GVT = gameTime->getTime();
-			if (replaying) // add time bias when recording
-				GVT += replay->getStartTime();
 		}
 		else
 		{
@@ -133,12 +129,6 @@ public:
 				objMovements.push_back(*(EObjMovement*)e);
 				mtxEvt.unlock();
 			}
-
-			// store the event for replaying if is recording
-			if (replay->getIsRecording())
-			{
-				replay->pushEvent((EObjMovement*)e);
-			}
 		}
 	}
 
@@ -169,21 +159,6 @@ public:
 		if (!connected) // disconnected
 		{
 			clearEvents();
-		}
-	}
-
-	void setReplay(bool isReplay)
-	{
-		replaying = isReplay;
-
-		if (isReplay) // prepare for replay
-		{
-			clearEvents();
-			clearGVTs();
-		}
-		else // finish replay
-		{
-			removeQueue("R");
 		}
 	}
 };
