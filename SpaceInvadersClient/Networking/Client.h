@@ -20,10 +20,9 @@ private:
 	socket_t sender;
 	socket_t subscriber;
 	map<string, GameObject*>* objects;
-	bool connected, replaying;
+	bool connected;
 	double connectedTime;
 	EventManager* manager;
-	Replay* replay;
 
 	string s_recv(socket_t& socket);
 
@@ -31,7 +30,7 @@ private:
 
 	void Split(const string& string, const std::string& separator, vector<std::string>& result);
 public:
-	Client(map<string, GameObject*>* objects, EventManager* manager, Replay* replay);
+	Client(map<string, GameObject*>* objects, EventManager* manager);
 
 	void connect();
 

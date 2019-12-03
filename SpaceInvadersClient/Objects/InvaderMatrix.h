@@ -43,7 +43,7 @@ public:
 		return heading;
 	}
 
-	list<Collidable*> getInvaderList()
+	list<Collidable*> getInvaderCList()
 	{
 		list<Collidable*> list;
 
@@ -60,7 +60,7 @@ public:
 		return list;
 	}
 
-	list<Collidable*> getBulletsList()
+	list<Collidable*> getBulletsCList()
 	{
 		list<Collidable*> list;
 
@@ -68,6 +68,29 @@ public:
 		{
 			list.push_back(
 				dynamic_cast<Collidable*>(bullet->getGC(ComponentType::COLLIDABLE))
+			);
+		}
+
+		return list;
+	}
+
+	list<Renderable*> getRList() const
+	{
+		list<Renderable*> list;
+
+		for (vector<Invader*> row : invaders)
+		{
+			for (Invader* invader : row)
+			{
+				list.push_back(
+					dynamic_cast<Renderable*>(invader->getGC(ComponentType::RENDERABLE))
+				);
+			}
+		}
+		for (Bullet* bullet : bullets)
+		{
+			list.push_back(
+				dynamic_cast<Renderable*>(bullet->getGC(ComponentType::RENDERABLE))
 			);
 		}
 

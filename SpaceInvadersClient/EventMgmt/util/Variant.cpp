@@ -1,5 +1,4 @@
 #include "../../Objects/GameObject.h"
-#include "../../Replay/Replay.h"
 
 Variant::Variant(Variant_t type, void* value) : type(type), var()
 {

@@ -1,8 +1,8 @@
 #include "../Client.h"
 
-Client::Client(map<string, GameObject*>* objects, EventManager* manager, Replay* replay)
+Client::Client(map<string, GameObject*>* objects, EventManager* manager)
 	: context(1), sender(context, ZMQ_REQ), subscriber(context, ZMQ_SUB), 
-	objects(objects), connected(false), replaying(false), connectedTime(0), manager(manager), replay(replay)
+	objects(objects), connected(false), connectedTime(0), manager(manager)
 {
 	sender.connect("tcp://localhost:5555");
 	cout << "Connecting to server on port 5555..." << endl;
@@ -23,14 +23,13 @@ void Client::connect()
 	connectedTime = atof(response.c_str());
 
 	connected = true;
-	replaying = false;
 
 	cout << "Connected to server" << endl;
 }
 
 void Client::sendHandler()
 {
-	if (!connected || replaying) // don't send if disconnected or replaying
+	if (!connected) // don't send if disconnected
 		return;
 	
 	// first, name GVT double 
@@ -60,9 +59,6 @@ void Client::subscribeHandler(GameTime* gameTime)
 	while (connected)
 	{
 		string message = s_recv(subscriber);
-
-		if (replaying) // skip processing if replaying
-			continue;
 
 		// split into lines
 		vector<string> lines;
@@ -145,23 +141,12 @@ void Client::subscribeHandler(GameTime* gameTime)
 
 void Client::disconnect(bool forReplay)
 {
-	if (forReplay) // temporarily disconnect for replay
-	{
-		replaying = true;
-		// this will clear all events in manager queues and GVTs
-		manager->setReplay(true);
-
-		cout << "Disconnected for replay" << endl;
-	}
-	else // truly disconnected
-	{
-		// prevent from sending messages out and receiving messages
-		connected = false;
-		// set manager to disconnected
-		// this will clear all events in manager queues
-		lock_guard<mutex> guard(*manager->getMtxQueue());
-		manager->setConnected(false);
-	}
+	// prevent from sending messages out and receiving messages
+	connected = false;
+	// set manager to disconnected
+	// this will clear all events in manager queues
+	lock_guard<mutex> guard(*manager->getMtxQueue());
+	manager->setConnected(false);
 
 	// generate message accordingly
 	string message = (string)SELF_NAME + " D";

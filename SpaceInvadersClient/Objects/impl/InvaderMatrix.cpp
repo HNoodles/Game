@@ -126,7 +126,7 @@ void InvaderMatrix::kill(Invader* invader)
 	int column = atoi(id.substr(1, 1).c_str());
 
 	// remove from matrix
-	invaders[row].erase[column];
+	invaders[row].erase(invaders[row].begin() + column);
 
 	// delete pointer
 	delete invader;

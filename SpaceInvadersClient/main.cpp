@@ -18,6 +18,7 @@ void handleWindowEvent(RenderWindow& window, Client* client);
 
 // define objects
 map<string, GameObject*> objects;
+list<Renderable*> renders;
 vector<SpawnPoint*> spawnPoints;
 
 GameTime gameTime(1);
@@ -97,18 +98,18 @@ int main()
 		manager.getMtxQueue()->lock();
 
 		// detect character collision, with invader, with invaders' bullet
-		list<Collidable*> invadersList = invaders.getInvaderList();
+		list<Collidable*> invadersList = invaders.getInvaderCList();
 		dynamic_cast<Collidable*>(
 			character.getGC(ComponentType::COLLIDABLE)
 		)->work(invadersList, elapsed);
 
-		list<Collidable*> inBulletsList = invaders.getBulletsList();
+		list<Collidable*> inBulletsList = invaders.getBulletsCList();
 		dynamic_cast<Collidable*>(
 			character.getGC(ComponentType::COLLIDABLE)
 		)->work(inBulletsList, elapsed);
 
 		// detect invader collision, with character's bullet
-		list<Collidable*> chBulletsList = character.getBulletsList();
+		list<Collidable*> chBulletsList = character.getBulletsCList();
 		for (Collidable* invader : invadersList)
 		{
 			invader->work(chBulletsList, elapsed);
@@ -140,14 +141,17 @@ int main()
 
 		// draw the objects needed
 		manager.getMtxQueue()->lock();
-		for (auto pair : objects) 
-		{
-			sf::Shape* object = dynamic_cast<Renderable*>
-				(pair.second->getGC(ComponentType::RENDERABLE))
-				->getShape();
+		list<Renderable*> iRenders = invaders.getRList();
+		list<Renderable*> cRenders = invaders.getRList();
+		// refresh
+		renders.clear();
+		renders.insert(renders.end(), iRenders.begin(), iRenders.end());
+		renders.insert(renders.end(), cRenders.begin(), cRenders.end());
 
+		for (Renderable* render : renders) 
+		{
 			lock_guard<mutex> guard(mtxObjMov);
-			window.draw(*object);
+			window.draw(*render->getShape());
 		}
 		manager.getMtxQueue()->unlock();
 

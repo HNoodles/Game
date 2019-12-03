@@ -12,7 +12,7 @@ private:
 	list<Bullet*> bullets;
 	vector<SpawnPoint*>* spawnPoints;
 
-	const int MAX_BULLETS = 2;
+	const unsigned int MAX_BULLETS = 2;
 	int bulletCount;
 public:
 	Character(
@@ -37,7 +37,7 @@ public:
 		return spawnPoints;
 	}
 
-	list<Collidable*> getBulletsList()
+	list<Collidable*> getBulletsCList()
 	{
 		list<Collidable*> list;
 
@@ -45,6 +45,25 @@ public:
 		{
 			list.push_back(
 				dynamic_cast<Collidable*>(bullet->getGC(ComponentType::COLLIDABLE))
+			);
+		}
+
+		return list;
+	}
+
+	list<Renderable*> getRList()
+	{
+		list<Renderable*> list;
+
+		// character itself
+		list.push_back(
+			dynamic_cast<Renderable*>(getGC(ComponentType::RENDERABLE))
+		);
+			
+		for (Bullet* bullet : bullets)
+		{
+			list.push_back(
+				dynamic_cast<Renderable*>(bullet->getGC(ComponentType::RENDERABLE))
 			);
 		}
 
