@@ -7,6 +7,7 @@ class InvaderMatrix
 {
 private:
 	vector<vector<Invader*>> invaders;
+	list<Invader*> killed;
 
 	float leftBound, rightBound;
 	double timeCount;
@@ -16,7 +17,8 @@ private:
 	const double MOVE_STEP = 2.0f, TIME_STEP = 1.0f;
 
 	list<Bullet*> bullets;
-	const int MAX_FIRE_NUM = 2;// max 3 bullets at a time
+	list<Bullet*> expired;
+	const int MAX_FIRE_NUM = 3;// max 2 bullets at a time
 
 	float getLeftPos();
 	

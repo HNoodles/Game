@@ -10,6 +10,7 @@ private:
 	Vector2f outVelocity;
 
 	list<Bullet*> bullets;
+	list<Bullet*> expired;
 	vector<SpawnPoint*>* spawnPoints;
 
 	const unsigned int MAX_BULLETS = 2;

@@ -36,6 +36,10 @@ Character::~Character()
 		delete bullet;
 		bullet = nullptr;
 	}
+	for (Bullet* bullet : expired)
+	{
+		delete bullet;
+	}
 }
 
 void Character::handleKeyInput()
@@ -67,29 +71,24 @@ void Character::handleKeyInput()
 void Character::fire(double currentTime)
 {
 	// check and remove expired bullets
-	for (Bullet* bullet : bullets)
+	for (Bullet* bullet : expired)
 	{
-		Vector2f pos = dynamic_cast<Renderable*>(bullet->getGC(ComponentType::RENDERABLE))
-			->getShape()->getPosition();
-
-		if (pos.y > 600) // out of screen
-		{
-			// delete bullet and set to null
-			delete bullet;
-			bullet = nullptr;
-		}
+		delete bullet;
 	}
-	// remove all nullptrs in bullets
+	expired.clear();
 	for (auto iter = bullets.begin(); iter != bullets.end(); )
 	{
-		if (*iter == nullptr)
+		Vector2f pos = dynamic_cast<Renderable*>((*iter)->getGC(ComponentType::RENDERABLE))
+			->getShape()->getPosition();
+
+		if (pos.y < 0) // out of screen
 		{
+			// move bullet to expired
+			expired.push_back((*iter));
 			bullets.erase(iter++);
 		}
-		else
-		{
+		else 
 			iter++;
-		}
 	}
 
 	// limit maximum concurrent bullets and minimum fire interval

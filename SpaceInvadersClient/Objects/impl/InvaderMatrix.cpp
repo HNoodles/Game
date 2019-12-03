@@ -48,13 +48,11 @@ void InvaderMatrix::setHeading()
 	{// go down
 		heading[1] = true;
 	}
-
-	if ((heading[0] && !hitRight) || (heading[1] && hitLeft)) // moving right not hit right, or moving down at left
+	else if ((heading[0] && !hitRight) || (heading[1] && hitLeft)) // moving right not hit right, or moving down at left
 	{// go right
 		heading = { true, false };
 	}
-
-	if ((!heading[0] && !hitLeft) || (heading[1] && hitRight)) // moving left not hit left, or moving down at right
+	else if ((!heading[0] && !hitLeft) || (heading[1] && hitRight)) // moving left not hit left, or moving down at right
 	{// go left
 		heading = { false, false };
 	}
@@ -66,8 +64,10 @@ Invader* InvaderMatrix::randomlySelectOne()
 
 	while (invaders[row].size() == 0)
 	{
-		column = rand() % invaders[row].size();
+		row = rand() % invaders.size();
 	}
+
+	column = rand() % invaders[row].size();
 	
 	return invaders[row][column];
 }
@@ -105,9 +105,19 @@ InvaderMatrix::~InvaderMatrix()
 			invader = nullptr;
 		}
 	}
+	for (Invader* invader : killed)
+	{
+		delete invader;
+		invader = nullptr;
+	}
 
 	// delete remaining bullets
 	for (Bullet* bullet : bullets)
+	{
+		delete bullet;
+		bullet = nullptr;
+	}
+	for (Bullet* bullet : expired)
 	{
 		delete bullet;
 		bullet = nullptr;
@@ -158,17 +168,17 @@ void InvaderMatrix::kill(Invader* invader)
 	int column = atoi(id.substr(1, 1).c_str());
 
 	// remove from matrix
-	invaders[row].erase(invaders[row].begin() + column);
+	invaders[row].erase(find(invaders[row].begin(), invaders[row].end(), invader));
 
-	// delete pointer
-	delete invader;
+	// put into killed
+	killed.push_back(invader);
 }
 
 void InvaderMatrix::fire()
 {
 	// randomly select fire invaders
 	vector<Invader*> firing;
-	int fire_num = rand() % MAX_FIRE_NUM + 1;
+	int fire_num = rand() % MAX_FIRE_NUM;
 	for (int i = 0; i < fire_num; i++)
 	{
 		firing.push_back(randomlySelectOne());
@@ -180,29 +190,24 @@ void InvaderMatrix::fire()
 		bullets.push_back(invader->fire(roundCount));
 	}
 
-	//// delete expired bullets
-	//for (Bullet* bullet : bullets)
-	//{
-	//	Vector2f pos = dynamic_cast<Renderable*>(bullet->getGC(ComponentType::RENDERABLE))
-	//		->getShape()->getPosition();
+	// delete expired bullets
+	for (Bullet* bullet : expired)
+	{
+		delete bullet;
+	}
+	expired.clear();
+	for (auto iter = bullets.begin(); iter != bullets.end(); )
+	{
+		Vector2f pos = dynamic_cast<Renderable*>((*iter)->getGC(ComponentType::RENDERABLE))
+			->getShape()->getPosition();
 
-	//	if (pos.y > 600) // out of screen
-	//	{
-	//		// delete bullet and set to null
-	//		delete bullet;
-	//		bullet = nullptr;
-	//	}
-	//}
-	//// remove all nullptrs in bullets
-	//for (auto iter = bullets.begin(); iter != bullets.end(); )
-	//{
-	//	if (*iter == nullptr)
-	//	{
-	//		bullets.erase(iter++);
-	//	}
-	//	else
-	//	{
-	//		iter++;
-	//	}
-	//}
+		if (pos.y > 600) // out of screen
+		{
+			// move bullet to expired
+			expired.push_back((*iter));
+			bullets.erase(iter++);
+		}
+		else
+			iter++;
+	}
 }
