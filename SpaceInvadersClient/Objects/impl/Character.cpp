@@ -1,13 +1,10 @@
 #include "../Character.h"
-#include "../SideBoundary.h"
 
 Character::Character(string id, EventManager* manager, 
 	::Shape shape, ::Color color, Vector2f size, Vector2f pos,
-	Vector2f velocity, Timeline& timeline, vector<SpawnPoint*>* spawnPoints,
-	Vector2f* renderOffset, vector<SideBoundary*>* sideBoundaries)
-	: GameObject(id, manager), outVelocity(0.f, 0.f), 
-	boundary_ptrs({ nullptr, nullptr, nullptr, nullptr }), spawnPoints(spawnPoints), 
-	hitBoundary(false), renderOffset(renderOffset), sideBoundaries(sideBoundaries)
+	Vector2f velocity, Timeline& timeline, vector<SpawnPoint*>* spawnPoints)
+	: GameObject(id, manager), boundary_ptrs({ nullptr, nullptr, nullptr, nullptr }), 
+	spawnPoints(spawnPoints), bulletCount(0)
 {
 	this->addGC(
 		ComponentType::RENDERABLE, 
@@ -32,12 +29,21 @@ Character::Character(string id, EventManager* manager,
 	);
 }
 
+Character::~Character()
+{
+	for (Bullet* bullet : bullets)
+	{
+		delete bullet;
+		bullet = nullptr;
+	}
+}
+
 void Character::handleKeyInput()
 {
 	Vector2f velocity = dynamic_cast<Movable*>(this->getGC(ComponentType::MOVABLE))->getVelocity();
 	Keyboard::Key keyPressed = Keyboard::BackSpace;
 
-	// calculate total velocity
+	// get pressed key
 	if (Keyboard::isKeyPressed(Keyboard::Left) || Keyboard::isKeyPressed(Keyboard::A))
 	{// left
 		keyPressed = Keyboard::A;
@@ -46,10 +52,9 @@ void Character::handleKeyInput()
 	{// right
 		keyPressed = Keyboard::D;
 	}
-	if ((Keyboard::isKeyPressed(Keyboard::Up) || Keyboard::isKeyPressed(Keyboard::W))
-		&& boundary_ptrs[3] != nullptr) // character should be on a platform to jump
-	{// jump
-		keyPressed = Keyboard::W;
+	if (Keyboard::isKeyPressed(Keyboard::Space))
+	{// fire
+		keyPressed = Keyboard::Space;
 	}
 
 	// generate event if there is any
@@ -57,73 +62,49 @@ void Character::handleKeyInput()
 		getEM()->insertEvent(new EUserInput(getEM()->getCurrentTime(), this, keyPressed));
 }
 
-void Character::setOutVelocity(double elapsed)
+void Character::fire()
 {
-	Movable* movable = dynamic_cast<Movable*>(this->getGC(ComponentType::MOVABLE));
-	Vector2f velocity = movable->getVelocity();
-
-	Collidable
-		* left = boundary_ptrs[0],
-		* right = boundary_ptrs[1],
-		* up = boundary_ptrs[2],
-		* bottom = boundary_ptrs[3];
-
-	// clear out velocity to normal
-	//outVelocity.x = 0;
-
-	if (left != nullptr)
-	{// left collision!
-		Movable* lmovable = left->getMovable();
-		Vector2f lv = lmovable->getVelocity();
-		outVelocity.x = dynamic_cast<MovingPlatform*>(lmovable->getGameObject())
-			->getHeadingPositive() ? lv.x : -lv.x;
-	}
-
-	if (right != nullptr)
-	{// right collision!
-		Movable* rmovable = right->getMovable();
-		Vector2f rv = rmovable->getVelocity();
-		outVelocity.x = dynamic_cast<MovingPlatform*>(rmovable->getGameObject())
-			->getHeadingPositive() ? rv.x : -rv.x;
-	}
-
-	if (up != nullptr)
-	{// up collision!
-		outVelocity.y = 0;
-	}
-
-	if (bottom != nullptr)
-	{// bottom collision!
-		Movable* bmovable = bottom->getMovable();
-		Vector2f bv = bmovable->getVelocity();
-		// only when no blocks on the heading side can character get velocity.x from bottom
-		MovingPlatform* bottomPlatform = dynamic_cast<MovingPlatform*>(bmovable->getGameObject());
-		if ((left == nullptr && !bottomPlatform->getHeadingPositive())
-			|| (right == nullptr && bottomPlatform->getHeadingPositive()))
-			outVelocity.x = bottomPlatform->getHeadingPositive() ? bv.x : -bv.x;
-		outVelocity.y = bottomPlatform->getHeadingPositive() ? bv.y : -bv.y;
-	}
-	else // drop 
+	// check and remove expired bullets
+	for (Bullet* bullet : bullets)
 	{
-		outVelocity.y += (float)(gravity.y * elapsed);
-	}
-}
+		Vector2f pos = dynamic_cast<Renderable*>(bullet->getGC(ComponentType::RENDERABLE))
+			->getShape()->getPosition();
 
-void Character::checkHitBoundary(vector<SideBoundary*>* sideBoundaries)
-{
-	FloatRect cbound = dynamic_cast<Renderable*>(getGC(ComponentType::RENDERABLE))
-		->getShape()->getGlobalBounds();
-
-	hitBoundary = false;
-	for (SideBoundary* sideBoundary : *sideBoundaries)
-	{
-		// get bound of boundary
-		FloatRect bound = dynamic_cast<Renderable*>(sideBoundary->getGC(ComponentType::RENDERABLE))
-			->getShape()->getGlobalBounds();
-		if (cbound.intersects(bound))
+		if (pos.y > 600) // out of screen
 		{
-			hitBoundary = true;
-			break;
+			// delete bullet and set to null
+			delete bullet;
+			bullet = nullptr;
 		}
 	}
+	// remove all nullptrs in bullets
+	for (auto iter = bullets.begin(); iter != bullets.end(); )
+	{
+		if (*iter == nullptr)
+		{
+			bullets.erase(iter++);
+		}
+		else
+		{
+			iter++;
+		}
+	}
+
+	// limit maximum concurrent bullets
+	if (bullets.size() >= MAX_BULLETS)
+		return;
+
+	// fire new bullet
+	bulletCount++;
+	Renderable* renderable = dynamic_cast<Renderable*>(getGC(ComponentType::RENDERABLE));
+	Vector2f pos = renderable->getShape()->getPosition();
+	Vector2f size = renderable->getSize();
+
+	Vector2f bulletPos = Vector2f(pos.x + 1 / 2 * size.x, pos.y);
+
+	Timeline& timeline = dynamic_cast<Movable*>(getGC(ComponentType::MOVABLE))->getTimeline();
+
+	bullets.push_back(
+		new Bullet(getId() + to_string(bulletCount), getEM(), bulletPos, timeline, true)
+	);
 }
