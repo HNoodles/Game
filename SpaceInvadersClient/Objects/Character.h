@@ -13,7 +13,9 @@ private:
 	vector<SpawnPoint*>* spawnPoints;
 
 	const unsigned int MAX_BULLETS = 2;
+	const double MIN_FIRE_INTERVAL = 1;
 	int bulletCount;
+	float lastFireTime;
 public:
 	Character(
 		string id, EventManager* manager, 
@@ -25,7 +27,7 @@ public:
 
 	void handleKeyInput();
 
-	void fire();
+	void fire(double currentTime);
 
 	void move(double elapsed);
 

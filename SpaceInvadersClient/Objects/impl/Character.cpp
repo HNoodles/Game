@@ -4,7 +4,7 @@ Character::Character(string id, EventManager* manager,
 	::Shape shape, ::Color color, Vector2f size, Vector2f pos,
 	Vector2f velocity, Timeline& timeline, vector<SpawnPoint*>* spawnPoints)
 	: GameObject(id, manager), outVelocity(0.f, 0.f), 
-	spawnPoints(spawnPoints), bulletCount(0)
+	spawnPoints(spawnPoints), bulletCount(0), lastFireTime(-5)
 {
 	this->addGC(
 		ComponentType::RENDERABLE, 
@@ -64,7 +64,7 @@ void Character::handleKeyInput()
 		outVelocity.x = 0;
 }
 
-void Character::fire()
+void Character::fire(double currentTime)
 {
 	// check and remove expired bullets
 	for (Bullet* bullet : bullets)
@@ -92,12 +92,13 @@ void Character::fire()
 		}
 	}
 
-	// limit maximum concurrent bullets
-	if (bullets.size() >= MAX_BULLETS)
+	// limit maximum concurrent bullets and minimum fire interval
+	if (bullets.size() >= MAX_BULLETS || (currentTime - lastFireTime) < MIN_FIRE_INTERVAL)
 		return;
 
 	// fire new bullet
 	bulletCount++;
+	lastFireTime = currentTime;
 	Renderable* renderable = dynamic_cast<Renderable*>(getGC(ComponentType::RENDERABLE));
 	Vector2f pos = renderable->getShape()->getPosition();
 	Vector2f size = renderable->getSize();

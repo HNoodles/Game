@@ -72,7 +72,7 @@ void EventHandler::onUserInput(EUserInput e)
 	}
 	if (Keyboard::isKeyPressed(Keyboard::Space))
 	{// fire
-		character->fire();
+		character->fire(gameTime->getTime());
 	}
 }
 
