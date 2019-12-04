@@ -4,11 +4,11 @@
 #include "../Times/GameTime.h"
 #include "Renderable.h"
 
-class MovingPlatform;
+class Invader;
 class Character;
 
 enum class Move {
-	STATIC, HORIZONTAL, VERTICAL, KEYINPUT
+	STATIC, CLUSTER, BULLET, KEYINPUT
 };
 
 class Movable : public GenericComponent // in charge of moving related things
@@ -19,9 +19,9 @@ private:
 	Timeline& timeline;
 	::Move move;
 
-	void hMove(double elapsed);
+	void cMove(double elapsed);
 
-	void vMove(double elapsed);
+	void bMove(double elapsed);
 
 	void iMove(double elapsed);
 public:

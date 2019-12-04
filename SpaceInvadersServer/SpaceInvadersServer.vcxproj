@@ -134,9 +134,9 @@
     <ClCompile Include="Components\impl\Collidable.cpp" />
     <ClCompile Include="Components\impl\Movable.cpp" />
     <ClCompile Include="Components\impl\Renderable.cpp" />
-    <ClCompile Include="EventMgmt\impl\ECharCollision.cpp" />
     <ClCompile Include="EventMgmt\impl\ECharDeath.cpp" />
     <ClCompile Include="EventMgmt\impl\ECharSpawn.cpp" />
+    <ClCompile Include="EventMgmt\impl\EInvaDeath.cpp" />
     <ClCompile Include="EventMgmt\impl\EObjMovement.cpp" />
     <ClCompile Include="EventMgmt\impl\EUserInput.cpp" />
     <ClCompile Include="EventMgmt\impl\Event.cpp" />
@@ -145,6 +145,11 @@
     <ClCompile Include="EventMgmt\util\Variant.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Networking\impl\Server.cpp" />
+    <ClCompile Include="Objects\impl\Bullet.cpp" />
+    <ClCompile Include="Objects\impl\Character.cpp" />
+    <ClCompile Include="Objects\impl\Invader.cpp" />
+    <ClCompile Include="Objects\impl\InvaderMatrix.cpp" />
+    <ClCompile Include="Objects\impl\SpawnPoint.cpp" />
     <ClCompile Include="Times\impl\GameTime.cpp" />
     <ClCompile Include="Times\impl\LocalTime.cpp" />
   </ItemGroup>
@@ -153,9 +158,9 @@
     <ClInclude Include="Components\GenericComponent.h" />
     <ClInclude Include="Components\Movable.h" />
     <ClInclude Include="Components\Renderable.h" />
-    <ClInclude Include="EventMgmt\ECharCollision.h" />
     <ClInclude Include="EventMgmt\ECharDeath.h" />
     <ClInclude Include="EventMgmt\ECharSpawn.h" />
+    <ClInclude Include="EventMgmt\EInvaDeath.h" />
     <ClInclude Include="EventMgmt\EObjMovement.h" />
     <ClInclude Include="EventMgmt\EUserInput.h" />
     <ClInclude Include="EventMgmt\Event.h" />
@@ -163,6 +168,12 @@
     <ClInclude Include="EventMgmt\EventManager.h" />
     <ClInclude Include="EventMgmt\util\Variant.h" />
     <ClInclude Include="Networking\Server.h" />
+    <ClInclude Include="Objects\Bullet.h" />
+    <ClInclude Include="Objects\Character.h" />
+    <ClInclude Include="Objects\GameObject.h" />
+    <ClInclude Include="Objects\Invader.h" />
+    <ClInclude Include="Objects\InvaderMatrix.h" />
+    <ClInclude Include="Objects\SpawnPoint.h" />
     <ClInclude Include="Times\GameTime.h" />
     <ClInclude Include="Times\LocalTime.h" />
     <ClInclude Include="Times\Timeline.h" />

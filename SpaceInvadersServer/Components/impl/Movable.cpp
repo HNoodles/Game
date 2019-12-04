@@ -1,96 +1,58 @@
-#include "../../Objects/MovingPlatform.h"
+#include "../../Objects/Invader.h"
+#include "../../Objects/InvaderMatrix.h"
 #include "../../Objects/Character.h"
 
-void Movable::hMove(double elapsed)
+void Movable::cMove(double elapsed)
 {
-	sf::Shape* s = renderable->getShape();
-	Vector2f& size = renderable->getSize();
-	
-	MovingPlatform* platform = dynamic_cast<MovingPlatform*>(gameObject);
-	bool headingPositive = platform->getHeadingPositive();
-	float posBound = platform->getPosBound();
-	float negBound = platform->getNegBound();
-
-	Vector2f pos = s->getPosition();
-
 	// calculate displacement
 	Vector2f dis = Vector2f((float)(velocity.x * elapsed), (float)(velocity.y * elapsed));
 
-	// move object
-	if ((headingPositive && pos.x <= posBound)
-		|| (!headingPositive && pos.x <= negBound))
-	{// heading right, not reaching bound
-	// heading left, reached bound
-		gameObject->getEM()->insertEvent(
-			new EObjMovement(
-				gameObject->getEM()->getCurrentTime(), 
-				gameObject, 
-				pos.x + dis.x, 
-				pos.y + dis.y, 
-				true
-			)
-		);
+	vector<bool> heading = dynamic_cast<Invader*>(gameObject)->getMatrix()->getHeading();
+	if (heading[1])
+	{// go down
+		dis.x = 0;
 	}
-	else if ((headingPositive && pos.x > posBound)
-		|| (!headingPositive && pos.x > negBound))
-	{// heading right, reached bound
-	// heading left, not reaching bound
-		gameObject->getEM()->insertEvent(
-			new EObjMovement(
-				gameObject->getEM()->getCurrentTime(), 
-				gameObject, 
-				pos.x - dis.x, 
-				pos.y - dis.y, 
-				false
-			)
-		);
+	else if (heading[0])
+	{// go right
+		dis.y = 0;
 	}
+	else
+	{// go left
+		dis.x = -dis.x;
+		dis.y = 0;
+	}
+
+	Vector2f pos = renderable->getShape()->getPosition();
+
+	gameObject->getEM()->insertEvent(
+		new EObjMovement(
+			gameObject->getEM()->getCurrentTime(),
+			gameObject,
+			pos.x + dis.x,
+			pos.y + dis.y,
+			false
+		)
+	);
 }
 
-void Movable::vMove(double elapsed)
+void Movable::bMove(double elapsed)
 {
-	sf::Shape* s = renderable->getShape();
-	Vector2f& size = renderable->getSize();
-
-	MovingPlatform* platform = dynamic_cast<MovingPlatform*>(gameObject);
-	bool headingPositive = platform->getHeadingPositive();
-	float posBound = platform->getPosBound();
-	float negBound = platform->getNegBound();
-
-	Vector2f pos = s->getPosition();
-
-	// calculate displacement
+	// calculate total displacement
 	Vector2f dis = Vector2f((float)(velocity.x * elapsed), (float)(velocity.y * elapsed));
+	if (dynamic_cast<Bullet*>(getGameObject())->getHeading() == false) // heading up
+		dis = -dis;
 
-	// move object
-	if ((headingPositive && pos.y <= posBound)
-		|| (!headingPositive && pos.y <= negBound))
-	{// heading down, not reaching bound
-	// heading up, reached bound
-		gameObject->getEM()->insertEvent(
-			new EObjMovement(
-				gameObject->getEM()->getCurrentTime(),
-				gameObject,
-				pos.x + dis.x,
-				pos.y + dis.y,
-				true
-			)
-		);
-	}
-	else if ((headingPositive && pos.y > posBound)
-		|| (!headingPositive && pos.y > negBound))
-	{// heading down, reached bound
-	// heading up, not reaching bound
-		gameObject->getEM()->insertEvent(
-			new EObjMovement(
-				gameObject->getEM()->getCurrentTime(),
-				gameObject,
-				pos.x - dis.x,
-				pos.y - dis.y,
-				false
-			)
-		);
-	}
+	Vector2f pos = renderable->getShape()->getPosition();
+
+	gameObject->getEM()->insertEvent(
+		new EObjMovement(
+			gameObject->getEM()->getCurrentTime(),
+			gameObject,
+			pos.x + dis.x,
+			pos.y + dis.y,
+			false
+		)
+	);
 }
 
 void Movable::iMove(double elapsed)
@@ -107,7 +69,8 @@ void Movable::iMove(double elapsed)
 			gameObject->getEM()->getCurrentTime(), 
 			gameObject, 
 			pos.x + dis.x,
-			pos.y + dis.y
+			pos.y + dis.y, 
+			false
 		)
 	);
 }
@@ -126,11 +89,11 @@ void Movable::work(double elapsed)
 	case Move::STATIC:
 		// do nothing
 		break;
-	case Move::HORIZONTAL:
-		hMove(elapsed);
+	case Move::CLUSTER:
+		cMove(elapsed);
 		break;
-	case Move::VERTICAL:
-		vMove(elapsed);
+	case Move::BULLET:
+		bMove(elapsed);
 		break;
 	case Move::KEYINPUT:
 		iMove(elapsed);

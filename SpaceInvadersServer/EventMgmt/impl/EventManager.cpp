@@ -1,7 +1,7 @@
 #include "../EventManager.h"
 
 EventManager::EventManager(Timeline& gameTime)
-	: gameTime(gameTime), handler(gameTime, this), GVT(gameTime.getTime())
+	: gameTime(gameTime), handler(&gameTime, this), GVT(gameTime.getTime())
 {
 	addQueue(SELF_NAME);
 }

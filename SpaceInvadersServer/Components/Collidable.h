@@ -8,7 +8,7 @@ class SideBoundary;
 class SpawnPoint;
 
 enum class Collision {
-	CHARACTER, PLATFORM, DEATHZONE, SIDEBOUNDARY
+	CHARACTER, INVADER, BULLET
 };
 
 class Collidable : public GenericComponent // in charge of collision related affairs

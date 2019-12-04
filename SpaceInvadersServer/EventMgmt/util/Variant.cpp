@@ -16,6 +16,9 @@ Variant::Variant(Variant_t type, void* value) : type(type), var()
 	case Variant_t::BOOL:
 		var.bool_val = *(bool*)value;
 		break;
+	case Variant_t::REPLAY_PTR:
+		var.replay_ptr = *(Replay**)value;
+		break;
 	default:
 		break;
 	}

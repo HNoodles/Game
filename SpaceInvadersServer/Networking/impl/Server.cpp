@@ -1,7 +1,7 @@
 #include "../Server.h"
 
-Server::Server(EventManager* manager)
-	: context(1), receiver(context, ZMQ_REP), publisher(context, ZMQ_PUB), manager(manager)
+Server::Server(map<string, GameObject*>* objects, EventManager* manager)
+	: context(1), receiver(context, ZMQ_REP), publisher(context, ZMQ_PUB), objects(objects), manager(manager)
 {
 	receiver.bind("tcp://*:5555");
 	cout << "Receiver started, listening for clients on port 5555..." << endl;
@@ -12,15 +12,29 @@ Server::Server(EventManager* manager)
 
 Server::~Server()
 {
-	// release all characters generated
-	for (auto pair : characters)
+	// clear generated objects
+	for (auto& pair : *objects)
+	{
 		delete pair.second;
+	}
+	// clear expired objects
+	for (GameObject* object : expired)
+	{
+		delete object;
+	}
 }
 
 void Server::receiverHandler(GameTime* gameTime)
 {
 	while (true)
 	{
+		// clear expired objects
+		for (GameObject* object : expired)
+		{
+			delete object;
+		}
+		expired.clear();
+
 		// listen from clients
 		string client_string = s_recv(receiver); 
 
@@ -38,10 +52,20 @@ void Server::receiverHandler(GameTime* gameTime)
 			continue;
 		}
 
-		// connecting message: name time
+		// connecting message: name time pos_x pos_y
 		if (result.size() == 2 && result[1] != "D")
 		{
 			connectHandler(result[0], atof(result[1].c_str()));
+			// generate character object
+			objects->insert({
+				result[0], 
+				new Character(
+					result[0], manager,
+					::Shape::DIAMOND, ::Color::BLUE, Vector2f(30.f, 60.f), 
+					Vector2f(atof(result[2].c_str()), atof(result[3].c_str())),
+					Vector2f(100.0f, 0.0f), *gameTime 
+				)
+			});
 			// go to next loop
 			continue;
 		}
@@ -55,7 +79,6 @@ void Server::receiverHandler(GameTime* gameTime)
 		manager->insertGVT((const char* const)result[0][0], atof(result[2].c_str()));
 		lines.erase(lines.begin()); // remove first line
 
-		// SELF_NAME E executeTime ObjID(client_name) X_val Y_val
 		for (string line : lines)
 		{
 			// skip empty lines
@@ -64,26 +87,38 @@ void Server::receiverHandler(GameTime* gameTime)
 
 			Split(line, " ", result);
 
-			// we only care about character infos, whose ObjID has length of 1
-			if (result[3].length() > 1)
+			// BulletID, expired character's bullet
+			if (result.size() == 1)
+			{
+				expired.push_back((*objects)[result[0]]);
+				objects->erase(result[0]);
+				dynamic_cast<Character*>((*objects)["A"])->removeBullet(
+					dynamic_cast<Bullet*>((*objects)[result[3]])
+				);
+				continue;
+			}
+
+			// SELF_NAME E executeTime ObjID X_val Y_val
+			// we only care about character infos and its bullets' infos, whose ObjID begins with A
+			if (result[3].find("A") != 0)
 				continue;
 
-			// new character if is newly connected client
-			auto iter = characters.find(result[3]);
-			// store client into map
-			if (iter == characters.end()) // new client, generate object
+			// new object, store client into map
+			if (objects->count(result[3]) == 0) // new object, generate object
 			{
-				LocalTime local(1, *gameTime);
-
-				characters.insert({
-					result[3],
-					new Character(
-						result[3], manager, 
-						::Shape::DIAMOND, ::Color::BLUE, Vector2f(60.f, 120.f),
-						Vector2f((float)atof(result[4].c_str()), (float)atof(result[5].c_str())), // pos
-						Vector2f(250.0f, 0.0f), local
-					)
-				});
+				if (result[3].find("A") == 0) // new character bullet, insert into character bullet list
+				{
+					objects->insert({
+						result[3],
+						new Bullet(
+							result[3], manager, Vector2f(atof(result[4].c_str()), atof(result[5].c_str())),
+							*gameTime, true
+						)
+					});
+					dynamic_cast<Character*>((*objects)["A"])->insertBullet(
+						dynamic_cast<Bullet*>((*objects)[result[3]])
+					);
+				}
 			}
 			
 			// insert new Event anyway
@@ -91,7 +126,7 @@ void Server::receiverHandler(GameTime* gameTime)
 			manager->insertEvent(
 				new EObjMovement(
 					atof(result[2].c_str()) + connectTimes[result[0]], // add bias time
-					characters.find(result[3])->second,// character
+					objects->find(result[3])->second,// object
 					atof(result[4].c_str()),
 					atof(result[5].c_str())
 				), 
@@ -105,20 +140,35 @@ void Server::receiverHandler(GameTime* gameTime)
 	}
 }
 
-void Server::publisherHandler()
-{	
+void Server::publisherHandler(InvaderMatrix* invaders)
+{		
+	// check if is win
+	if (invaders->getWin())
+	{
+		s_send(publisher, "WIN");
+		return;
+	}
+
 	// start with requested GVT
 	string message = "GVT " + to_string(manager->getGVT()) + "\n";
 
-	// generate disconnection messages
-	mtxDisc.lock();
-	for (string name : disconnecting)
+	// generate expired bullets message, BulletID = B + invaderID + roundnum
+	list<Bullet*>* expired = invaders->getExpiredBullets();
+	for (Bullet* bullet : *expired)
 	{
-		message += "C " + name + " D\n";
+		message += bullet->getId() + "\n";
+		delete bullet;
 	}
-	// empty the list afterwards
-	disconnecting.clear();
-	mtxDisc.unlock();
+	expired->clear();
+
+	// generate killed invader message, InvaderID = I + row + column
+	list<Invader*>* killed = invaders->getKilled();
+	for (Invader* invader : *killed)
+	{
+		message += invader->getId() + "\n";
+		delete invader;
+	}
+	killed->clear();
 
 	// generate events string, SELF_NAME E executeTime ObjID X_val Y_val
 	list<EObjMovement>* newObjMovements = manager->getObjMovements();
@@ -178,15 +228,10 @@ void Server::disconnectHandler(const string& name)
 	manager->getMtxEvt()->unlock();
 	manager->getMtxQueue()->unlock();
 	// remove the character pointer in characters
-	delete characters[name];
-	characters.erase(name);
+	delete (*objects)[name];
+	objects->erase(name);
 	// remove the connect time
 	connectTimes.erase(name);
-
-	// store the disconnected client in the list
-	mtxDisc.lock();
-	disconnecting.emplace_back(name);
-	mtxDisc.unlock();
 
 	// send response back to client
 	s_send(receiver, "Disconnected");

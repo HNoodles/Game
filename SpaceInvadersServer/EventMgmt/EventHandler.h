@@ -1,27 +1,24 @@
 #pragma once
-#include "ECharCollision.h"
 #include "ECharDeath.h"
+#include "EInvaDeath.h"
 #include "ECharSpawn.h"
 #include "EObjMovement.h"
 #include "EUserInput.h"
+
+//#include "../Scripting/ScriptingManager.h"
 
 class EventManager;
 
 class EventHandler
 {
 private:
-	Timeline& gameTime;
+	Timeline* gameTime;
 	EventManager* manager;
-
-	void onCharCollision(ECharCollision e);
-
-	void platformWork(Character* character, MovingPlatform* platform);
-
-	void deathZoneWork(Character* character);
-
-	void sideBoundaryWork(SideBoundary* boundary);
+	//ScriptingManager s_manager;
 
 	void onCharDeath(ECharDeath e);
+
+	void onInvaDeath(EInvaDeath e);
 
 	void onCharSpawn(ECharSpawn e);
 
@@ -29,7 +26,7 @@ private:
 
 	void onUserInput(EUserInput e);
 public:
-	EventHandler(Timeline& gameTime, EventManager* manager);
+	EventHandler(Timeline* gameTime, EventManager* manager);
 
 	void onEvent(const ::Event* e);
 };

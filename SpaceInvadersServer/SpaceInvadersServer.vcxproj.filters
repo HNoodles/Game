@@ -15,22 +15,40 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Components\impl\Collidable.cpp">
+    <ClCompile Include="Networking\impl\Server.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Components\impl\Movable.cpp">
+    <ClCompile Include="Times\impl\GameTime.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Components\impl\Renderable.cpp">
+    <ClCompile Include="Times\impl\LocalTime.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="EventMgmt\impl\ECharCollision.cpp">
+    <ClCompile Include="main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\impl\Bullet.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\impl\Character.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\impl\Invader.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\impl\InvaderMatrix.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\impl\SpawnPoint.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="EventMgmt\impl\ECharDeath.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="EventMgmt\impl\ECharSpawn.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="EventMgmt\impl\EInvaDeath.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="EventMgmt\impl\EObjMovement.cpp">
@@ -45,48 +63,63 @@
     <ClCompile Include="EventMgmt\impl\EventHandler.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="EventMgmt\impl\EventManager.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="EventMgmt\util\Variant.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Networking\impl\Server.cpp">
+    <ClCompile Include="Components\impl\Collidable.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Times\impl\GameTime.cpp">
+    <ClCompile Include="Components\impl\Movable.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Times\impl\LocalTime.cpp">
+    <ClCompile Include="Components\impl\Renderable.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="EventMgmt\impl\EventManager.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Components\Collidable.h">
+    <ClInclude Include="Networking\Server.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Components\GenericComponent.h">
+    <ClInclude Include="Times\GameTime.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Components\Movable.h">
+    <ClInclude Include="Times\LocalTime.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Components\Renderable.h">
+    <ClInclude Include="Times\Timeline.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Bullet.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Character.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\GameObject.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Invader.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\InvaderMatrix.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\SpawnPoint.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="EventMgmt\util\Variant.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="EventMgmt\ECharCollision.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="EventMgmt\ECharDeath.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="EventMgmt\ECharSpawn.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="EventMgmt\EInvaDeath.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="EventMgmt\EObjMovement.h">
@@ -101,19 +134,19 @@
     <ClInclude Include="EventMgmt\EventHandler.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Components\Collidable.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\GenericComponent.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\Movable.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\Renderable.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
     <ClInclude Include="EventMgmt\EventManager.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Networking\Server.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Times\GameTime.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Times\LocalTime.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Times\Timeline.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

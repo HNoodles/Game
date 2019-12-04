@@ -12,6 +12,7 @@
 #include "../EventMgmt/EventManager.h"
 #include "../Times/LocalTime.h"
 #include "../Objects/Character.h"
+#include "../Objects/InvaderMatrix.h"
 
 using namespace std;
 using namespace zmq;
@@ -24,11 +25,12 @@ private:
 	context_t context;
 	socket_t receiver;
 	socket_t publisher;
-	map<string, Character*> characters;
+
+	map<string, GameObject*>* objects;
+	list<GameObject*> expired;
+
 	map<string, double> connectTimes;
 	EventManager* manager;
-	list<string> disconnecting;
-	mutex mtxDisc;
 
 	string s_recv(socket_t& socket);
 
@@ -40,12 +42,12 @@ private:
 
 	void disconnectHandler(const string& name);
 public:
-	Server(EventManager* manager);
+	Server(map<string, GameObject*>* objects, EventManager* manager);
 
 	~Server();
 
 	void receiverHandler(GameTime* gameTime);
 
-	void publisherHandler();
+	void publisherHandler(InvaderMatrix* invaders);
 };
 

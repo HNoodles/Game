@@ -2,12 +2,16 @@
 #include <thread>
 
 #include "Networking/Server.h"
+#include "Objects/InvaderMatrix.h"
+#include "Objects/SpawnPoint.h"
 
 using namespace std;
 using namespace sf;
 
 // define objects
+map<string, GameObject*> objects;
 list<Collidable*> collidableObjects;
+vector<SpawnPoint*> spawnPoints;
 
 GameTime gameTime(1);
 
@@ -18,29 +22,25 @@ int main()
 	thread exeEvent(&EventManager::keepExecutingEvents, &manager);
 	exeEvent.detach();
 
+	// init spawn points
+	SpawnPoint spawnPoint("SP1", &manager, Vector2f(400.f, 500.f));
+	spawnPoints.emplace_back(&spawnPoint);
+
+	// init invaders
+	InvaderMatrix invaders(&manager, 2, 10,
+		Vector2f(10.f, 10.f), Vector2f(300.f, 100.f), 700.f,
+		Vector2f(50.f, 50.f), gameTime
+	);
+
 	// init server
-	Server server(&manager);
+	Server server(&objects, &manager);
+	server.receiverHandler(&gameTime); // wait for client connection
 	thread newThread(&Server::receiverHandler, &server, &gameTime);
 	newThread.detach();
 
-	// init platforms
-	MovingPlatform platform(
-		"MP1", &manager, ::Shape::RECTANGLE, ::Color::GREEN, Vector2f(400.f, 50.f), Vector2f(200.f, 400.f),
-		Vector2f(0.f, 0.f), gameTime, Move::STATIC
-	);
-	collidableObjects.emplace_back(dynamic_cast<Collidable*>(platform.getGC(ComponentType::COLLIDABLE)));
-
-	MovingPlatform movingPlatform(
-		"MP2", &manager, ::Shape::RECTANGLE, ::Color::RED, Vector2f(400.f, 50.f), Vector2f(750.f, 320.f),
-		Vector2f(100.f, 0.f), gameTime, Move::HORIZONTAL, 600.f, 200.f
-	);
-	collidableObjects.emplace_back(dynamic_cast<Collidable*>(movingPlatform.getGC(ComponentType::COLLIDABLE)));
-
-	MovingPlatform verticalPlatform(
-		"MP3", &manager, ::Shape::RECTANGLE, ::Color::RED, Vector2f(300.f, 50.f), Vector2f(1250.f, 220.f),
-		Vector2f(0.f, 50.f), gameTime, Move::VERTICAL, 200.f, 50.f
-	);
-	collidableObjects.emplace_back(dynamic_cast<Collidable*>(verticalPlatform.getGC(ComponentType::COLLIDABLE)));
+	// get character connected
+	Character* character = dynamic_cast<Character*>(objects["A"]);
+	character->setSpawnPoints(&spawnPoints);
 
 	// timer
 	double elapsed, thisTime, lastTime = gameTime.getTime();
@@ -51,20 +51,39 @@ int main()
 		thisTime = gameTime.getTime();
 		elapsed = thisTime - lastTime;
 
-		// move all moving platforms
 		manager.getMtxQueue()->lock();
-		for (Collidable* moving : collidableObjects)
+
+		// detect character collision, with invader, with invaders' bullet
+		list<Collidable*> invadersList = invaders.getInvaderCList();
+		dynamic_cast<Collidable*>(
+			character->getGC(ComponentType::COLLIDABLE)
+			)->work(invadersList, elapsed);
+
+		list<Collidable*> inBulletsList = invaders.getBulletsCList();
+		dynamic_cast<Collidable*>(
+			character->getGC(ComponentType::COLLIDABLE)
+			)->work(inBulletsList, elapsed);
+
+		// detect invader collision, with character's bullet
+		list<Collidable*> chBulletsList = character->getBulletsCList();
+		for (Collidable* invader : invadersList)
 		{
-			dynamic_cast<Movable*>(moving->getMovable())->work(elapsed);
+			invader->work(chBulletsList, elapsed);
 		}
+
+		// update GVT and execute events
 		manager.executeEvents();
+
+		// move invaders
+		invaders.move(elapsed);
+
 		manager.getMtxQueue()->unlock();
 
 		// refresh time
 		lastTime = thisTime;
 
 		// publish messages
-		server.publisherHandler();
+		server.publisherHandler(&invaders);
 
 		// sleep for 16ms to avoid too frequent publish
 		Sleep(16);
