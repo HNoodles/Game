@@ -26,7 +26,6 @@ void Collidable::work(list<Collidable*>& objects, double elapsed) // only charac
 						dynamic_cast<Character*>(gameObject)
 					)
 				);
-				//cout << "You died! Respawning..." << endl;
 			}
 			else // is invader
 			{// collides with bullet, die

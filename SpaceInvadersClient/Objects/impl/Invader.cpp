@@ -38,5 +38,5 @@ Bullet* Invader::fire(int roundCount)
 	
 	Timeline& timeline = dynamic_cast<Movable*>(getGC(ComponentType::MOVABLE))->getTimeline();
 
-	return new Bullet(getId() + to_string(roundCount), getEM(), bulletPos, timeline, true);
+	return new Bullet("B" + getId() + to_string(roundCount), getEM(), bulletPos, timeline, true);
 }

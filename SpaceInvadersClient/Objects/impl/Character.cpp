@@ -71,11 +71,6 @@ void Character::handleKeyInput()
 void Character::fire(double currentTime)
 {
 	// check and remove expired bullets
-	for (Bullet* bullet : expired)
-	{
-		delete bullet;
-	}
-	expired.clear();
 	for (auto iter = bullets.begin(); iter != bullets.end(); )
 	{
 		Vector2f pos = dynamic_cast<Renderable*>((*iter)->getGC(ComponentType::RENDERABLE))

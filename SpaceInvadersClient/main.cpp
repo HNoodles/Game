@@ -57,7 +57,6 @@ int main()
 		dynamic_cast<Renderable*>(spawnPoint.getGC(ComponentType::RENDERABLE))->getShape()->getPosition(),
 		Vector2f(100.0f, 0.0f), gameTime, &spawnPoints
 	);
-	objects.insert({ character.getId(), &character });
 
 	//// init client
 	//Client client(&objects, &manager);

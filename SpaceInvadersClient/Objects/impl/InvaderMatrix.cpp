@@ -98,7 +98,7 @@ InvaderMatrix::InvaderMatrix(EventManager* manager, int row, int column,
 			Vector2f pos = Vector2f(topleft.x + j * step_size.x, topleft.y + i * step_size.y);
 
 			row.push_back(
-				new Invader(to_string(i) + to_string(j), manager, pos, velocity, timeline, this)
+				new Invader("I" + to_string(i) + to_string(j), manager, pos, velocity, timeline, this)
 			);
 		}
 		invaders.push_back(row);
@@ -182,8 +182,8 @@ void InvaderMatrix::kill(Invader* invader)
 {
 	// locate invader
 	string id = invader->getId();
-	int row = atoi(id.substr(0, 1).c_str());
-	int column = atoi(id.substr(1, 1).c_str());
+	int row = atoi(id.substr(1, 1).c_str());
+	int column = atoi(id.substr(2, 1).c_str());
 
 	// remove from matrix
 	invaders[row].erase(find(invaders[row].begin(), invaders[row].end(), invader));

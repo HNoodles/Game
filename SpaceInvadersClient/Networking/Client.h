@@ -24,6 +24,8 @@ private:
 	double connectedTime;
 	EventManager* manager;
 
+	list<GameObject*> expired;
+
 	string s_recv(socket_t& socket);
 
 	void s_send(socket_t& socket, const string& string);
@@ -34,7 +36,7 @@ public:
 
 	void connect();
 
-	void sendHandler();
+	void sendHandler(Character* character);
 
 	void subscribeHandler(GameTime* gameTime);
 

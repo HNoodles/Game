@@ -74,4 +74,9 @@ public:
 
 		return list;
 	}
+
+	list<Bullet*>* getExpiredBullets()
+	{
+		return &expired;
+	}
 };

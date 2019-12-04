@@ -1,4 +1,5 @@
 #include "../Client.h"
+#include "../../Objects/Invader.h"
 
 Client::Client(map<string, GameObject*>* objects, EventManager* manager)
 	: context(1), sender(context, ZMQ_REQ), subscriber(context, ZMQ_SUB), 
@@ -27,7 +28,7 @@ void Client::connect()
 	cout << "Connected to server" << endl;
 }
 
-void Client::sendHandler()
+void Client::sendHandler(Character* character)
 {
 	if (!connected) // don't send if disconnected
 		return;
@@ -35,14 +36,24 @@ void Client::sendHandler()
 	// first, name GVT double 
 	string message = SELF_NAME + (string)" GVT " + to_string(manager->getRequestGVT() + connectedTime) + "\n";
 
+	// generate expired bullets message, BulletID = SELFNAME + ROUNDNUM
+	list<Bullet*>* expired = character->getExpiredBullets();
+	for (Bullet* bullet : *expired)
+	{
+		message += bullet->getId() + "\n";
+		delete bullet;
+	}
+	expired->clear();
+
 	// generate events string, SELF_NAME E executeTime ObjID X_val Y_val
 	list<EObjMovement>* newObjMovements = manager->getObjMovements();
 	manager->getMtxEvt()->lock();
 	for (EObjMovement e : *newObjMovements)
 	{
-		// only send this character movement event
-		if (e.getObject()->getId() == SELF_NAME)
-			message += SELF_NAME + (string)" " + e.toString();
+		string id = e.getObject()->getId();
+		// only send this character movement event and character's bullets movement
+		if (id.find(SELF_NAME) == 0)
+			message += id + (string)" " + e.toString();
 	}
 	newObjMovements->clear();
 	manager->getMtxEvt()->unlock();
@@ -58,6 +69,13 @@ void Client::subscribeHandler(GameTime* gameTime)
 {
 	while (connected)
 	{
+		// clear expired objects
+		for (GameObject* object : expired)
+		{
+			delete object;
+		}
+		expired.clear();
+
 		string message = s_recv(subscriber);
 
 		// split into lines
@@ -82,53 +100,50 @@ void Client::subscribeHandler(GameTime* gameTime)
 			vector<string> infos;
 			Split(line, " ", infos);
 
-			if (infos[0] == "C" && infos[2] == "D") // C name D, client disconnected
+			// ObjID, move expired object to expired list
+			if (infos.size() == 1)
 			{
-				if (infos[1] == SELF_NAME) // skip self disconnect message
-				{
-					continue;
-				}
-				// remove relative things in manager
-				lock_guard<mutex> guard(*manager->getMtxQueue());
-				manager->removeQueue((const char*)infos[1][0]);
-				manager->removeGVT((const char*)infos[1][0]);
-				// remove character pointer
-				delete (*objects)[infos[1]];
-				objects->erase(infos[1]);
-
-				cout << "Client " << infos[1] << " disconnected" << endl;
+				expired.push_back((*objects)[infos[0]]);
+				objects->erase(infos[0]);
 				continue;
 			}
 
 			// SELF_NAME E executeTime ObjID X_val Y_val Positive
-			if (infos[3] == SELF_NAME) // skips events of self
+			if (infos[3].find(SELF_NAME) == 0) // skips events of self
 				continue;
 			
-			// new object if is new object (newly connected client)
-			// store client into map
-			if (objects->count(infos[3]) == 0) // new client, generate object
+			if (objects->count(infos[3]) == 0) // new game object
 			{
-				LocalTime local(1, *gameTime);
-
-				objects->insert({
-					infos[3],
-					new Character(
-						infos[3], manager,
-						::Shape::DIAMOND, ::Color::BLUE, Vector2f(60.f, 120.f),
-						Vector2f((float)atof(infos[4].c_str()), (float)atof(infos[5].c_str())), // pos
-						Vector2f(250.0f, 0.0f), local
-					)
-				});
-
-				cout << "New client " + infos[3] << endl;
+				if (infos[3].find("I") == 0) // new invader
+				{
+					objects->insert({
+						infos[3], 
+						new Invader(
+							infos[3], manager, Vector2f(atof(infos[4].c_str()), atof(infos[5].c_str())), 
+							Vector2f(50.f, 50.f), *gameTime, nullptr
+						)
+					});
+				}
+				else if (infos[3].find("B") == 0) // new invader bullet
+				{
+					objects->insert({
+						infos[3],
+						new Bullet(
+							infos[3], manager, Vector2f(atof(infos[4].c_str()), atof(infos[5].c_str())),
+							*gameTime, true
+						)
+					});
+				}
 			}
-
-			// insert new Event anyway
+			
+			// insert new Event if object still exists
 			lock_guard<mutex> guard(*manager->getMtxQueue());
+			if (objects->count(infos[3]) == 0)
+				continue;
 			manager->insertEvent(
 				new EObjMovement(
 					atof(infos[2].c_str()) - connectedTime, // add time bias
-					objects->find(infos[3])->second,// character
+					objects->find(infos[3])->second,// object
 					atof(infos[4].c_str()),
 					atof(infos[5].c_str()), 
 					infos[6] == "1"
