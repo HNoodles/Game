@@ -222,9 +222,9 @@ void Server::disconnectHandler(const string& name)
 	}
 	manager->getMtxEvt()->unlock();
 	manager->getMtxQueue()->unlock();
-	// remove the character pointer in characters
-	delete (*objects)[name];
-	objects->erase(name);
+	//// remove the character pointer in characters
+	//delete (*objects)[name];
+	//objects->erase(name);
 	// remove the connect time
 	connectTimes.erase(name);
 

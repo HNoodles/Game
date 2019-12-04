@@ -166,8 +166,11 @@ int main()
 			break;
 	}
 
-	cout << "Congratulations! You win! " << endl;
-	system("pause");
+	if (client.getWin()) // won
+	{
+		cout << "Congratulations! You win! " << endl;
+		system("pause");
+	}
 
 	return 0;
 }
