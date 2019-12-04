@@ -8,7 +8,7 @@ Collidable::Collidable(GameObject* gameObject, ::Collision collision, Renderable
 
 void Collidable::work(list<Collidable*>& objects, double elapsed) // only character and invader would call this func
 {
-	bool isCharacter = gameObject->getId().find(SELF_NAME) == 0;
+	bool isCharacter = dynamic_cast<Character*>(gameObject) != nullptr;
 
 	for (Collidable* object : objects)
 	{

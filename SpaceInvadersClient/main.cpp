@@ -51,18 +51,19 @@ int main()
 	//);
 
 	// init character
-	Character character(
+	Character* character = new Character(
 		SELF_NAME, &manager, 
 		::Shape::DIAMOND, ::Color::BLUE, Vector2f(30.f, 60.f), 
 		dynamic_cast<Renderable*>(spawnPoint.getGC(ComponentType::RENDERABLE))->getShape()->getPosition(),
 		Vector2f(100.0f, 0.0f), gameTime, &spawnPoints
 	);
+	objects.insert({ SELF_NAME, character });
 
 	// init client
 	Client client(&objects, &manager);
 
 	// send message to notify server this new client
-	client.connect(&character);
+	client.connect(character);
 
 	// update platform and other character infos from server
 	thread newThread(&Client::subscribeHandler, &client, &gameTime);
@@ -117,21 +118,21 @@ int main()
 		if (window.hasFocus())
 		{
 			// move character, fire
-			character.handleKeyInput();
+			character->handleKeyInput();
 		}
 
 		// update GVT and execute events
 		manager.executeEvents();
 
 		// update character position
-		character.move(elapsed);
+		character->move(elapsed);
 		//// move invaders
 		//invaders.move(elapsed);
 
 		manager.getMtxQueue()->unlock();
 
-		//// send message to notify server the update of this client
-		//client.sendHandler();
+		// send message to notify server the update of this client
+		client.sendHandler(character);
 
 		// clear the window with the chosen color
 		window.clear(sf::Color::White);
@@ -139,7 +140,7 @@ int main()
 		// draw the objects needed
 		manager.getMtxQueue()->lock();
 		//list<Renderable*> iRenders = invaders.getRList();
-		list<Renderable*> cRenders = character.getRList();
+		list<Renderable*> cRenders = character->getRList();
 		// refresh
 		renders.clear();
 		//renders.insert(renders.end(), iRenders.begin(), iRenders.end());

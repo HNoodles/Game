@@ -97,7 +97,7 @@ public:
 		}
 
 		// store the event for publishing if is object movement event
-		if (e->getType() == ::Event_t::OBJ_MOVEMENT)
+		if (client_name == SELF_NAME && e->getType() == ::Event_t::OBJ_MOVEMENT)
 		{
 			mtxEvt.lock();
 			objMovements.push_back(*(EObjMovement*)e);

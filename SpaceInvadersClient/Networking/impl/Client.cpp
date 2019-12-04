@@ -103,9 +103,9 @@ void Client::subscribeHandler(GameTime* gameTime)
 		vector<string> lines;
 		Split(message, "\n", lines);
 
-		//cout << message << endl;
+		cout << message << endl;
 
-		if (lines[0] == "WIN") // win
+		if (lines[0] == "GVTWIN") // win
 		{
 			win = true;
 			break;
@@ -136,8 +136,8 @@ void Client::subscribeHandler(GameTime* gameTime)
 			}
 
 			// SELF_NAME E executeTime ObjID X_val Y_val Positive
-			if (infos[3].find(SELF_NAME) == 0) // skips events of self
-				continue;
+			//if (infos[3].find(SELF_NAME) == 0) // skips events of self
+			//	continue;
 			
 			if (objects->count(infos[3]) == 0) // new game object
 			{
@@ -146,7 +146,7 @@ void Client::subscribeHandler(GameTime* gameTime)
 					objects->insert({
 						infos[3], 
 						new Invader(
-							infos[3], manager, Vector2f(atof(infos[4].c_str()), atof(infos[5].c_str())), 
+							infos[3], manager, Vector2f((float)atof(infos[4].c_str()), (float)atof(infos[5].c_str())),
 							Vector2f(50.f, 50.f), *gameTime, nullptr
 						)
 					});
@@ -156,7 +156,7 @@ void Client::subscribeHandler(GameTime* gameTime)
 					objects->insert({
 						infos[3],
 						new Bullet(
-							infos[3], manager, Vector2f(atof(infos[4].c_str()), atof(infos[5].c_str())),
+							infos[3], manager, Vector2f((float)atof(infos[4].c_str()), (float)atof(infos[5].c_str())),
 							*gameTime, true
 						)
 					});

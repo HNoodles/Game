@@ -1,0 +1,16 @@
+﻿  Collidable.cpp
+  Movable.cpp
+  EObjMovement.cpp
+  EventHandler.cpp
+  EventManager.cpp
+  Variant.cpp
+  Server.cpp
+  Bullet.cpp
+  Character.cpp
+  Invader.cpp
+  InvaderMatrix.cpp
+  SpawnPoint.cpp
+  main.cpp
+  正在生成代码...
+D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework5\SpaceInvadersServer\Objects\impl\Character.cpp(95,17): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+  SpaceInvadersServer.vcxproj -> D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework5\Debug\SpaceInvadersServer.exe

@@ -28,12 +28,12 @@ void Server::receiverHandler(GameTime* gameTime)
 {
 	while (true)
 	{
-		// clear expired objects
-		for (GameObject* object : expired)
-		{
-			delete object;
-		}
-		expired.clear();
+		//// clear expired objects
+		//for (GameObject* object : expired)
+		//{
+		//	delete object;
+		//}
+		//expired.clear();
 
 		// listen from clients
 		string client_string = s_recv(receiver); 
@@ -53,7 +53,7 @@ void Server::receiverHandler(GameTime* gameTime)
 		}
 
 		// connecting message: name time pos_x pos_y
-		if (result.size() == 2 && result[1] != "D")
+		if (result.size() == 4 && result[1] != "D")
 		{
 			connectHandler(result[0], atof(result[1].c_str()));
 			// generate character object
@@ -62,12 +62,12 @@ void Server::receiverHandler(GameTime* gameTime)
 				new Character(
 					result[0], manager,
 					::Shape::DIAMOND, ::Color::BLUE, Vector2f(30.f, 60.f), 
-					Vector2f(atof(result[2].c_str()), atof(result[3].c_str())),
+					Vector2f((float)atof(result[2].c_str()), (float)atof(result[3].c_str())),
 					Vector2f(100.0f, 0.0f), *gameTime 
 				)
 			});
 			// go to next loop
-			continue;
+			break;
 		}
 
 		// split into lines
@@ -111,8 +111,8 @@ void Server::receiverHandler(GameTime* gameTime)
 					objects->insert({
 						result[3],
 						new Bullet(
-							result[3], manager, Vector2f(atof(result[4].c_str()), atof(result[5].c_str())),
-							*gameTime, true
+							result[3], manager, Vector2f((float)atof(result[4].c_str()), (float)atof(result[5].c_str())),
+							*gameTime, false
 						)
 					});
 					dynamic_cast<Character*>((*objects)["A"])->insertBullet(
@@ -145,7 +145,7 @@ void Server::publisherHandler(InvaderMatrix* invaders)
 	// check if is win
 	if (invaders->getWin())
 	{
-		s_send(publisher, "WIN");
+		s_send(publisher, "GVTWIN");
 		return;
 	}
 
@@ -157,7 +157,8 @@ void Server::publisherHandler(InvaderMatrix* invaders)
 	for (Bullet* bullet : *expired)
 	{
 		message += bullet->getId() + "\n";
-		delete bullet;
+		//delete bullet;
+		this->expired.push_back(bullet);
 	}
 	expired->clear();
 
@@ -166,7 +167,8 @@ void Server::publisherHandler(InvaderMatrix* invaders)
 	for (Invader* invader : *killed)
 	{
 		message += invader->getId() + "\n";
-		delete invader;
+		//delete invader;
+		this->expired.push_back(invader);
 	}
 	killed->clear();
 
@@ -180,7 +182,7 @@ void Server::publisherHandler(InvaderMatrix* invaders)
 	newObjMovements->clear();
 	manager->getMtxEvt()->unlock();
 
-	//cout << message << endl;
+	cout << message << endl;
 
 	// send message
 	s_send(publisher, message);

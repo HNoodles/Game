@@ -120,7 +120,7 @@ public:
 		}
 
 		// store the event for publishing if is object movement event
-		if (e->getType() == ::Event_t::OBJ_MOVEMENT)
+		if (client_name == SELF_NAME && e->getType() == ::Event_t::OBJ_MOVEMENT)
 		{
 			// only store self movement events for networking
 			if (client_name == SELF_NAME)
