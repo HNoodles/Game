@@ -86,7 +86,7 @@ InvaderMatrix::InvaderMatrix(EventManager* manager, int row, int column,
 	Vector2f topleft, Vector2f range, float moveRange, 
 	Vector2f velocity, Timeline& timeline) : 
 	leftBound(topleft.x), rightBound(topleft.x + moveRange), 
-	timeCount(0), roundCount(0), heading({true, false}), win(false)
+	timeCount(0), bulletCount(1), heading({true, false}), win(false)
 {
 	Vector2f step_size = Vector2f(range.x / column, range.y / row);
 
@@ -153,7 +153,6 @@ void InvaderMatrix::move(double elapsed)
 
 	// time count >= time step, move, reset time count
 	timeCount -= TIME_STEP;
-	roundCount++;
 
 	// check if is winning
 	win = checkWin();
@@ -205,7 +204,7 @@ void InvaderMatrix::fire()
 	// create new bullets
 	for (Invader* invader : firing)
 	{
-		bullets.push_back(invader->fire(roundCount));
+		bullets.push_back(invader->fire(bulletCount++));
 	}
 
 	for (auto iter = bullets.begin(); iter != bullets.end(); )

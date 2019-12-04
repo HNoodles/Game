@@ -1,2 +1,9 @@
-﻿  main.cpp
+﻿  Collidable.cpp
+  Movable.cpp
+  EventHandler.cpp
+  Client.cpp
+  Invader.cpp
+  InvaderMatrix.cpp
+  main.cpp
+  正在生成代码...
   SpaceInvadersClient.vcxproj -> D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework5\Debug\SpaceInvadersClient.exe

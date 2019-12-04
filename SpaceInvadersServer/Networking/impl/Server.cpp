@@ -28,13 +28,6 @@ void Server::receiverHandler(GameTime* gameTime)
 {
 	while (true)
 	{
-		//// clear expired objects
-		//for (GameObject* object : expired)
-		//{
-		//	delete object;
-		//}
-		//expired.clear();
-
 		// listen from clients
 		string client_string = s_recv(receiver); 
 
@@ -91,10 +84,10 @@ void Server::receiverHandler(GameTime* gameTime)
 			if (result.size() == 1)
 			{
 				expired.push_back((*objects)[result[0]]);
-				objects->erase(result[0]);
 				dynamic_cast<Character*>((*objects)["A"])->removeBullet(
-					dynamic_cast<Bullet*>((*objects)[result[3]])
+					dynamic_cast<Bullet*>((*objects)[result[0]])
 				);
+				objects->erase(result[0]);
 				continue;
 			}
 
@@ -182,7 +175,7 @@ void Server::publisherHandler(InvaderMatrix* invaders)
 	newObjMovements->clear();
 	manager->getMtxEvt()->unlock();
 
-	cout << message << endl;
+	//cout << message << endl;
 
 	// send message
 	s_send(publisher, message);

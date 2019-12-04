@@ -14,7 +14,7 @@ public:
 		Vector2f pos, Vector2f velocity, Timeline& timeline, InvaderMatrix* matrix
 	);
 
-	Bullet* fire(int roundCount);
+	Bullet* fire(int bulletCount);
 
 	InvaderMatrix* getMatrix()
 	{

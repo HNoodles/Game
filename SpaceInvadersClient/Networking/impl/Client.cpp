@@ -90,20 +90,13 @@ void Client::subscribeHandler(GameTime* gameTime)
 {
 	while (connected)
 	{
-		// clear expired objects
-		for (GameObject* object : expired)
-		{
-			delete object;
-		}
-		expired.clear();
-
 		string message = s_recv(subscriber);
 
 		// split into lines
 		vector<string> lines;
 		Split(message, "\n", lines);
 
-		cout << message << endl;
+		//cout << message << endl;
 
 		if (lines[0] == "GVTWIN") // win
 		{

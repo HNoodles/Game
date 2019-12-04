@@ -11,7 +11,7 @@ private:
 
 	float leftBound, rightBound;
 	double timeCount;
-	int roundCount;
+	int bulletCount;
 	vector<bool> heading;// left or right, down or not
 
 	const double MOVE_STEP = 2.0f, TIME_STEP = 1.0f;

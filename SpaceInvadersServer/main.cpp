@@ -27,7 +27,7 @@ int main()
 	spawnPoints.emplace_back(&spawnPoint);
 
 	// init invaders
-	InvaderMatrix invaders(&manager, 2, 10,
+	InvaderMatrix invaders(&manager, 2, 4,
 		Vector2f(10.f, 10.f), Vector2f(300.f, 100.f), 700.f,
 		Vector2f(50.f, 50.f), gameTime
 	);
