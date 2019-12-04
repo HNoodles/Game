@@ -3,7 +3,7 @@
 
 Client::Client(map<string, GameObject*>* objects, EventManager* manager)
 	: context(1), sender(context, ZMQ_REQ), subscriber(context, ZMQ_SUB), 
-	objects(objects), connected(false), connectedTime(0), manager(manager)
+	objects(objects), connected(false), connectedTime(0), manager(manager), win(false)
 {
 	sender.connect("tcp://localhost:5555");
 	cout << "Connecting to server on port 5555..." << endl;
@@ -13,11 +13,32 @@ Client::Client(map<string, GameObject*>* objects, EventManager* manager)
 	cout << "Subscribing to server on port 5556..." << endl;
 }
 
-void Client::connect()
+Client::~Client()
+{
+	// clear generated objects
+	for (auto& pair : *objects)
+	{
+		delete pair.second;
+	}
+	// clear expired objects
+	for (GameObject* object : expired)
+	{
+		delete object;
+	}
+}
+
+void Client::connect(Character* character)
 {
 	// try to connect to server
-	// SELF_NAME time
-	s_send(sender, SELF_NAME + (string)" " + to_string(manager->getCurrentTime()));
+	Vector2f pos = dynamic_cast<Renderable*>(character->getGC(ComponentType::RENDERABLE))
+		->getShape()->getPosition();
+
+	// SELF_NAME time pos_x pos_y
+	s_send(
+		sender, 
+		SELF_NAME + (string)" " + to_string(manager->getCurrentTime()) + " " + 
+		to_string(pos.x) + " " + to_string(pos.y)
+	);
 
 	// receive and set connected time
 	string response = s_recv(sender);
@@ -83,6 +104,12 @@ void Client::subscribeHandler(GameTime* gameTime)
 		Split(message, "\n", lines);
 
 		//cout << message << endl;
+
+		if (lines[0] == "WIN") // win
+		{
+			win = true;
+			break;
+		}
 
 		// first line is GVT
 		vector<string> infos;

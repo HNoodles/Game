@@ -79,4 +79,9 @@ public:
 	{
 		return &expired;
 	}
+
+	void setSpawnPoints(vector<SpawnPoint*>* spawnPoints)
+	{
+		this->spawnPoints = spawnPoints;
+	}
 };

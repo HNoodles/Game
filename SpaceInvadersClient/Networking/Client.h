@@ -19,12 +19,15 @@ private:
 	context_t context;
 	socket_t sender;
 	socket_t subscriber;
+
 	map<string, GameObject*>* objects;
+	list<GameObject*> expired;
+
 	bool connected;
 	double connectedTime;
 	EventManager* manager;
 
-	list<GameObject*> expired;
+	bool win;
 
 	string s_recv(socket_t& socket);
 
@@ -34,12 +37,19 @@ private:
 public:
 	Client(map<string, GameObject*>* objects, EventManager* manager);
 
-	void connect();
+	~Client();
+
+	void connect(Character* character);
 
 	void sendHandler(Character* character);
 
 	void subscribeHandler(GameTime* gameTime);
 
 	void disconnect(bool forReplay = false);
+
+	bool getWin() const
+	{
+		return win;
+	}
 };
 

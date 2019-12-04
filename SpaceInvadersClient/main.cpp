@@ -44,11 +44,11 @@ int main()
 	SpawnPoint spawnPoint("SP1", &manager, Vector2f(400.f, 500.f));
 	spawnPoints.emplace_back(&spawnPoint);
 
-	// init invaders
-	InvaderMatrix invaders(&manager, 2, 10, 
-		Vector2f(10.f, 10.f), Vector2f(300.f, 100.f), 700.f, 
-		Vector2f(50.f, 50.f), gameTime
-	);
+	//// init invaders
+	//InvaderMatrix invaders(&manager, 2, 10, 
+	//	Vector2f(10.f, 10.f), Vector2f(300.f, 100.f), 700.f, 
+	//	Vector2f(50.f, 50.f), gameTime
+	//);
 
 	// init character
 	Character character(
@@ -58,15 +58,15 @@ int main()
 		Vector2f(100.0f, 0.0f), gameTime, &spawnPoints
 	);
 
-	//// init client
-	//Client client(&objects, &manager);
+	// init client
+	Client client(&objects, &manager);
 
-	//// send message to notify server this new client
-	//client.connect();
+	// send message to notify server this new client
+	client.connect(&character);
 
-	//// update platform and other character infos from server
-	//thread newThread(&Client::subscribeHandler, &client, &gameTime);
-	//newThread.detach();
+	// update platform and other character infos from server
+	thread newThread(&Client::subscribeHandler, &client, &gameTime);
+	newThread.detach();
 
 	// timer
 	double elapsed, thisTime, lastTime = gameTime.getTime();
@@ -81,8 +81,8 @@ int main()
 		// only handle key events when window is focused
 		if (window.hasFocus())
 		{
-			//// deal with events
-			//handleWindowEvent(window, &client);
+			// deal with events
+			handleWindowEvent(window, &client);
 
 			// handle scaling option
 			handleScalingOption(window);
@@ -93,26 +93,26 @@ int main()
 
 		manager.getMtxQueue()->lock();
 
-		// detect character collision, with invader, with invaders' bullet
-		list<Collidable*> invadersList = invaders.getInvaderCList();
-		dynamic_cast<Collidable*>(
-			character.getGC(ComponentType::COLLIDABLE)
-		)->work(invadersList, elapsed);
+		//// detect character collision, with invader, with invaders' bullet
+		//list<Collidable*> invadersList = invaders.getInvaderCList();
+		//dynamic_cast<Collidable*>(
+		//	character.getGC(ComponentType::COLLIDABLE)
+		//)->work(invadersList, elapsed);
 
-		list<Collidable*> inBulletsList = invaders.getBulletsCList();
-		dynamic_cast<Collidable*>(
-			character.getGC(ComponentType::COLLIDABLE)
-		)->work(inBulletsList, elapsed);
+		//list<Collidable*> inBulletsList = invaders.getBulletsCList();
+		//dynamic_cast<Collidable*>(
+		//	character.getGC(ComponentType::COLLIDABLE)
+		//)->work(inBulletsList, elapsed);
 
-		// detect invader collision, with character's bullet
-		list<Collidable*> chBulletsList = character.getBulletsCList();
-		for (Collidable* invader : invadersList)
-		{
-			invader->work(chBulletsList, elapsed);
-		}
+		//// detect invader collision, with character's bullet
+		//list<Collidable*> chBulletsList = character.getBulletsCList();
+		//for (Collidable* invader : invadersList)
+		//{
+		//	invader->work(chBulletsList, elapsed);
+		//}
 
-		// update GVT and execute events
-		manager.executeEvents();
+		//// update GVT and execute events
+		//manager.executeEvents();
 
 		if (window.hasFocus())
 		{
@@ -125,8 +125,9 @@ int main()
 
 		// update character position
 		character.move(elapsed);
-		// move invaders
-		invaders.move(elapsed);
+		//// move invaders
+		//invaders.move(elapsed);
+
 		manager.getMtxQueue()->unlock();
 
 		//// send message to notify server the update of this client
@@ -137,12 +138,16 @@ int main()
 
 		// draw the objects needed
 		manager.getMtxQueue()->lock();
-		list<Renderable*> iRenders = invaders.getRList();
+		//list<Renderable*> iRenders = invaders.getRList();
 		list<Renderable*> cRenders = character.getRList();
 		// refresh
 		renders.clear();
-		renders.insert(renders.end(), iRenders.begin(), iRenders.end());
+		//renders.insert(renders.end(), iRenders.begin(), iRenders.end());
 		renders.insert(renders.end(), cRenders.begin(), cRenders.end());
+		for (auto& pair : objects)
+		{
+			renders.push_back(dynamic_cast<Renderable*>(pair.second->getGC(ComponentType::RENDERABLE)));
+		}
 
 		for (Renderable* render : renders) 
 		{
@@ -156,7 +161,7 @@ int main()
 
 		lastTime = thisTime;
 
-		if (invaders.getWin()) // won
+		if (client.getWin()) // won
 			break;
 	}
 
