@@ -16,13 +16,10 @@ using namespace sf;
 void initWindow(Window& window);
 void handleScalingOption(RenderWindow& window);
 void handleGameInstruction(double& thisTime, EventManager* manager, Replay* replay);
-//void loadTextureFromFile(Texture& texture, string file_name);
-//void loadTextures();
 void handleWindowEvent(RenderWindow& window, Client* client);
 void handleReplayInstruction(Replay* replay, mutex* mtxQueue);
 
 // define objects
-//map<string, Texture> textures;
 map<string, GameObject*> objects;
 list<Collidable*> collidableObjects;
 vector<SpawnPoint*> spawnPoints;
@@ -44,9 +41,6 @@ int main()
 	// declare and init window
 	RenderWindow window;
 	initWindow(window);
-	
-	//// load textures
-	//loadTextures();
 
 	// init replay system
 	Replay replay(&gameTime);
@@ -329,25 +323,6 @@ void handleGameInstruction(double & thisTime, EventManager* manager, Replay* rep
 		manager->insertEvent(new EEndREC(gameTime.getTime(), replay));
 	}
 }
-
-//void loadTextureFromFile(Texture& texture, std::string file_name)
-//{
-//	if (!texture.loadFromFile(file_name))
-//	{// fail to load
-//		cout << "load texture failed" << endl;
-//	}
-//}
-//
-//void loadTextures()
-//{
-//	Texture grass, hero;
-//
-//	loadTextureFromFile(grass, "Images/space.png");
-//	loadTextureFromFile(hero, "Images/hero.png");
-//	
-//	textures.insert(pair<string, Texture>("grass", grass));
-//	textures.insert(pair<string, Texture>("hero", hero));
-//}
 
 void handleWindowEvent(RenderWindow& window, Client* client) {
 	// track all the window's events that were triggered since the last iteration

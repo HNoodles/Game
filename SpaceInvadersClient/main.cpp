@@ -44,12 +44,6 @@ int main()
 	SpawnPoint spawnPoint("SP1", &manager, Vector2f(400.f, 500.f));
 	spawnPoints.emplace_back(&spawnPoint);
 
-	//// init invaders
-	//InvaderMatrix invaders(&manager, 2, 10, 
-	//	Vector2f(10.f, 10.f), Vector2f(300.f, 100.f), 700.f, 
-	//	Vector2f(50.f, 50.f), gameTime
-	//);
-
 	// init character
 	Character* character = new Character(
 		SELF_NAME, &manager, 
@@ -94,27 +88,6 @@ int main()
 
 		manager.getMtxQueue()->lock();
 
-		//// detect character collision, with invader, with invaders' bullet
-		//list<Collidable*> invadersList = invaders.getInvaderCList();
-		//dynamic_cast<Collidable*>(
-		//	character.getGC(ComponentType::COLLIDABLE)
-		//)->work(invadersList, elapsed);
-
-		//list<Collidable*> inBulletsList = invaders.getBulletsCList();
-		//dynamic_cast<Collidable*>(
-		//	character.getGC(ComponentType::COLLIDABLE)
-		//)->work(inBulletsList, elapsed);
-
-		//// detect invader collision, with character's bullet
-		//list<Collidable*> chBulletsList = character.getBulletsCList();
-		//for (Collidable* invader : invadersList)
-		//{
-		//	invader->work(chBulletsList, elapsed);
-		//}
-
-		//// update GVT and execute events
-		//manager.executeEvents();
-
 		if (window.hasFocus())
 		{
 			// move character, fire
@@ -126,8 +99,6 @@ int main()
 
 		// update character position
 		character->move(elapsed);
-		//// move invaders
-		//invaders.move(elapsed);
 
 		manager.getMtxQueue()->unlock();
 
