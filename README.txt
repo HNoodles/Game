@@ -1,3 +1,33 @@
+For Homework 5
+
+Subdirectories
+
+Section 1: 2DPlatformerServer, 2DPlatformerClient
+Section 2: SpaceInvadersServer, SpaceInvadersClient
+
+These are all separate projects with their own main.cpp, so you can run them at the same time to achieve networking simulation. 
+
+Compilation instructions
+
+1. Static linking of SFML
+2. Normal using of ZMQ
+3. I modified the Rect.inl file of SFML, adding parenthesis to std::min and std::max functions in that file to avoid conflicts with min and max defined in windows.h included by ZMQ. I must modify it or I couldn't pass the compilation. The code after modify should be like (std::min) and (std::max). 
+4. I'm working on debug mode, and it works fine. I'm not sure if release would also work well, but it should do. 
+5. BE SURE TO START THE SERVER FIRST, AND THEN START CLIENTS, or the time on server and clients would be inconsistant. 
+6. I added ".\Scripting\duktape; .\Scripting\dukglue; " to C++ include directories of my project configurations. 
+
+How to use
+
+2D Platformer
+W, A, D, or arrow keys for moving characters. 
+
+Space Invaders
+A, D for moving character
+Space for firing bullets
+	maximum 2 bullets existing simultaneously
+	can only fire once every second
+
+########################################################################################
 For Homework 4
 
 Subdirectories
