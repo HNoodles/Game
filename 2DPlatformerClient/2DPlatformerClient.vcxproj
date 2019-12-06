@@ -81,7 +81,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\libzmq-v141-4_3_2; C:\SFML-2.5.1\include; .\Scripting\duktape; .\Scripting\dukglue</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\libzmq-v141-4_3_2; C:\SFML-2.5.1\include; C:\libs\duktape-2.5.0\src; C:\libs\dukglue\include\dukglue </AdditionalIncludeDirectories>
       <PreprocessorDefinitions>SFML_STATIC;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -109,7 +109,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\libzmq-v141-4_3_2; C:\SFML-2.5.1\include; .\Scripting\duktape; .\Scripting\dukglue</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\libzmq-v141-4_3_2; C:\SFML-2.5.1\include; C:\libs\duktape-2.5.0\src; C:\libs\dukglue\include\dukglue </AdditionalIncludeDirectories>
       <PreprocessorDefinitions>SFML_STATIC;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -159,7 +159,6 @@
     <ClCompile Include="Objects\impl\SpawnPoint.cpp" />
     <ClCompile Include="Replay\impl\Replay.cpp" />
     <ClCompile Include="Scripting\impl\ScriptingManager.cpp" />
-    <ClCompile Include="Scripting\duktape\duktape.c" />
     <ClCompile Include="Times\impl\LocalTime.cpp" />
     <ClCompile Include="Times\impl\GameTime.cpp" />
     <ClCompile Include="main.cpp" />
@@ -187,26 +186,7 @@
     <ClInclude Include="Objects\SideBoundary.h" />
     <ClInclude Include="Objects\SpawnPoint.h" />
     <ClInclude Include="Replay\Replay.h" />
-    <ClInclude Include="Scripting\dukglue\detail_class_proto.h" />
-    <ClInclude Include="Scripting\dukglue\detail_constructor.h" />
-    <ClInclude Include="Scripting\dukglue\detail_function.h" />
-    <ClInclude Include="Scripting\dukglue\detail_method.h" />
-    <ClInclude Include="Scripting\dukglue\detail_primitive_types.h" />
-    <ClInclude Include="Scripting\dukglue\detail_refs.h" />
-    <ClInclude Include="Scripting\dukglue\detail_stack.h" />
-    <ClInclude Include="Scripting\dukglue\detail_traits.h" />
-    <ClInclude Include="Scripting\dukglue\detail_typeinfo.h" />
-    <ClInclude Include="Scripting\dukglue\detail_types.h" />
-    <ClInclude Include="Scripting\dukglue\dukexception.h" />
-    <ClInclude Include="Scripting\dukglue\dukglue.h" />
-    <ClInclude Include="Scripting\dukglue\dukvalue.h" />
-    <ClInclude Include="Scripting\dukglue\public_util.h" />
-    <ClInclude Include="Scripting\dukglue\register_class.h" />
-    <ClInclude Include="Scripting\dukglue\register_function.h" />
-    <ClInclude Include="Scripting\dukglue\register_property.h" />
     <ClInclude Include="Scripting\ScriptingManager.h" />
-    <ClInclude Include="Scripting\duktape\duktape.h" />
-    <ClInclude Include="Scripting\duktape\duk_config.h" />
     <ClInclude Include="Times\LocalTime.h" />
     <ClInclude Include="Times\GameTime.h" />
     <ClInclude Include="Objects\MovingPlatform.h" />
