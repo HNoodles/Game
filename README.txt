@@ -2,10 +2,11 @@ For Homework 5
 
 Subdirectories
 
-Section 1: 2DPlatformerServer, 2DPlatformerClient
+Section 1: Scripting, 2DPlatformerServer, 2DPlatformerClient
 Section 2: SpaceInvadersServer, SpaceInvadersClient
 
 These are all separate projects with their own main.cpp, so you can run them at the same time to achieve networking simulation. 
+*The Scripting project is just for testing the functionality of scripting component. There is more sufficient description for this in the writeup. *
 
 Compilation instructions
 
@@ -14,7 +15,7 @@ Compilation instructions
 3. I modified the Rect.inl file of SFML, adding parenthesis to std::min and std::max functions in that file to avoid conflicts with min and max defined in windows.h included by ZMQ. I must modify it or I couldn't pass the compilation. The code after modify should be like (std::min) and (std::max). 
 4. I'm working on debug mode, and it works fine. I'm not sure if release would also work well, but it should do. 
 5. BE SURE TO START THE SERVER FIRST, AND THEN START CLIENTS, or the time on server and clients would be inconsistant. 
-6. I added ".\Scripting\duktape; .\Scripting\dukglue; " to C++ include directories of my project configurations. 
+6. I added "C:\libs\duktape-2.5.0\src; C:\libs\dukglue\include\dukglue" to C++ include directories of my project configurations. Also, I added "_CRT_SECURE_NO_WARNINGS;" to C++ preprocessor definition. 
 
 How to use
 

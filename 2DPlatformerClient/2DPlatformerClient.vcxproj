@@ -158,7 +158,6 @@
     <ClCompile Include="Objects\impl\SideBoundary.cpp" />
     <ClCompile Include="Objects\impl\SpawnPoint.cpp" />
     <ClCompile Include="Replay\impl\Replay.cpp" />
-    <ClCompile Include="Scripting\impl\ScriptingManager.cpp" />
     <ClCompile Include="Times\impl\LocalTime.cpp" />
     <ClCompile Include="Times\impl\GameTime.cpp" />
     <ClCompile Include="main.cpp" />
@@ -186,7 +185,6 @@
     <ClInclude Include="Objects\SideBoundary.h" />
     <ClInclude Include="Objects\SpawnPoint.h" />
     <ClInclude Include="Replay\Replay.h" />
-    <ClInclude Include="Scripting\ScriptingManager.h" />
     <ClInclude Include="Times\LocalTime.h" />
     <ClInclude Include="Times\GameTime.h" />
     <ClInclude Include="Objects\MovingPlatform.h" />
@@ -199,8 +197,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="NetworkDebug.props" />
-    <None Include="Scripting\scripts\Objmovement.js" />
-    <None Include="Scripting\scripts\testScript.js" />
     <None Include="SFMLDebug.props" />
     <None Include="SFMLRelease.props" />
   </ItemGroup>

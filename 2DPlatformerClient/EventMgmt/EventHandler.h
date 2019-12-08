@@ -8,8 +8,6 @@
 #include "EEndREC.h"
 #include "EEndPlaying.h"
 
-#include "../Scripting/ScriptingManager.h"
-
 class EventManager;
 
 class EventHandler
@@ -17,7 +15,6 @@ class EventHandler
 private:
 	Timeline* gameTime;
 	EventManager* manager;
-	ScriptingManager s_manager;
 
 	void onCharCollision(ECharCollision e);
 

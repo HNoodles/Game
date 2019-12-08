@@ -1,0 +1,6 @@
+﻿  objectTest.cpp
+C:\libs\dukglue\include\dukglue\detail_primitive_types.h(41,1): warning C4244: “参数”: 从“uint64_t”转换到“duk_double_t”，可能丢失数据
+C:\libs\dukglue\include\dukglue\detail_primitive_types.h(41,1): message : 此诊断出现在编译器生成的函数“void dukglue::types::DukType<uint64_t>::push(duk_context *,uint64_t)”中
+C:\libs\dukglue\include\dukglue\detail_primitive_types.h(46,1): warning C4244: “参数”: 从“int64_t”转换到“duk_double_t”，可能丢失数据
+C:\libs\dukglue\include\dukglue\detail_primitive_types.h(46,1): message : 此诊断出现在编译器生成的函数“void dukglue::types::DukType<int64_t>::push(duk_context *,int64_t)”中
+  Scripting.vcxproj -> D:\Huang\Huang Yuanmin\FDU\2019-2020FDU Notes\1 at NCSU\Game Engine Foundation\Code\Homework5\Debug\Scripting.exe

@@ -1,0 +1,163 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Scripting\demo2.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripting\duktape.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\impl\Collidable.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\impl\Movable.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\impl\Renderable.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="EventMgmt\impl\ECharCollision.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="EventMgmt\impl\ECharDeath.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="EventMgmt\impl\ECharSpawn.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="EventMgmt\impl\EObjMovement.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="EventMgmt\impl\EUserInput.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="EventMgmt\impl\Event.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="EventMgmt\impl\EventHandler.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="EventMgmt\impl\EventManager.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="EventMgmt\util\Variant.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\impl\Character.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\impl\DeathZone.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\impl\MovingPlatform.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\impl\SideBoundary.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\impl\SpawnPoint.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Times\impl\GameTime.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Times\impl\LocalTime.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripting\eventTest.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripting\objectTest.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Debug\scripts\ObjMovement.js" />
+    <None Include="Debug\scripts\testScript.js" />
+    <None Include="testScript.js" />
+    <None Include="testEvent.js" />
+    <None Include="testObject.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Components\Collidable.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\GenericComponent.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\Movable.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\Renderable.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="EventMgmt\util\Variant.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="EventMgmt\ECharCollision.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="EventMgmt\ECharDeath.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="EventMgmt\ECharSpawn.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="EventMgmt\EObjMovement.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="EventMgmt\EUserInput.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="EventMgmt\Event.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="EventMgmt\EventHandler.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="EventMgmt\EventManager.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Character.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\DeathZone.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\GameObject.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\MovingPlatform.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\SideBoundary.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\SpawnPoint.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Times\GameTime.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Times\LocalTime.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Times\Timeline.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
